@@ -29,7 +29,7 @@ class AuthorFormType extends AbstractType
                 ]
             )
             ->add(
-                'title',
+                'surname',
                 TextType::class,
                 [
                     'constraints' => [new NotBlank()],
@@ -37,7 +37,7 @@ class AuthorFormType extends AbstractType
                 ]
             )
             ->add(
-                'company',
+                'email',
                 TextType::class,
                 [
                     'constraints' => [new NotBlank()],
@@ -50,38 +50,6 @@ class AuthorFormType extends AbstractType
                 [
                     'constraints' => [new NotBlank()],
                     'attr' => ['class' => 'form-control']
-                ]
-            )
-            ->add(
-                'phone',
-                TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required' => false
-                ]
-            )
-            ->add(
-                'facebook',
-                TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required' => false
-                ]
-            )
-            ->add(
-                'twitter',
-                TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required' => false
-                ]
-            )
-            ->add(
-                'github',
-                TextType::class,
-                [
-                    'attr' => ['class' => 'form-control'],
-                    'required' => false
                 ]
             )
             ->add(

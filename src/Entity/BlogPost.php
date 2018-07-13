@@ -46,9 +46,9 @@ class BlogPost
     /**
      * @var string
      *
-     * @ORM\Column(name="body", type="text")
+     * @ORM\Column(name="cover", type="text")
      */
-    private $body;
+    private $cover;
 
     /**
      * @var Author
@@ -57,6 +57,13 @@ class BlogPost
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      */
     private $author;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="review", type="text")
+     */
+    private $review;
 
     /**
      * @var \DateTime
@@ -71,8 +78,6 @@ class BlogPost
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
-
-
     /**
      * Get id
      *
@@ -156,15 +161,15 @@ class BlogPost
     }
 
     /**
-     * Set body
+     * Set cover
      *
-     * @param string $body
+     * @param string $cover
      *
      * @return BlogPost
      */
-    public function setBody($body)
+    public function setCover($cover)
     {
-        $this->body = $body;
+        $this->cover = $cover;
 
         return $this;
     }
@@ -174,9 +179,9 @@ class BlogPost
      *
      * @return string
      */
-    public function getBody()
+    public function getCover()
     {
-        return $this->body;
+        return $this->cover;
     }
 
     /**
@@ -201,6 +206,29 @@ class BlogPost
     public function getAuthor()
     {
         return $this->author;
+    }
+    /**
+     * Set review
+     *
+     * @param string $review
+     *
+     * @return BlogPost
+     */
+    public function setReview($review)
+    {
+        $this->review = $review;
+
+        return $this;
+    }
+
+    /**
+     * Get review
+     *
+     * @return string
+     */
+    public function getReview()
+    {
+        return $this->review;
     }
 
     /**
@@ -272,4 +300,5 @@ class BlogPost
     {
         $this->setUpdatedAt(new \DateTime());
     }
-}
+
+    }

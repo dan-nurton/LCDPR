@@ -43,7 +43,15 @@ class EntryFormType extends AbstractType
                 ]
             )
             ->add(
-                'body',
+                'cover',
+                TextareaType::class,
+                [
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control']
+                ]
+            )
+            ->add(
+                'review',
                 TextareaType::class,
                 [
                     'constraints' => [new NotBlank()],

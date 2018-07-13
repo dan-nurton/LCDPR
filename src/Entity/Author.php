@@ -31,9 +31,9 @@ class Author
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="surname", type="string", length=255)
      */
-    private $title;
+    private $surname;
 
     /**
      * @var string
@@ -45,9 +45,9 @@ class Author
     /**
      * @var string
      *
-     * @ORM\Column(name="company", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255)
      */
-    private $company;
+    private $email;
 
     /**
      * @var string
@@ -55,35 +55,6 @@ class Author
      * @ORM\Column(name="short_bio", type="string", length=500)
      */
     private $shortBio;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
-     */
-    private $phone;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="facebook", type="string", length=255, nullable=true)
-     */
-    private $facebook;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="twitter", type="string", length=255, nullable=true)
-     */
-    private $twitter;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="github", type="string", length=255, nullable=true)
-     */
-    private $github;
-
 
     /**
      * Get id
@@ -120,27 +91,27 @@ class Author
     }
 
     /**
-     * Set title
+     * Set surname
      *
-     * @param string $title
+     * @param string $surname
      *
      * @return Author
      */
-    public function setTitle($title)
+    public function setSurname($surname)
     {
-        $this->title = $title;
+        $this->surname = $surname;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get surname
      *
      * @return string
      */
-    public function getTitle()
+    public function getSurname()
     {
-        return $this->title;
+        return $this->surname;
     }
 
     /**
@@ -168,27 +139,27 @@ class Author
     }
 
     /**
-     * Set company
+     * Set email
      *
-     * @param string $company
+     * @param string $email
      *
      * @return Author
      */
-    public function setCompany($company)
+    public function setEmail($email)
     {
-        $this->company = $company;
+        $this->email = $email;
 
         return $this;
     }
 
     /**
-     * Get company
+     * Get email
      *
      * @return string
      */
-    public function getCompany()
+    public function getEmail()
     {
-        return $this->company;
+        return $this->email;
     }
 
     /**
@@ -213,101 +184,5 @@ class Author
     public function getShortBio()
     {
         return $this->shortBio;
-    }
-
-    /**
-     * Set phone
-     *
-     * @param string $phone
-     *
-     * @return Author
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * Get phone
-     *
-     * @return string
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * Set facebook
-     *
-     * @param string $facebook
-     *
-     * @return Author
-     */
-    public function setFacebook($facebook)
-    {
-        $this->facebook = $facebook;
-
-        return $this;
-    }
-
-    /**
-     * Get facebook
-     *
-     * @return string
-     */
-    public function getFacebook()
-    {
-        return $this->facebook;
-    }
-
-    /**
-     * Set twitter
-     *
-     * @param string $twitter
-     *
-     * @return Author
-     */
-    public function setTwitter($twitter)
-    {
-        $this->twitter = $twitter;
-
-        return $this;
-    }
-
-    /**
-     * Get twitter
-     *
-     * @return string
-     */
-    public function getTwitter()
-    {
-        return $this->twitter;
-    }
-
-    /**
-     * Set github
-     *
-     * @param string $github
-     *
-     * @return Author
-     */
-    public function setGithub($github)
-    {
-        $this->github = $github;
-
-        return $this;
-    }
-
-    /**
-     * Get github
-     *
-     * @return string
-     */
-    public function getGithub()
-    {
-        return $this->github;
     }
 }
