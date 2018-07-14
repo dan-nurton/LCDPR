@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -25,7 +26,8 @@ class AuthorFormType extends AbstractType
                 TextType::class,
                 [
                     'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Nom'
                 ]
             )
             ->add(
@@ -33,15 +35,17 @@ class AuthorFormType extends AbstractType
                 TextType::class,
                 [
                     'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Nom de Famille'
                 ]
             )
             ->add(
                 'email',
-                TextType::class,
+                EmailType::class,
                 [
                     'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'E-mail'
                 ]
             )
             ->add(
@@ -49,7 +53,8 @@ class AuthorFormType extends AbstractType
                 TextareaType::class,
                 [
                     'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Un mot sur Vous'
                 ]
             )
             ->add(
@@ -57,7 +62,7 @@ class AuthorFormType extends AbstractType
                 SubmitType::class,
                 [
                     'attr' => ['class' => 'form-control btn-primary pull-right'],
-                    'label' => 'Become an author!'
+                    'label' => 'Enregistrer'
                 ]
             );
     }

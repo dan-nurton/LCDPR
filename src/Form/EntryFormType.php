@@ -23,7 +23,8 @@ class EntryFormType extends AbstractType
                 TextType::class,
                 [
                     'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Titre'
                 ]
             )
             ->add(
@@ -31,7 +32,8 @@ class EntryFormType extends AbstractType
                 TextType::class,
                 [
                     'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Categorie'
                 ]
             )
             ->add(
@@ -39,7 +41,8 @@ class EntryFormType extends AbstractType
                 TextareaType::class,
                 [
                     'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Synopsis'
                 ]
             )
             ->add(
@@ -47,7 +50,8 @@ class EntryFormType extends AbstractType
                 TextareaType::class,
                 [
                     'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Couverture'
                 ]
             )
             ->add(
@@ -55,7 +59,8 @@ class EntryFormType extends AbstractType
                 TextareaType::class,
                 [
                     'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Avis'
                 ]
             )
             ->add(
@@ -63,7 +68,7 @@ class EntryFormType extends AbstractType
                 SubmitType::class,
                 [
                     'attr' => ['class' => 'form-control btn-primary pull-right'],
-                    'label' => 'Create!'
+                    'label' => 'Ajouter'
                 ]
             );
     }

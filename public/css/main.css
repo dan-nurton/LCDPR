@@ -157,3 +157,109 @@ h6, .h6 {
   margin-bottom: 0;
 }
 
+
+h1{
+  font-family: 'Dancing Script', cursive;
+}
+
+h2{
+  font-weight: normal;
+}
+
+img {
+  float: left;
+  padding-right: 20px;
+}
+
+footer{
+  background-color: #212529;
+  height: 150px;
+  color:white;
+}
+
+.containerPrincipal{
+  background-color:#f2f2f2;
+  width: 90%;
+  margin:auto;
+  opacity: 0.9;
+}
+
+.genre{
+  background-color:#ABC8E2 ;
+  border: 1px white solid;
+  line-height: 40px;
+  text-align: center;
+  color:#343a40;
+  font-family: 'Dancing Script', cursive;
+  font-family: 'Monofett', cursive;
+  font-family: 'Special Elite', cursive;
+  font-family: 'Saira Condensed', sans-serif;
+}
+
+.genre:hover{
+  background-color: #343a40;
+  transition: background 0.2s;
+  color: #EFECCA;
+}
+
+.post{
+  background-color:#e1e1ea;
+  border:1px grey solid;
+  padding-bottom:10px;
+  margin-bottom:10px;
+}
+
+.post img{
+  padding-top: 5px;
+  padding-left: 5px;
+}
+
+.avis{
+  color:red;
+  font-size: 1.2em;
+  font-style: italic;
+}
+
+
+.commentairesrécents{
+  padding-bottom:10px;
+  margin-bottom:10px;
+}
+
+.critiques,.commentaires{
+  margin-top: 50px;
+}
+
+.title{
+  height: 300px;
+}
+
+
+
+.formulaire{
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+.contact{
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.comment{
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.livres{
+  padding-left: 10px;
+  padding-right: 10px;
+
+}
+
+
+
+
+
+
+

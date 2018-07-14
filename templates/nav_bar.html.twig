@@ -18,12 +18,12 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             {% if app.request.get('_route') not in ['homepage', 'entries'] %}
             <li class="nav-item enablee">
-                <a class="nav-link" href="{{ path("homepage") }}">Critiques<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ path("homepage") }}">Home<span class="sr-only">(current)</span></a>
             </li>
             {% endif %}
             {% if app.user %}
             <li class="nav-item enable">
-                <a class="nav-link" href="{{ path("admin_index") }}">Administrateur</a>
+                <a class="nav-link" href="{{ path("admin_index") }}">Admin</a>
             </li>
             <li class="nav-item enable">
                 <a class="nav-link" href="{{ logout_url("secured_area") }}">Deconnexion</a>
@@ -32,11 +32,7 @@
             <li class="nav-item enable">
                 <a class="nav-link" href="/connect/auth0">Se connecter</a>
             </li>
-
         </ul>
-        <span class="navbar-text">
-                             <a class="nav-link" href="compte_project.php"><i class="fas fa-user"></i>   MON COMPTE</a>
-                        </span>
         {% endif %}
 
     </div>
