@@ -67,7 +67,7 @@ class AdminController extends Controller
         $blogPost->setAuthor($author);
         $form = $this->createForm(EntryFormType::class, $blogPost);
         $form->handleRequest($request);
-        // Check is valid
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($blogPost);
             $this->entityManager->flush($blogPost);
