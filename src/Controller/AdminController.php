@@ -46,7 +46,7 @@ class AdminController extends Controller
             $this->entityManager->persist($author);
             $this->entityManager->flush($author);
             $request->getSession()->set('user_is_author', true);
-            $this->addFlash('success', 'Congratulations! You are now an author.');
+            $this->addFlash('success', 'Félicitation! Vous pouvez maintenant poster vos critiques!');
             return $this->redirectToRoute('homepage');
         }
         return $this->render('admin/create_author.html.twig', [
@@ -87,12 +87,20 @@ class AdminController extends Controller
     public function entriesAction()
     {
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
+        $authors = [];
         $blogPosts = [];
         if ($author) {
             $blogPosts = $this->blogPostRepository->findByAuthor($author);
         }
+        if($author->isAdmin()){
+            $blogPosts = $this->blogPostRepository-> getAllPostsForAdmin();
+            $authors = $this->authorRepository-> getAllAuthorsForAdmin();
+
+        }
         return $this->render('admin/entries.html.twig', [
-            'blogPosts' => $blogPosts
+            'blogPosts' => $blogPosts,
+            'author' => $author,
+            'authors' => $authors
         ]);
     }
     /**

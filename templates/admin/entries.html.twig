@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container">
         <div class="blog-header">
-            <h1 class="blog-title">Author admin</h1>
+            <h1 class="blog-title">Tableau de bord de {{ author.name }} {% if author.isAdmin %} (Administrateur){% endif %}</h1>
             <p class="lead blog-description"></p>
         </div>
 
@@ -21,14 +21,22 @@
 
             </div>
             <div class="col-md-12 col-lg-12 col-xl-12">
-                <a type="button" href="{{ path('admin_create_entry') }}" class="btn btn-primary pull-right">Add Entry</a>
+
             </div>
             <div class="col-sm-12 blog-main">
                 <table class="table table-striped">
+                    {% if author.isAdmin %}
+                    <thead>
+                    <th colspan="5" style="text-align: center;background-color: #343a40;color:white;">Critiques</th>
+                    </thead>
+                    {% endif %}
                     <thead>
                     <th>Titre</th>
                     <th>Crée le</th>
                     <th>Mis à jour le</th>
+                    {% if author.isAdmin %}
+                    <th>Auteur</th>
+                    {% endif %}
                     <th>Action</th>
                     </thead>
                     {% for blogPost in blogPosts %}
@@ -36,13 +44,41 @@
                             <td>{{ blogPost.title }}</td>
                             <td>{{ blogPost.createdAt|date('F j, Y') }}</td>
                             <td>{{ blogPost.updatedAt|date('F j, Y') }}</td>
-                            <td><a class="btn btn-danger" href="{{ path('admin_delete_entry', {'entryId': blogPost.id}) }}">Delete</a></td>
+                            {% if author.isAdmin %}
+                            <td>{{ blogPost.author.username }}</td>
+                            {% endif %}
+                            <td><a class="btn btn-danger" href="{{ path('admin_delete_entry', {'entryId': blogPost.id}) }}">Supprimer</a></td>
                         </tr>
                     {% else %}
                         <tr>
                             <td colspan="5">No entries available</td>
                         </tr>
                     {% endfor %}
+                </table>
+            </div>
+                    {% if author.isAdmin %}
+                    <div class="col-sm-12 author-main" style="margin-top: 50px;">
+                        <table class="table table-striped" >
+                            <thead>
+                            <th colspan="5" style="text-align: center;background-color: #343a40;color: white;">Auteurs</th>
+                            </thead>
+                            <thead>
+                            <th>Prénom</th>
+                            <th>Nom de famille</th>
+                            <th>Pseudo</th>
+                            <th>E-mail</th>
+                            <th>Action</th>
+                            </thead>
+                            {% for author in authors%}
+                            <tr>
+                                <td>{{author.name }}</td>
+                                <td>{{ author.surname}}</td>
+                                <td>{{ author.username }}</td>
+                                <td>{{ author.email }}</td>
+                                <td><a class="btn btn-danger" href="">Supprimer</a></td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
                 </table>
             </div>
         </div>

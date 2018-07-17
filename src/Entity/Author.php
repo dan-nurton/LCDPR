@@ -57,6 +57,23 @@ class Author
     private $shortBio;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_admin", type="boolean")
+     */
+    private $isAdmin = false;
+
+    /**
+     * Get isAdmin
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return $this->isAdmin;
+    }
+
+
+    /**
      * Get id
      *
      * @return int

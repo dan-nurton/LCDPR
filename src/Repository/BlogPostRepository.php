@@ -33,11 +33,11 @@ class BlogPostRepository extends ServiceEntityRepository
     */
 
     /**
-     * @param int $page
-     * @param int $limit
-     *
-     * @return array
-     */
+ * @param int $page
+ * @param int $limit
+ *
+ * @return array
+ */
     public function getAllPosts($page = 1, $limit = 5)
     {
         $entityManager = $this->getEntityManager();
@@ -51,6 +51,21 @@ class BlogPostRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+    /**
+     * @return array
+     */
+    public function getAllPostsForAdmin()
+    {
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder
+            ->select('bp')
+            ->from('App:BlogPost', 'bp')
+            ->orderBy('bp.id', 'DESC');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 
     /**
      * @return array

@@ -81,15 +81,15 @@ class CheckIsAuthorListener
 
         if (!$author && $this->session->get('pending_user_is_author')) {
             $this->session->getFlashBag()->add(
-                'warning',
+                'attention',
                 'Your author access is being set up, this may take up to 30 seconds. Please try again shortly.'
             );
 
             $route = $this->router->generate('homepage');
         } else {
             $this->session->getFlashBag()->add(
-                'warning',
-                'You cannot access the author section until you become an author. Please complete the form below to proceed.'
+                'Attention',
+                "Vous ne pouvez pas accéder à cette section si vous n'êtes pas inscrit en tant qu'auteur. Merce de remplir le formulaire ci-dessous."
             );
         }
 

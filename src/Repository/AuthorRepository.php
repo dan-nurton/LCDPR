@@ -19,6 +19,20 @@ class AuthorRepository extends ServiceEntityRepository
         parent::__construct($registry, Author::class);
     }
 
+    public function getAllAuthorsForAdmin()
+    {
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder
+            ->select('a')
+            ->from('App:Author', 'a')
+            ->orderBy('a.id', 'DESC');
+
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+
     /*
     public function findBySomething($value)
     {
