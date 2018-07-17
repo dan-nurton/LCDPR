@@ -22,21 +22,30 @@ class AuthorFormType extends AbstractType
         // Please note the naming of these form elements is the same naming as the entity. We will be passing in the Author entity so the form knows what the data is for.
         $builder
             ->add(
-                'name',
-                TextType::class,
-                [
-                    'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control'],
-                    'label' => 'Nom'
-                ]
-            )
-            ->add(
                 'surname',
                 TextType::class,
                 [
                     'constraints' => [new NotBlank()],
                     'attr' => ['class' => 'form-control'],
                     'label' => 'Nom de Famille'
+                ]
+            )
+            ->add(
+                'name',
+                TextType::class,
+                [
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Prénom'
+                ]
+            )
+            ->add(
+                'pseudo',
+                TextType::class,
+                [
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Pseudo'
                 ]
             )
             ->add(

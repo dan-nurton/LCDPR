@@ -24,7 +24,7 @@ class Author
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
@@ -41,6 +41,13 @@ class Author
      * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
     private $username;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pseudo", type="string", length=255, unique=true)
+     */
+    private $pseudo;
 
     /**
      * @var string
@@ -153,6 +160,30 @@ class Author
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * Set pseudo
+     *
+     * @param string $pseudo
+     *
+     * @return Author
+     */
+    public function setPseudo($pseudo)
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * Get pseudo
+     *
+     * @return string
+     */
+    public function getPseudo()
+    {
+        return $this->pseudo;
     }
 
     /**

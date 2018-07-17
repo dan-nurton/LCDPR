@@ -45,7 +45,7 @@
                             <td>{{ blogPost.createdAt|date('F j, Y') }}</td>
                             <td>{{ blogPost.updatedAt|date('F j, Y') }}</td>
                             {% if author.isAdmin %}
-                            <td>{{ blogPost.author.username }}</td>
+                            <td>{{ blogPost.author.surname}} {{ blogPost.author.name}}</td>
                             {% endif %}
                             <td><a class="btn btn-danger" href="{{ path('admin_delete_entry', {'entryId': blogPost.id}) }}">Supprimer</a></td>
                         </tr>
@@ -73,7 +73,7 @@
                             <tr>
                                 <td>{{author.name }}</td>
                                 <td>{{ author.surname}}</td>
-                                <td>{{ author.username }}</td>
+                                <td>{{ author.pseudo }}</td>
                                 <td>{{ author.email }}</td>
                                 <td><a class="btn btn-danger" href="">Supprimer</a></td>
                             </tr>
