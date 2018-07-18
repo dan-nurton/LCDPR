@@ -42,7 +42,6 @@ class BlogController extends Controller
         if ($request->get('page')) {
             $page = $request->get('page');
         }
-
         return $this->render('blog/entries.html.twig', [
             'blogPosts' => $this->blogPostRepository->getAllPosts($page, self::POST_LIMIT),
             'totalBlogPosts' => $this->blogPostRepository->getPostCount(),

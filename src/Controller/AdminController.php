@@ -65,13 +65,18 @@ class AdminController extends Controller
         $blogPost = new BlogPost();
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         $blogPost->setAuthor($author);
-        $form = $this->createForm(EntryFormType::class, $blogPost);
-        $form->handleRequest($request);
+        $form = $this->createForm(EntryFormType::class, $blogPost ,array(
+            'action' => $this->generateUrl('target_route'),
+
+        ));
+
+       $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($blogPost);
             $this->entityManager->flush($blogPost);
-            $this->addFlash('success', 'Congratulations! Your post is created');
+            $this->addFlash('success', 'Félicitation! Votre post est créé');
             return $this->redirectToRoute('admin_entries');
         }
         return $this->render('admin/entry_form.html.twig', [
@@ -158,5 +163,48 @@ class AdminController extends Controller
         $this->entityManager->flush();
         $this->addFlash('success', 'Le post a été effacé!');
         return $this->redirectToRoute('admin_entries');
+    }
+     /**
+      * @Route("/target}", name="target_route")
+      */
+    public function  getBooksData(){
+        $url= "https://www.googleapis.com/books/v1/volumes?q=";
+        $book = $url.$_POST['isbn'];
+        $json = file_get_contents($book);
+        $json_data = json_decode($json, true);
+        if(isset($json_data['items'])
+            && isset($json_data['items'][0]['volumeInfo'])
+            && isset( $json_data['items'][0]['volumeInfo']['description'])
+            && isset($json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'])){
+
+            $title = $json_data['items'][0]['volumeInfo']['title'];
+            $description =  $json_data['items'][0]['volumeInfo']['description'];
+            $cover = $json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'];
+        }
+        else{
+            return $this->render('admin/entry_form.html.twig');
+
+        }
+
+       $review = $_POST['avis'];
+       //$forSlug='__critiques';
+        //$slug = $json_data['items'][0]['volumeInfo']['title'].$forSlug;
+        $blogPost = new BlogPost();
+        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
+        $blogPost->setAuthor($author);
+        $blogPost->setReview($review);
+        $blogPost->setTitle($title);
+        $blogPost->setCover($cover);
+        $blogPost->setDescription($description);
+        $this->entityManager->persist($blogPost);
+        $this->entityManager->flush($blogPost);
+        $slug = str_replace(' ', '_',  $json_data['items'][0]['volumeInfo']['title']);
+        $slug .= '_'.$blogPost->getId();
+        $blogPost->setSlug($slug);
+        $this->entityManager->persist($blogPost);
+        $this->entityManager->flush($blogPost);
+
+        return $this->redirectToRoute('admin_entries');
+
     }
 }

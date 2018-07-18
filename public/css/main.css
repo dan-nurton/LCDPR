@@ -1,7 +1,8 @@
 
 body {
   font-family: Georgia, "Times New Roman", Times, serif;
-  color: #555;
+  background-image: url('../images/table1.jpg');
+
 }
 
 h1, .h1,
@@ -16,16 +17,6 @@ h6, .h6 {
   color: #333;
 }
 
-
-/*
- * Override Bootstrap's default container.
- */
-
-@media (min-width: 1200px) {
-  .container {
-    width: 970px;
-  }
-}
 
 
 /*
@@ -74,10 +65,7 @@ h6, .h6 {
  * Blog name and description
  */
 
-.blog-header {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
+
 .blog-title {
   margin-top: 30px;
   margin-bottom: 0;
@@ -151,7 +139,6 @@ h6, .h6 {
   color: #999;
   text-align: center;
   background-color: #f9f9f9;
-  border-top: 1px solid #e5e5e5;
 }
 .blog-footer p:last-child {
   margin-bottom: 0;
@@ -178,15 +165,13 @@ footer{
 }
 
 .containerPrincipal{
-  background-color:#f2f2f2;
-  width: 90%;
+  background-color:#fffdf4;
+  width: 80%;
   margin:auto;
-  opacity: 0.9;
 }
 
 .genre{
   background-color:#ABC8E2 ;
-  border: 1px white solid;
   line-height: 40px;
   text-align: center;
   color:#343a40;
@@ -221,12 +206,8 @@ footer{
 }
 
 
-.commentairesrécents{
-  padding-bottom:10px;
-  margin-bottom:10px;
-}
 
-.critiques,.commentaires{
+.critiques{
   margin-top: 50px;
 }
 
@@ -256,6 +237,51 @@ footer{
   padding-right: 10px;
 
 }
+body {
+  background-image: url("../images/table1.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  -webkit-animation: Gradient 20s ease infinite;
+  -moz-animation: Gradient 20s ease infinite;
+  animation: Gradient 20s ease infinite;
+}
+
+@-webkit-keyframes Gradient {
+  0% {
+    background-position: 0% 50%
+  }
+  50% {
+    background-position: 100% 50%
+  }
+  100% {
+    background-position: 0% 50%
+  }
+}
+
+@-moz-keyframes Gradient {
+  0% {
+    background-position: 0% 50%
+  }
+  50% {
+    background-position: 100% 50%
+  }
+  100% {
+    background-position: 0% 50%
+  }
+}
+
+@keyframes Gradient {
+  0% {
+    background-position: 0% 50%
+  }
+  50% {
+    background-position: 100% 50%
+  }
+  100% {
+    background-position: 0% 50%
+  }
+}
+
 
 
 

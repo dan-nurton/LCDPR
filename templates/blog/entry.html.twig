@@ -14,14 +14,14 @@
                 <div class="blog-post">
                     <h2 class="blog-post-title">{{ blogPost.title }}</h2>
                     <p class="blog-post-meta">
-                        {{ blogPost.updatedAt|date('F j, Y') }} by <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
+                        {{ blogPost.updatedAt|date('Y-m-d H:i') }} par <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
                             {{ blogPost.author.name }}
                         </a>
                     </p>
-                    <h3>Description:</h3>
+                    <h3>Synopsis</h3>
                     <p>{{ blogPost.description|raw }}</p>
 
-                    <h3>Review:</h3>
+                    <h3>Avis</h3>
                     <p>{{ blogPost.review|raw }}</p>
                 </div>
             </div>
