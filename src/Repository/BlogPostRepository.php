@@ -68,7 +68,8 @@ class BlogPostRepository extends ServiceEntityRepository
 
 
     /**
-     * @return array
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getPostCount()
     {
@@ -77,6 +78,21 @@ class BlogPostRepository extends ServiceEntityRepository
         $queryBuilder
             ->select('count(bp)')
             ->from('App:BlogPost', 'bp');
+
+        return $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+    /**
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function countByAuthor($author)
+    {
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder
+            ->select('count(bp)')
+            ->from('App:BlogPost', 'bp')
+            ->where('bp.author = :author')->setParameter('author', $author);
 
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }

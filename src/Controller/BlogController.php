@@ -59,7 +59,7 @@ class BlogController extends Controller
         $blogPost = $this->blogPostRepository->findOneBySlug($slug);
 
         if (!$blogPost) {
-            $this->addFlash('error', 'Article introuvables...');
+            $this->addFlash('error', 'Article introuvable...');
 
             return $this->redirectToRoute('entries');
         }
@@ -77,7 +77,7 @@ class BlogController extends Controller
         $author = $this->authorRepository->findOneByUsername($name);
 
         if (!$author) {
-            $this->addFlash('error', 'Auteur introubables...');
+            $this->addFlash('error', 'Auteur introuvable...');
             return $this->redirectToRoute('entries');
         }
 

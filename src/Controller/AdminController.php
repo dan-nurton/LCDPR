@@ -89,18 +89,23 @@ class AdminController extends Controller
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         $authors = [];
         $blogPosts = [];
+        $blogPostsCounts = [];
         if ($author) {
             $blogPosts = $this->blogPostRepository->findByAuthor($author);
         }
         if($author->isAdmin()){
-            $blogPosts = $this->blogPostRepository-> getAllPostsForAdmin();
-            $authors = $this->authorRepository-> getAllAuthorsForAdmin();
-
+            $blogPosts = $this->blogPostRepository->getAllPostsForAdmin();
+            $authors = $this->authorRepository->getAllAuthorsForAdmin();
+            foreach($authors as $author){
+                $blogPostsCounts [$author->getPseudo()]=  $this->blogPostRepository->countByAuthor($author);
+            }
         }
+
         return $this->render('admin/entries.html.twig', [
             'blogPosts' => $blogPosts,
             'author' => $author,
-            'authors' => $authors
+            'authors' => $authors,
+            'blogPostsCounts' => $blogPostsCounts
         ]);
     }
     /**
@@ -115,12 +120,43 @@ class AdminController extends Controller
         $blogPost = $this->blogPostRepository->findOneById($entryId);
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         if (!$blogPost || $author !== $blogPost->getAuthor()) {
-            $this->addFlash('error', 'Unable to remove entry!');
+            $this->addFlash('erreur', 'Supression impossible!');
             return $this->redirectToRoute('admin_entries');
         }
         $this->entityManager->remove($blogPost);
         $this->entityManager->flush();
-        $this->addFlash('success', 'Entry was deleted!');
+        $this->addFlash('success', 'Le post a été effacé!');
+        return $this->redirectToRoute('admin_entries');
+    }
+    /**
+     * @Route("/delete-all-entry/{entryId}", name="admin_delete_all_entry")
+     *
+     * @param $entryId
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAllEntryAction($entryId)
+    {
+        $blogPost = $this->blogPostRepository->findOneById($entryId);
+        $this->entityManager->remove($blogPost);
+        $this->entityManager->flush();
+        $this->addFlash('success', 'Le post a été effacé!');
+        return $this->redirectToRoute('admin_entries');
+    }
+
+    /**
+     * @Route("/delete-author/{entryId}", name="author_delete_entry")
+     *
+     * @param $entryId
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAuthorAction($entryId)
+    {
+        $author = $this->authorRepository->findOneById($entryId);
+        $this->entityManager->remove($author);
+        $this->entityManager->flush();
+        $this->addFlash('success', 'Le post a été effacé!');
         return $this->redirectToRoute('admin_entries');
     }
 }

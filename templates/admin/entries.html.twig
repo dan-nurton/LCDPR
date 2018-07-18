@@ -42,12 +42,12 @@
                     {% for blogPost in blogPosts %}
                         <tr>
                             <td>{{ blogPost.title }}</td>
-                            <td>{{ blogPost.createdAt|date('F j, Y') }}</td>
-                            <td>{{ blogPost.updatedAt|date('F j, Y') }}</td>
+                            <td>{{ blogPost.createdAt|date('Y-m-d') }}</td>
+                            <td>{{ blogPost.updatedAt|date('Y-m-d H:i') }}</td>
                             {% if author.isAdmin %}
                             <td>{{ blogPost.author.surname}} {{ blogPost.author.name}}</td>
                             {% endif %}
-                            <td><a class="btn btn-danger" href="{{ path('admin_delete_entry', {'entryId': blogPost.id}) }}">Supprimer</a></td>
+                            <td><a class="btn btn-danger"{% if author.isAdmin %}href="{{ path('admin_delete_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('admin_delete_entry', {'entryId': blogPost.id}) }}"{% endif %} >Supprimer</a></td>
                         </tr>
                     {% else %}
                         <tr>
@@ -60,13 +60,14 @@
                     <div class="col-sm-12 author-main" style="margin-top: 50px;">
                         <table class="table table-striped" >
                             <thead>
-                            <th colspan="5" style="text-align: center;background-color: #343a40;color: white;">Auteurs</th>
+                            <th colspan="6" style="text-align: center;background-color: #343a40;color: white;">Auteurs</th>
                             </thead>
                             <thead>
                             <th>Prénom</th>
                             <th>Nom de famille</th>
                             <th>Pseudo</th>
                             <th>E-mail</th>
+                            <th>Nb posts</th>
                             <th>Action</th>
                             </thead>
                             {% for author in authors%}
@@ -75,7 +76,8 @@
                                 <td>{{ author.surname}}</td>
                                 <td>{{ author.pseudo }}</td>
                                 <td>{{ author.email }}</td>
-                                <td><a class="btn btn-danger" href="">Supprimer</a></td>
+                               {% for key, blogPostsCount in blogPostsCounts%}{% if key == author.pseudo%} <td>{{ blogPostsCount }}</td>{% endif %}{% endfor %}
+                                <td><a class="btn btn-danger" href="{{ path('author_delete_entry', {'entryId': author.id}) }}">Supprimer</a></td>
                             </tr>
                             {% endfor %}
                             {% endif %}

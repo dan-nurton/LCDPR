@@ -55,7 +55,7 @@ class BlogPost
      * @var Author
      *
      * @ORM\ManyToOne(targetEntity="Author")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $author;
 
@@ -69,7 +69,7 @@ class BlogPost
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetimetz")
+     * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
