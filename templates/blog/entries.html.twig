@@ -9,9 +9,9 @@
         </div>
         {% for blogPost in blogPosts %}
             <div class="row">
-                '<article class="row justify-content-center">
+                <article class="row justify-content-center">
                     <div class="livres col-md-12">
-                        <span style="font-weight: bold;">Thriller</span>
+                        <span style="font-weight: bold;">{{ blogPost.category }}</span>
                         <h2> {{ blogPost.title }}</h2>
                         <p style="font-style: oblique;"><i class="fas fa-calendar-alt"></i> {{ blogPost.getUpdatedAt|date('Y-m-d H:i') }}  par
                             {% if blogPost.author %}

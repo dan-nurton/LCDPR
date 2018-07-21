@@ -33,6 +33,13 @@ class BlogPost
     /**
      * @var string
      *
+     * @ORM\Column(name="category", type="string", length=255)
+     */
+    private $category;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="slug", type="string", length=255, unique=true, nullable=true)
      */
     private $slug;
@@ -112,6 +119,30 @@ class BlogPost
     {
         return $this->title;
     }
+
+    /**
+     * Get category
+     *
+     * @return string
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+
+    /**
+     * set $category
+     *
+     * @param string $category
+     *
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+
 
     /**
      * Set slug

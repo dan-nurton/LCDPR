@@ -66,7 +66,7 @@ class AdminController extends Controller
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         $blogPost->setAuthor($author);
         $form = $this->createForm(EntryFormType::class, $blogPost ,array(
-            'action' => $this->generateUrl('target_route'),
+            'action' => $this->generateUrl('get_book'),
 
         ));
 
@@ -133,6 +133,7 @@ class AdminController extends Controller
         $this->addFlash('success', 'Le post a été effacé!');
         return $this->redirectToRoute('admin_entries');
     }
+
     /**
      * @Route("/delete-all-entry/{entryId}", name="admin_delete_all_entry")
      *
@@ -164,31 +165,78 @@ class AdminController extends Controller
         $this->addFlash('success', 'Le post a été effacé!');
         return $this->redirectToRoute('admin_entries');
     }
+
      /**
-      * @Route("/target}", name="target_route")
+      * @Route("/get-book}", name="get_book")
       */
     public function  getBooksData(){
         $url= "https://www.googleapis.com/books/v1/volumes?q=";
-        $book = $url.$_POST['isbn'];
-        $json = file_get_contents($book);
-        $json_data = json_decode($json, true);
+        $isbn = $_POST['isbn'];
+        $character = array('&', '<', '>', '/', '-','_'," ","$");
+        $isbn = str_replace($character,"",$isbn);
+            if(is_numeric($isbn)){
+                if( strlen($isbn) == 10 || strlen($isbn) == 13 ){
+                    $book = $url.$isbn;
+                    $json = file_get_contents($book);
+                    $json_data = json_decode($json, true);
+                }
+                else{
+                    return $this->render('admin/entry_form.html.twig');
+                }
+            }
+            else{
+                return $this->render('admin/entry_form.html.twig');
+            }
         if(isset($json_data['items'])
             && isset($json_data['items'][0]['volumeInfo'])
             && isset( $json_data['items'][0]['volumeInfo']['description'])
             && isset($json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'])){
-
+            var_dump($json_data['items'][0]);
             $title = $json_data['items'][0]['volumeInfo']['title'];
             $description =  $json_data['items'][0]['volumeInfo']['description'];
             $cover = $json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'];
         }
+
+        if(isset($json_data['items'])){
+            if(!isset( $json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'])){
+                $cover ="https://vignette.wikia.nocookie.net/main-cast/images/5/5b/Sorry-image-not-available.png/revision/latest/scale-to-width-down/480?cb=20160625173435";
+            }
+            else{
+                $cover = $json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'];
+            }
+            if(!isset( $json_data['items'][0]['volumeInfo']['description'])){
+                $description ="Pas de description disponible";
+            }
+            else{
+                $description =  $json_data['items'][0]['volumeInfo']['description'];
+            }
+            if(!isset( $json_data['items'][0]['volumeInfo']['title'])){
+                $title = "Pas de titre disponible";
+            }
+            else{
+                $title = $json_data['items'][0]['volumeInfo']['title'];
+            }
+            if(!isset( $json_data['items'][0]['volumeInfo']['categories'])){
+                $category = "Catégorie non définie";
+            }
+            else{
+                $category = $json_data['items'][0]['volumeInfo']['categories'][0];
+
+            }
+            if(isset($_POST['avis']) && !empty($_POST['avis'])){
+                $review = $_POST['avis'];
+            }
+            else{
+                return $this->render('admin/entry_form.html.twig');
+            }
+        }
         else{
             return $this->render('admin/entry_form.html.twig');
-
         }
+        var_dump($json_data['items']);
 
-       $review = $_POST['avis'];
-       //$forSlug='__critiques';
-        //$slug = $json_data['items'][0]['volumeInfo']['title'].$forSlug;
+
+        //instanciation BlogPost, hydratation
         $blogPost = new BlogPost();
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         $blogPost->setAuthor($author);
@@ -196,6 +244,7 @@ class AdminController extends Controller
         $blogPost->setTitle($title);
         $blogPost->setCover($cover);
         $blogPost->setDescription($description);
+        $blogPost->setCategory($category);
         $this->entityManager->persist($blogPost);
         $this->entityManager->flush($blogPost);
         $slug = str_replace(' ', '_',  $json_data['items'][0]['volumeInfo']['title']);
@@ -204,7 +253,9 @@ class AdminController extends Controller
         $this->entityManager->persist($blogPost);
         $this->entityManager->flush($blogPost);
 
-        return $this->redirectToRoute('admin_entries');
+        return $this->redirectToRoute('homepage');
+
+        return $this->redirectToRoute('admin/entry_form.html.twig');
 
     }
 }
