@@ -12,7 +12,7 @@
                 <article class="row justify-content-center">
                     <div class="livres col-md-12">
                         <span style="font-weight: bold;">{{ blogPost.category }}</span>
-                        <h2> {{ blogPost.title }}</h2>
+                        <h2> {{ blogPost.title }} <span style="font-style: italic; font-size: 0.5em; color:gray">({{ blogPost.writer }})</span></h2>
                         <p style="font-style: oblique;"><i class="fas fa-calendar-alt"></i> {{ blogPost.getUpdatedAt|date('Y-m-d H:i') }}  par
                             {% if blogPost.author %}
                                 <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">

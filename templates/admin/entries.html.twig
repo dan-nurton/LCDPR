@@ -3,41 +3,26 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="container col-sm-12">
         <div class="blog-header">
             <h1 class="blog-title">Tableau de bord de {{ author.name }} {% if author.isAdmin %} (Administrateur){% endif %}</h1>
             <p class="lead blog-description"></p>
         </div>
-
-        <div class="row">
-            <div class="col-md-12 col-lg-12 col-xl-12">
-
-
-                        <div class="alert alert-" role="alert">
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-
-                        </div>
-
-
-            </div>
-            <div class="col-md-12 col-lg-12 col-xl-12">
-
-            </div>
-            <div class="col-sm-12 blog-main">
-                <table class="table table-striped">
+            <div class="col-xs-2 col-sm-12 blog-main">
+                <table class="table table-striped" >
                     {% if author.isAdmin %}
                     <thead>
-                    <th colspan="5" style="text-align: center;background-color: #343a40;color:white;">Critiques</th>
+                    <th colspan="6" style="text-align: center;background-color: #343a40;color:white;">Critiques</th>
                     </thead>
                     {% endif %}
-                    <thead>
+                    <thead style="background-color : #ffe5ce">
                     <th>Titre</th>
                     <th>Crée le</th>
                     <th>Mis à jour le</th>
                     {% if author.isAdmin %}
                     <th>Auteur</th>
                     {% endif %}
-                    <th>Action</th>
+                    <th style="text-align: center;">Action</th>
                     </thead>
                     {% for blogPost in blogPosts %}
                         <tr>
@@ -47,8 +32,8 @@
                             {% if author.isAdmin %}
                             <td>{{ blogPost.author.surname}} {{ blogPost.author.name}}</td>
                             {% endif %}
-                            <td><a class="btn btn-danger"{% if author.isAdmin %}href="{{ path('admin_delete_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('admin_delete_entry', {'entryId': blogPost.id}) }}"{% endif %} >Supprimer</a></td>
-                            <td><a class="btn btn-info" {% if author.isAdmin %}href="{{ path('admin_update_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('admin_update_entry', {'entryId': blogPost.id}) }}"{% endif %}>Editer</a></td>
+                            <td><a class="btn btn-danger"{% if author.isAdmin %}href="{{ path('admin_delete_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('admin_delete_entry', {'entryId': blogPost.id}) }}"{% endif %} >Supprimer</a>
+                            <a class="btn btn-info" {% if author.isAdmin %}href="{{ path('admin_update_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('admin_update_entry', {'entryId': blogPost.id}) }}"{% endif %}>Editer</a></td>
                         </tr>
                     {% else %}
                         <tr>
@@ -58,7 +43,7 @@
                 </table>
             </div>
                     {% if author.isAdmin %}
-                    <div class="col-sm-12 author-main" style="margin-top: 50px;">
+                    <div class="col-xs-8 col-sm-12 author-main" style="margin-top: 50px;">
                         <table class="table table-striped" >
                             <thead>
                             <th colspan="6" style="text-align: center;background-color: #343a40;color: white;">Auteurs</th>
@@ -83,7 +68,7 @@
                             {% endfor %}
                             {% endif %}
                 </table>
-            </div>
+
         </div>
     </div>
 {% endblock %}

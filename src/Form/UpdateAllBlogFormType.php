@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class updateAllBlogFormType extends AbstractType
+class UpdateAllBlogFormType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -31,6 +31,15 @@ class updateAllBlogFormType extends AbstractType
                     'constraints' => [new NotBlank()],
                     'attr' => ['class' => 'form-control'],
                     'label' => 'Titre'
+                ]
+            )
+            ->add(
+                'category',
+                TextareaType::class,
+                [
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Categorie'
                 ]
             )
             ->add(

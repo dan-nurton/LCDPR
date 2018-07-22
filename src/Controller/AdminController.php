@@ -1,6 +1,6 @@
 <?php
 namespace App\Controller;
-use App\Form\updateAllBlogFormType;
+use App\Form\UpdateAllBlogFormType;
 use App\Form\UpdateBlogFormType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -173,7 +173,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/updateAll-entry/{entryId}", name="admin_update_all_entry")
+     * @Route("/update-all-entry/{entryId}", name="admin_update_all_entry")
      *
      * @param $entryId
      *
@@ -187,7 +187,7 @@ class AdminController extends Controller
             $this->entityManager->flush($blogPost);
             return $this->redirectToRoute('homepage');
         }
-        return $this->render('admin/udpate_all_review.html.twig', [
+        return $this->render('admin/review.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -229,15 +229,6 @@ class AdminController extends Controller
             else{
                 return $this->render('admin/entry_form.html.twig');
             }
-        if(isset($json_data['items'])
-            && isset($json_data['items'][0]['volumeInfo'])
-            && isset( $json_data['items'][0]['volumeInfo']['description'])
-            && isset($json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'])){
-            var_dump($json_data['items'][0]);
-            $title = $json_data['items'][0]['volumeInfo']['title'];
-            $description =  $json_data['items'][0]['volumeInfo']['description'];
-            $cover = $json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'];
-        }
 
         if(isset($json_data['items'])){
             if(!isset( $json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'])){
@@ -265,6 +256,13 @@ class AdminController extends Controller
                 $category = $json_data['items'][0]['volumeInfo']['categories'][0];
 
             }
+            if(!isset( $json_data['items'][0]['volumeInfo']['authors'])){
+                $writer = "Auteur non défini";
+            }
+            else{
+                $writer = $json_data['items'][0]['volumeInfo']['authors'][0];
+
+            }
             if(isset($_POST['avis']) && !empty($_POST['avis'])){
                 $review = $_POST['avis'];
             }
@@ -275,7 +273,8 @@ class AdminController extends Controller
         else{
             return $this->render('admin/entry_form.html.twig');
         }
-        var_dump($json_data['items']);
+        var_dump($json_data['items'][0]);
+
 
 
         //instanciation BlogPost, hydratation
@@ -284,6 +283,7 @@ class AdminController extends Controller
         $blogPost->setAuthor($author);
         $blogPost->setReview($review);
         $blogPost->setTitle($title);
+        $blogPost->setWriter($writer);
         $blogPost->setCover($cover);
         $blogPost->setDescription($description);
         $blogPost->setCategory($category);

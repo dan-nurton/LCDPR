@@ -33,6 +33,13 @@ class BlogPost
     /**
      * @var string
      *
+     * @ORM\Column(name="writer", type="string", length=255)
+     */
+    private $writer;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="category", type="string", length=255)
      */
     private $category;
@@ -118,6 +125,30 @@ class BlogPost
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set writer
+     *
+     * @param string $writer
+     *
+     * @return BlogPost
+     */
+    public function setWriter($writer)
+    {
+        $this->writer = $writer;
+
+        return $this;
+    }
+
+    /**
+     * Get writer
+     *
+     * @return string
+     */
+    public function getWriter()
+    {
+        return $this->writer;
     }
 
     /**
