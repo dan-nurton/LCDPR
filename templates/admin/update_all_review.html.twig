@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="container">
+            <div class="col-sm-12 blog-main">
+                {{ form_start(form) }}
+                <div class="col-md-12">
+                    <div class="form-group col-md-4">
+                        {{ form_row(form.title) }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ form_row(form.cover) }}
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        {{ form_row(form.description) }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ form_row(form.review) }}
+                    </div>
+                </div>
+                <div class="form-group col-md-4 pull-right">
+                    {{ form_row(form.update) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

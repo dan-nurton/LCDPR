@@ -1,5 +1,7 @@
 <?php
 namespace App\Controller;
+use App\Form\updateAllBlogFormType;
+use App\Form\UpdateBlogFormType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManagerInterface;
@@ -148,6 +150,46 @@ class AdminController extends Controller
         $this->entityManager->flush();
         $this->addFlash('success', 'Le post a été effacé!');
         return $this->redirectToRoute('admin_entries');
+    }
+
+    /**
+     * @Route("/update-entry/{entryId}", name="admin_update_entry")
+     *
+     * @param $entryId
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function updateEntry(Request $request, $entryId){
+        $blogPost = $this->blogPostRepository->findOneById($entryId);
+        $form = $this->createForm(UpdateBlogFormType::class, $blogPost);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush($blogPost);
+            return $this->redirectToRoute('homepage');
+        }
+        return $this->render('admin/udpate_review.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/updateAll-entry/{entryId}", name="admin_update_all_entry")
+     *
+     * @param $entryId
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function updateAllEntry(Request $request, $entryId){
+        $blogPost = $this->blogPostRepository->findOneById($entryId);
+        $form = $this->createForm(UpdateAllBlogFormType::class, $blogPost);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush($blogPost);
+            return $this->redirectToRoute('homepage');
+        }
+        return $this->render('admin/udpate_all_review.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**

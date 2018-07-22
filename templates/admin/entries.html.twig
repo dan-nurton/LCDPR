@@ -48,6 +48,7 @@
                             <td>{{ blogPost.author.surname}} {{ blogPost.author.name}}</td>
                             {% endif %}
                             <td><a class="btn btn-danger"{% if author.isAdmin %}href="{{ path('admin_delete_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('admin_delete_entry', {'entryId': blogPost.id}) }}"{% endif %} >Supprimer</a></td>
+                            <td><a class="btn btn-info" {% if author.isAdmin %}href="{{ path('admin_update_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('admin_update_entry', {'entryId': blogPost.id}) }}"{% endif %}>Editer</a></td>
                         </tr>
                     {% else %}
                         <tr>
