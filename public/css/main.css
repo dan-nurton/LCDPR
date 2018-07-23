@@ -48,6 +48,9 @@ body {
   width: 80%;
   margin:auto;
 }
+.container{
+  min-height: 300px;
+}
 
 /* Pagination */
 .pager {
@@ -99,6 +102,34 @@ footer{
   margin-bottom: 50px;
   margin-top: 50px;
 }
+.button_critique, .button_author{
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.critique_admin{
+  margin-top: 50px;
+}
+.author_admin, .critique_admin{
+  margin-bottom: 100px;
+}
+
+th,td{
+  vertical-align:center;
+  text-align: center;
+  border: #7c8ea3 1px solid;
+
+}
+.tab_admin{
+  text-align: center;
+}
+.blog-header{
+  text-align: center;
+}
+
+
+
+
+
 
 
 

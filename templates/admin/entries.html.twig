@@ -5,11 +5,14 @@
 {% block body %}
     <div class="container col-sm-12">
         <div class="blog-header">
-            <h1 class="blog-title">Tableau de bord de {{ author.name }} {% if author.isAdmin %} (Administrateur){% endif %}</h1>
-            <p class="lead blog-description"></p>
+            <h1 class="tab_admin">Tableau de bord de {{ author.name }} {% if author.isAdmin %} (Administrateur){% endif %}</h1>
+            <a class="btn btn-info button_critique">liste critiques</a>
+            {% if author.isAdmin %}
+                <a class="btn btn-info button_author">liste Auteurs</a>
+            {% endif %}
         </div>
             <div class="col-xs-2 col-sm-12 blog-main">
-                <table class="table table-striped" >
+                <table class="table table-striped critique_admin" style="display: none" >
                     {% if author.isAdmin %}
                     <thead>
                     <th colspan="6" style="text-align: center;background-color: #343a40;color:white;">Critiques</th>
@@ -41,20 +44,19 @@
                         </tr>
                     {% endfor %}
                 </table>
-            </div>
                     {% if author.isAdmin %}
                     <div class="col-xs-8 col-sm-12 author-main" style="margin-top: 50px;">
-                        <table class="table table-striped" >
+                        <table class="table table-striped author_admin" style="display: none" >
                             <thead>
                             <th colspan="6" style="text-align: center;background-color: #343a40;color: white;">Auteurs</th>
                             </thead>
-                            <thead>
+                            <thead style="background-color : #ffe5ce">
                             <th>Prénom</th>
                             <th>Nom de famille</th>
                             <th>Pseudo</th>
                             <th>E-mail</th>
                             <th>Nb posts</th>
-                            <th>Action</th>
+                            <th style="text-align: center;">Action</th>
                             </thead>
                             {% for author in authors%}
                             <tr>
@@ -63,13 +65,13 @@
                                 <td>{{ author.pseudo }}</td>
                                 <td>{{ author.email }}</td>
                                {% for key, blogPostsCount in blogPostsCounts%}{% if key == author.pseudo%} <td>{{ blogPostsCount }}</td>{% endif %}{% endfor %}
-                                <td><a class="btn btn-danger" href="{{ path('author_delete_entry', {'entryId': author.id}) }}">Supprimer</a></td>
+                                <td><a class="btn btn-danger" href="{{ path('author_delete_entry', {'entryId': author.id}) }}">Supprimer</a>
+                                    <a class="btn btn-info" href="{{ path('author_update_entry', {'entryId': author.id}) }}">Editer</a></td>
                             </tr>
                             {% endfor %}
                             {% endif %}
-                </table>
-
-        </div>
-    </div>
+                        </table>
+                    </div>
+         </div>
 {% endblock %}
 

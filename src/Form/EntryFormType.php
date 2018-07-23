@@ -19,39 +19,12 @@ class EntryFormType extends AbstractType
     {
         $builder
             ->add(
-                'title',
+                'isbn',
                 TextType::class,
                 [
                     'constraints' => [new NotBlank()],
                     'attr' => ['class' => 'form-control'],
-                    'label' => 'Titre'
-                ]
-            )
-            ->add(
-                'slug',
-                TextType::class,
-                [
-                    'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control'],
-                    'label' => 'Categorie'
-                ]
-            )
-            ->add(
-                'description',
-                TextareaType::class,
-                [
-                    'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control'],
-                    'label' => 'Synopsis'
-                ]
-            )
-            ->add(
-                'cover',
-                TextareaType::class,
-                [
-                    'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control'],
-                    'label' => 'Couverture'
+                    'label' => 'Isbn'
                 ]
             )
             ->add(

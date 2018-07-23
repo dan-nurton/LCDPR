@@ -3,32 +3,55 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    <div class="container">
-            <div class="col-sm-12 blog-main">
-                {{ form_start(form) }}
-                <div class="col-md-12">
-                    <div class="form-group col-md-4">
-                        {{ form_row(form.title) }}
-                    </div>
-                    <div class="form-group col-md-4">
-                        {{ form_row(form.category) }}
-                    </div>
-                    <div class="form-group col-md-4">
-                        {{ form_row(form.cover) }}
-                    </div>
-
-                    <div class="form-group col-md-4">
-                        {{ form_row(form.description) }}
-                    </div>
-                    <div class="form-group col-md-4">
-                        {{ form_row(form.review) }}
+    <section class="formulaire">
+        <div class="containerService">
+            <div class="row">
+                <div class="offset-lg-3 col-lg-6 offset-sm-3 col-sm-6 col-centered">
+                    <div class="panel panel-default">
+                        <div class="card card-outline-secondary">
+                            <div class="card-header">
+                                <h3 class="mb-0">Edition Critiques</h3>
+                            </div>
+                            <div class="card-body">
+                                {{ form_start(form) }}
+                                <fieldset>
+                                    <div class="row mb-1">
+                                        <div class="col-lg-12">
+                                            {{ form_row(form.title) }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-lg-12">
+                                            {{ form_row(form.category) }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-lg-12">
+                                            {{ form_row(form.cover) }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-lg-12">
+                                            {{ form_row(form.description) }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-lg-12">
+                                            {{ form_row(form.review) }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-lg-12">
+                                            {{ form_row(form.update) }}
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group col-md-4 pull-right">
-                    {{ form_row(form.update) }}
-                </div>
-                {{ form_end(form) }}
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}

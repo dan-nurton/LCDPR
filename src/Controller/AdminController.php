@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 use App\Form\UpdateAllBlogFormType;
+use App\Form\UpdateAuthorFormType;
 use App\Form\UpdateBlogFormType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -64,27 +65,10 @@ class AdminController extends Controller
      */
     public function createEntryAction(Request $request)
     {
-        $blogPost = new BlogPost();
-        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
-        $blogPost->setAuthor($author);
-        $form = $this->createForm(EntryFormType::class, $blogPost ,array(
-            'action' => $this->generateUrl('get_book'),
-
-        ));
-
-       $form->handleRequest($request);
-
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($blogPost);
-            $this->entityManager->flush($blogPost);
-            $this->addFlash('success', 'Félicitation! Votre post est créé');
-            return $this->redirectToRoute('admin_entries');
-        }
-        return $this->render('admin/entry_form.html.twig', [
-            'form' => $form->createView()
-        ]);
+        return $this->render('admin/entry_form.html.twig');
     }
+
+
     /**
      * @Route("/", name="admin_index")
      * @Route("/entries", name="admin_entries")
@@ -107,7 +91,6 @@ class AdminController extends Controller
                 $blogPostsCounts [$author->getPseudo()]=  $this->blogPostRepository->countByAuthor($author);
             }
         }
-
         return $this->render('admin/entries.html.twig', [
             'blogPosts' => $blogPosts,
             'author' => $author,
@@ -135,7 +118,6 @@ class AdminController extends Controller
         $this->addFlash('success', 'Le post a été effacé!');
         return $this->redirectToRoute('admin_entries');
     }
-
     /**
      * @Route("/delete-all-entry/{entryId}", name="admin_delete_all_entry")
      *
@@ -151,7 +133,6 @@ class AdminController extends Controller
         $this->addFlash('success', 'Le post a été effacé!');
         return $this->redirectToRoute('admin_entries');
     }
-
     /**
      * @Route("/update-entry/{entryId}", name="admin_update_entry")
      *
@@ -171,7 +152,6 @@ class AdminController extends Controller
             'form' => $form->createView()
         ]);
     }
-
     /**
      * @Route("/update-all-entry/{entryId}", name="admin_update_all_entry")
      *
@@ -191,7 +171,6 @@ class AdminController extends Controller
             'form' => $form->createView()
         ]);
     }
-
     /**
      * @Route("/delete-author/{entryId}", name="author_delete_entry")
      *
@@ -208,28 +187,47 @@ class AdminController extends Controller
         return $this->redirectToRoute('admin_entries');
     }
 
-     /**
-      * @Route("/get-book}", name="get_book")
-      */
+    /**
+     * @Route("/author-update-entry/{entryId}", name="author_update_entry")
+     *
+     * @param $entryId
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function updateAuthorEntry(Request $request, $entryId){
+        $author = $this->authorRepository->findOneById($entryId);
+        $form = $this->createForm(UpdateAuthorFormType::class, $author);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush($author);
+            return $this->redirectToRoute('homepage');
+        }
+        return $this->render('admin/update.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/get-book}", name="get_book")
+     */
     public function  getBooksData(){
         $url= "https://www.googleapis.com/books/v1/volumes?q=";
         $isbn = $_POST['isbn'];
         $character = array('&', '<', '>', '/', '-','_'," ","$");
         $isbn = str_replace($character,"",$isbn);
-            if(is_numeric($isbn)){
-                if( strlen($isbn) == 10 || strlen($isbn) == 13 ){
-                    $book = $url.$isbn;
-                    $json = file_get_contents($book);
-                    $json_data = json_decode($json, true);
-                }
-                else{
-                    return $this->render('admin/entry_form.html.twig');
-                }
+        if(is_numeric($isbn)){
+            if( strlen($isbn) == 10 || strlen($isbn) == 13 ){
+                $book = $url.$isbn;
+                $json = file_get_contents($book);
+                $json_data = json_decode($json, true);
             }
             else{
                 return $this->render('admin/entry_form.html.twig');
             }
-
+        }
+        else{
+            return $this->render('admin/entry_form.html.twig');
+        }
         if(isset($json_data['items'])){
             if(!isset( $json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'])){
                 $cover ="https://vignette.wikia.nocookie.net/main-cast/images/5/5b/Sorry-image-not-available.png/revision/latest/scale-to-width-down/480?cb=20160625173435";
@@ -254,14 +252,12 @@ class AdminController extends Controller
             }
             else{
                 $category = $json_data['items'][0]['volumeInfo']['categories'][0];
-
             }
             if(!isset( $json_data['items'][0]['volumeInfo']['authors'])){
                 $writer = "Auteur non défini";
             }
             else{
                 $writer = $json_data['items'][0]['volumeInfo']['authors'][0];
-
             }
             if(isset($_POST['avis']) && !empty($_POST['avis'])){
                 $review = $_POST['avis'];
@@ -274,9 +270,6 @@ class AdminController extends Controller
             return $this->render('admin/entry_form.html.twig');
         }
         var_dump($json_data['items'][0]);
-
-
-
         //instanciation BlogPost, hydratation
         $blogPost = new BlogPost();
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
@@ -294,10 +287,6 @@ class AdminController extends Controller
         $blogPost->setSlug($slug);
         $this->entityManager->persist($blogPost);
         $this->entityManager->flush($blogPost);
-
         return $this->redirectToRoute('homepage');
-
-        return $this->redirectToRoute('admin/entry_form.html.twig');
-
     }
 }

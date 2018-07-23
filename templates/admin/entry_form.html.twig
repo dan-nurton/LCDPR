@@ -3,28 +3,43 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="blog-header">
-            <h2 class="blog-title"></h2>
-        </div>
+    <section class="formulaire">
+        <div class="containerService">
+            <div class="row">
+                <div class="offset-lg-3 col-lg-6 offset-sm-3 col-sm-6 col-centered">
+                    <div class="panel panel-default">
+                        <div class="card card-outline-secondary">
+                            <div class="card-header">
+                                <h3 class="mb-0">Post Critique</h3>
+                            </div>
+                            <div class="card-body">
+                                <form class="form" role="form" autocomplete="off" action="{{ path('get_book') }}" method="POST">
+                                    <fieldset>
+                                        <label for="isbn" class="mb-0">ISBN</label>
+                                        <div class="row mb-1">
+                                            <div class="col-lg-12">
+                                                <input type="text" rows="6" name="isbn" id="isbn" class="form-control" required="">
+                                            </div>
+                                        </div>
 
-        <div class="row">
-            <div class="col-sm-12 blog-main">
-                {% for label, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="bg-{{ label }}">
-                            {{ message }}
+                                            <label for="avis" class="mb-0">Mon avis</label>
+                                            <div class="row mb-1">
+                                                <div class="col-lg-12">
+                                                    <textarea rows="6" name="avis" id="avis" class="form-control" required=""></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col-lg-12">
+                                                    <button type="submit" class="btn btn-info btn-lg float-right" name="send">Envoyer</button>
+                                                </div>
+                                            </div>
+                                    </fieldset>
+                                </form>
+                            </div>
                         </div>
-                    {% endfor %}
-                {% endfor %}
-
-                    <form action={{ path('get_book') }} method="post">
-                        isbn: <input type="text" name="isbn"><br>
-                        avis: <input type="text" name="avis"><br>
-                        <input type="submit">
-                    </form>
-
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}

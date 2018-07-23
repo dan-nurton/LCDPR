@@ -2,21 +2,22 @@
 /**
  * Created by PhpStorm.
  * User: Dan-n
- * Date: 22/07/2018
- * Time: 15:29
+ * Date: 23/07/2018
+ * Time: 11:50
  */
 
 namespace App\Form;
 
-
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class UpdateAllBlogFormType extends AbstractType
+class UpdateAuthorFormType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -25,56 +26,56 @@ class UpdateAllBlogFormType extends AbstractType
 
         $builder
             ->add(
-                'title',
+                'surname',
+                TextType::class,
+                [
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Nom de Famille'
+                ]
+            )
+            ->add(
+                'name',
+                TextType::class,
+                [
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Prénom'
+                ]
+            )
+            ->add(
+                'pseudo',
+                TextType::class,
+                [
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Pseudo'
+                ]
+            )
+            ->add(
+                'email',
+                EmailType::class,
+                [
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'E-mail'
+                ]
+            )
+            ->add(
+                'shortBio',
                 TextareaType::class,
                 [
                     'constraints' => [new NotBlank()],
                     'attr' => ['class' => 'form-control'],
-                    'label' => 'Titre'
+                    'label' => 'Un mot sur Vous'
                 ]
             )
             ->add(
-                'category',
-                TextareaType::class,
-                [
-                    'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control'],
-                    'label' => 'Categorie'
-                ]
-            )
-            ->add(
-                'cover',
-                TextareaType::class,
-                [
-                    'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control'],
-                    'label' => 'Couverture'
-                ]
-            )
-            ->add(
-                'description',
-                TextareaType::class,
-                [
-                    'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control'],
-                    'label' => 'Synopsis'
-                ]
-            )
-            ->add(
-                'review',
-                TextareaType::class,
-                [
-                    'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control'],
-                    'label' => 'Avis'
-                ]
-            )
-            ->add(
-                'update',
+                'submit',
                 SubmitType::class,
                 [
                     'attr' => ['class' => 'form-control btn-primary pull-right'],
-                    'label' => 'Ajouter'
+                    'label' => 'Enregistrer'
                 ]
             );
     }
@@ -84,7 +85,7 @@ class UpdateAllBlogFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'App\Entity\BlogPost'
+            'data_class' => 'App\Entity\Author'
         ]);
     }
 
@@ -95,5 +96,4 @@ class UpdateAllBlogFormType extends AbstractType
     {
         return 'author_form';
     }
-
 }
