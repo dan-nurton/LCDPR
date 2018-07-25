@@ -163,6 +163,7 @@ class AdminController extends Controller
         $blogPost = $this->blogPostRepository->findOneById($entryId);
         $form = $this->createForm(UpdateAllBlogFormType::class, $blogPost);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush($blogPost);
             return $this->redirectToRoute('homepage');

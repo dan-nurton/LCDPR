@@ -73,7 +73,7 @@ class UpdateAllBlogFormType extends AbstractType
                 'update',
                 SubmitType::class,
                 [
-                    'attr' => ['class' => 'form-control btn-primary pull-right'],
+                    'attr' => ['class' => 'form-control pull-right'],
                     'label' => 'Ajouter'
                 ]
             );

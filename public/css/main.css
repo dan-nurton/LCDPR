@@ -1,46 +1,20 @@
+@font-face {
+  font-family: "allure";
+  src: url('../allure.otf');
+}
+
+
 body {
   font-family: Georgia, "Times New Roman", Times, serif;
-  background-image: url("../images/table1.jpg");
+  background-image: url("../images/BackgroundTexture.jpg");
   background-attachment: fixed;
   background-size: cover;
   -webkit-animation: Gradient 20s ease infinite;
   -moz-animation: Gradient 20s ease infinite;
   animation: Gradient 20s ease infinite;
 }
-@-webkit-keyframes Gradient {
-  0% {
-    background-position: 0% 50%
-  }
-  50% {
-    background-position: 100% 50%
-  }
-  100% {
-    background-position: 0% 50%
-  }
-}
-
-@-moz-keyframes Gradient {
-  0% {
-    background-position: 0% 50%
-  }
-  50% {
-    background-position: 100% 50%
-  }
-  100% {
-    background-position: 0% 50%
-  }
-}
-
-@keyframes Gradient {
-  0% {
-    background-position: 0% 50%
-  }
-  50% {
-    background-position: 100% 50%
-  }
-  100% {
-    background-position: 0% 50%
-  }
+h1{
+ font-family: "allure";
 }
 
 .containerPrincipal{
@@ -63,20 +37,17 @@ body {
   text-align: center;
   border-radius: 30px;
 }
-h1{
-  font-family: 'Dancing Script', cursive;
-}
-h2{
-  font-weight: normal;
-}
+
+
 img {
   float: left;
   padding-right: 20px;
 }
 footer{
-  background-color: #212529;
+  background-color: #343a40;
   height: 150px;
   color:white;
+    opacity: 0.8;
 }
 
 .avis{
@@ -91,12 +62,7 @@ footer{
   height: 300px;
 }
 .headerTitle{
-  background-image: url("../images/livre.gif");
-  background-size: cover;
-  background-position:center;
-  background-repeat: no-repeat;
-  margin: 0;
-  color: white;
+  background: rgba(211, 211, 211, 0.8);
 }
 .formulaire{
   margin-bottom: 50px;
@@ -106,25 +72,80 @@ footer{
   margin-bottom: 20px;
   margin-top: 20px;
 }
-.critique_admin{
-  margin-top: 50px;
-}
-.author_admin, .critique_admin{
-  margin-bottom: 100px;
-}
 
 th,td{
-  vertical-align:center;
-  text-align: center;
+  text-align: center !important;
   border: #7c8ea3 1px solid;
-
 }
 .tab_admin{
   text-align: center;
 }
 .blog-header{
   text-align: center;
+  font-family: "allure";
 }
+
+.blog-main{
+  min-height: 200px;
+  max-height: 300px;
+  overflow: auto;
+}
+.author-main{
+    min-height: 200px;
+    max-height: 300px;
+  overflow: auto;
+}
+
+.admin{
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+}
+.card{
+  background-color: #343a40 !important;
+  color:white;
+}
+.card-header{
+  background-color: #fff4ad!important;
+}
+
+
+#update_all_blog_form_update{
+  background-color: #c6a665;
+  margin-top: 10px;
+  color : white
+}
+#update_all_blog_form_update:hover{
+  color:black;
+}
+.row{
+  margin:0 !important;
+}
+
+.tab_admin{
+  margin-bottom: 100px;
+  margin-top: 100px;
+}
+.blog-title{
+  margin-top: 100px !important;
+  margin-bottom: 100px !important;
+}
+.livres{
+  margin-bottom: 20px !important;
+  background: rgba(211, 211, 211, 0.8);
+  border-radius: 140px / 2px;
+  box-shadow: 0 0 5px #aaa, 0 0 10px #888, 0 0 15px #666;
+}
+.livres:after{
+  margin-bottom: 20px !important;
+  background: rgba(211, 211, 211, 0.8);
+  border-radius: 125px / 1px;
+  box-shadow: 0 0 5px #444, 0 0 8px #333, 0 0 10px #666;
+}
+table{
+    background-color: white !important;
+}
+
 
 
 

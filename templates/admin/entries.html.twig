@@ -6,19 +6,16 @@
     <div class="container col-sm-12">
         <div class="blog-header">
             <h1 class="tab_admin">Tableau de bord de {{ author.name }} {% if author.isAdmin %} (Administrateur){% endif %}</h1>
-            <a class="btn btn-info button_critique">liste critiques</a>
-            {% if author.isAdmin %}
-                <a class="btn btn-info button_author">liste Auteurs</a>
-            {% endif %}
         </div>
+
             <div class="col-xs-2 col-sm-12 blog-main">
-                <table class="table table-striped critique_admin" style="display: none" >
+                <table class="table table-striped critique_admin" >
                     {% if author.isAdmin %}
                     <thead>
-                    <th colspan="6" style="text-align: center;background-color: #343a40;color:white;">Critiques</th>
+                    <th colspan="6" style="text-align: center;background-color: #343a40 ;color:white;">Critiques</th>
                     </thead>
                     {% endif %}
-                    <thead style="background-color : #ffe5ce">
+                    <thead style="background-color:#42b55f;color:white;">
                     <th>Titre</th>
                     <th>Crée le</th>
                     <th>Mis à jour le</th>
@@ -35,8 +32,15 @@
                             {% if author.isAdmin %}
                             <td>{{ blogPost.author.surname}} {{ blogPost.author.name}}</td>
                             {% endif %}
-                            <td><a class="btn btn-danger"{% if author.isAdmin %}href="{{ path('admin_delete_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('admin_delete_entry', {'entryId': blogPost.id}) }}"{% endif %} >Supprimer</a>
-                            <a class="btn btn-info" {% if author.isAdmin %}href="{{ path('admin_update_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('admin_update_entry', {'entryId': blogPost.id}) }}"{% endif %}>Editer</a></td>
+                            <td class="dropdown">
+                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item""{% if author.isAdmin %} href="{{ path('admin_delete_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('admin_delete_entry', {'entryId': blogPost.id}) }}"{% endif %}>Supprimer</a>
+                                    <a class="dropdown-item" {% if author.isAdmin %}href="{{ path('admin_update_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('admin_update_entry', {'entryId': blogPost.id}) }}"{% endif %}>Editer</a>
+                                </div>
+                            </td>
                         </tr>
                     {% else %}
                         <tr>
@@ -44,13 +48,14 @@
                         </tr>
                     {% endfor %}
                 </table>
+            </div>
                     {% if author.isAdmin %}
                     <div class="col-xs-8 col-sm-12 author-main" style="margin-top: 50px;">
-                        <table class="table table-striped author_admin" style="display: none" >
+                        <table class="table table-striped author_admin" >
                             <thead>
                             <th colspan="6" style="text-align: center;background-color: #343a40;color: white;">Auteurs</th>
                             </thead>
-                            <thead style="background-color : #ffe5ce">
+                            <thead  style="background-color:#42b55f;color:white;">
                             <th>Prénom</th>
                             <th>Nom de famille</th>
                             <th>Pseudo</th>
@@ -65,13 +70,20 @@
                                 <td>{{ author.pseudo }}</td>
                                 <td>{{ author.email }}</td>
                                {% for key, blogPostsCount in blogPostsCounts%}{% if key == author.pseudo%} <td>{{ blogPostsCount }}</td>{% endif %}{% endfor %}
-                                <td><a class="btn btn-danger" href="{{ path('author_delete_entry', {'entryId': author.id}) }}">Supprimer</a>
-                                    <a class="btn btn-info" href="{{ path('author_update_entry', {'entryId': author.id}) }}">Editer</a></td>
+                                <td class="dropdown">
+                                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Action
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href=""{{ path('author_delete_entry', {'entryId': author.id}) }}">Supprimer</a>
+                                        <a class="dropdown-item" href="{{ path('author_update_entry', {'entryId': author.id}) }}">Editer</a>
+                                    </div>
+                                </td>
                             </tr>
                             {% endfor %}
                             {% endif %}
                         </table>
                     </div>
-         </div>
+            </div>
 {% endblock %}
 

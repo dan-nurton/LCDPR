@@ -9,6 +9,7 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -68,6 +69,15 @@ class UpdateAuthorFormType extends AbstractType
                     'constraints' => [new NotBlank()],
                     'attr' => ['class' => 'form-control'],
                     'label' => 'Un mot sur Vous'
+                ]
+            )
+            ->add(
+                'isAdmin',
+                CheckboxType::class,
+                [
+                    'constraints' => [new NotBlank()],
+                    'attr' => ['class' => 'form-control'],
+                    'label' => 'Droits administrateur'
                 ]
             )
             ->add(
