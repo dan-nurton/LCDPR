@@ -9,12 +9,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Author;
 use App\Form\AuthorFormType;
-use App\Entity\BlogPost;
-use App\Form\EntryFormType;
 /**
  * @Route("/admin")
  */
-class AdminController extends Controller
+class AuthorController extends Controller
 {
     /** @var EntityManagerInterface */
     private $entityManager;
@@ -32,7 +30,7 @@ class AdminController extends Controller
         $this->authorRepository = $entityManager->getRepository('App:Author');
     }
     /**
-     * @Route("/author/create", name="author_create")
+     * @Route("/auteur/creation", name="author_create")
      */
     public function createAuthorAction(Request $request)
     {
@@ -52,30 +50,30 @@ class AdminController extends Controller
             $this->addFlash('success', 'Félicitation! Vous pouvez maintenant poster vos critiques!');
             return $this->redirectToRoute('homepage');
         }
-        return $this->render('admin/create_author.html.twig', [
+        return $this->render('author/create_author.html.twig', [
             'form' => $form->createView()
         ]);
     }
     /**
-     * @Route("/create-entry", name="admin_create_entry")
+     * @Route("/creation-critique", name="author_create_review")
      *
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function createEntryAction(Request $request)
+    public function createReviewAction(Request $request)
     {
-        return $this->render('admin/entry_form.html.twig');
+        return $this->render('author/review_form.html.twig');
     }
 
 
     /**
      * @Route("/", name="admin_index")
-     * @Route("/entries", name="admin_entries")
+     * @Route("/panel", name="admin_panel")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function entriesAction()
+    public function panelAction()
     {
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         $authors = [];
@@ -91,56 +89,63 @@ class AdminController extends Controller
                 $blogPostsCounts [$author->getPseudo()]=  $this->blogPostRepository->countByAuthor($author);
             }
         }
-        return $this->render('admin/entries.html.twig', [
+        return $this->render('author/panel.html.twig', [
             'blogPosts' => $blogPosts,
             'author' => $author,
             'authors' => $authors,
             'blogPostsCounts' => $blogPostsCounts
         ]);
     }
+
+    // supprimer crtique de l'utilisateur uniquement
     /**
-     * @Route("/delete-entry/{entryId}", name="admin_delete_entry")
+     * @Route("/supprimer-critique-utilisateur/{entryId}", name="author_delete_entry")
      *
      * @param $entryId
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteEntryAction($entryId)
+    public function deleteAuthorReviewAction($entryId)
     {
         $blogPost = $this->blogPostRepository->findOneById($entryId);
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         if (!$blogPost || $author !== $blogPost->getAuthor()) {
             $this->addFlash('erreur', 'Supression impossible!');
-            return $this->redirectToRoute('admin_entries');
+            return $this->redirectToRoute('admin_panel');
         }
         $this->entityManager->remove($blogPost);
         $this->entityManager->flush();
         $this->addFlash('success', 'Le post a été effacé!');
-        return $this->redirectToRoute('admin_entries');
+        return $this->redirectToRoute('admin_panel');
     }
+
+    // supprimer critiques de tous les utilisateurs
     /**
-     * @Route("/delete-all-entry/{entryId}", name="admin_delete_all_entry")
+     * @Route("/supprimer-toutes-critiques/{entryId}", name="admin_delete_all_entry")
      *
      * @param $entryId
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAllEntryAction($entryId)
+    public function deleteAuthorAndReviewsAction($entryId)
     {
         $blogPost = $this->blogPostRepository->findOneById($entryId);
         $this->entityManager->remove($blogPost);
         $this->entityManager->flush();
         $this->addFlash('success', 'Le post a été effacé!');
-        return $this->redirectToRoute('admin_entries');
+        return $this->redirectToRoute('admin_panel');
     }
+
+
+    //update critique utilisateur
     /**
-     * @Route("/update-entry/{entryId}", name="admin_update_entry")
+     * @Route("/update-entry/{entryId}", name="author_review_update_entry")
      *
      * @param $entryId
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function updateEntry(Request $request, $entryId){
+    public function updateReview(Request $request, $entryId){
         $blogPost = $this->blogPostRepository->findOneById($entryId);
         $form = $this->createForm(UpdateBlogFormType::class, $blogPost);
         $form->handleRequest($request);
@@ -148,18 +153,20 @@ class AdminController extends Controller
             $this->entityManager->flush($blogPost);
             return $this->redirectToRoute('homepage');
         }
-        return $this->render('admin/udpate_review.html.twig', [
+        return $this->render('author/udpate_review_form.html.twig', [
             'form' => $form->createView()
         ]);
     }
+
+    //update critique admin
     /**
-     * @Route("/update-all-entry/{entryId}", name="admin_update_all_entry")
+     * @Route("/update-critique/{entryId}", name="admin_update_all_entry")
      *
      * @param $entryId
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function updateAllEntry(Request $request, $entryId){
+    public function updateAllBlogPost(Request $request, $entryId){
         $blogPost = $this->blogPostRepository->findOneById($entryId);
         $form = $this->createForm(UpdateAllBlogFormType::class, $blogPost);
         $form->handleRequest($request);
@@ -168,12 +175,14 @@ class AdminController extends Controller
             $this->entityManager->flush($blogPost);
             return $this->redirectToRoute('homepage');
         }
-        return $this->render('admin/review.html.twig', [
+        return $this->render('author/update_blog_post_form.html.twig', [
             'form' => $form->createView()
         ]);
     }
+
+    //supprimer auteur
     /**
-     * @Route("/delete-author/{entryId}", name="author_delete_entry")
+     * @Route("/delete-author/{entryId}", name="author_delete")
      *
      * @param $entryId
      *
@@ -182,14 +191,17 @@ class AdminController extends Controller
     public function deleteAuthorAction($entryId)
     {
         $author = $this->authorRepository->findOneById($entryId);
+        dump($author->findOneByUsername($this->getUser()->getUserName()));die();
         $this->entityManager->remove($author);
         $this->entityManager->flush();
-        $this->addFlash('success', 'Le post a été effacé!');
-        return $this->redirectToRoute('admin_entries');
+        $request->getSession()->set('user_is_author', true);
+        $this->addFlash('success', 'L\'auteur a été effacé!');
+        return $this->redirectToRoute('admin_panel');
     }
 
+    //update auteur
     /**
-     * @Route("/author-update-entry/{entryId}", name="author_update_entry")
+     * @Route("/auteur-update/{entryId}", name="author_update")
      *
      * @param $entryId
      *
@@ -203,91 +215,8 @@ class AdminController extends Controller
             $this->entityManager->flush($author);
             return $this->redirectToRoute('homepage');
         }
-        return $this->render('admin/update.html.twig', [
+        return $this->render('author/update_author_form.html.twig', [
             'form' => $form->createView()
         ]);
-    }
-
-    /**
-     * @Route("/get-book}", name="get_book")
-     */
-    public function  getBooksData(){
-        $url= "https://www.googleapis.com/books/v1/volumes?q=";
-        $isbn = $_POST['isbn'];
-        $character = array('&', '<', '>', '/', '-','_'," ","$");
-        $isbn = str_replace($character,"",$isbn);
-        if(is_numeric($isbn)){
-            if( strlen($isbn) == 10 || strlen($isbn) == 13 ){
-                $book = $url.$isbn;
-                $json = file_get_contents($book);
-                $json_data = json_decode($json, true);
-            }
-            else{
-                return $this->render('admin/entry_form.html.twig');
-            }
-        }
-        else{
-            return $this->render('admin/entry_form.html.twig');
-        }
-        if(isset($json_data['items'])){
-            if(!isset( $json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'])){
-                $cover ="https://vignette.wikia.nocookie.net/main-cast/images/5/5b/Sorry-image-not-available.png/revision/latest/scale-to-width-down/480?cb=20160625173435";
-            }
-            else{
-                $cover = $json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'];
-            }
-            if(!isset( $json_data['items'][0]['volumeInfo']['description'])){
-                $description ="Pas de description disponible";
-            }
-            else{
-                $description =  $json_data['items'][0]['volumeInfo']['description'];
-            }
-            if(!isset( $json_data['items'][0]['volumeInfo']['title'])){
-                $title = "Pas de titre disponible";
-            }
-            else{
-                $title = $json_data['items'][0]['volumeInfo']['title'];
-            }
-            if(!isset( $json_data['items'][0]['volumeInfo']['categories'])){
-                $category = "Catégorie non définie";
-            }
-            else{
-                $category = $json_data['items'][0]['volumeInfo']['categories'][0];
-            }
-            if(!isset( $json_data['items'][0]['volumeInfo']['authors'])){
-                $writer = "Auteur non défini";
-            }
-            else{
-                $writer = $json_data['items'][0]['volumeInfo']['authors'][0];
-            }
-            if(isset($_POST['avis']) && !empty($_POST['avis'])){
-                $review = $_POST['avis'];
-            }
-            else{
-                return $this->render('admin/entry_form.html.twig');
-            }
-        }
-        else{
-            return $this->render('admin/entry_form.html.twig');
-        }
-        var_dump($json_data['items'][0]);
-        //instanciation BlogPost, hydratation
-        $blogPost = new BlogPost();
-        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
-        $blogPost->setAuthor($author);
-        $blogPost->setReview($review);
-        $blogPost->setTitle($title);
-        $blogPost->setWriter($writer);
-        $blogPost->setCover($cover);
-        $blogPost->setDescription($description);
-        $blogPost->setCategory($category);
-        $this->entityManager->persist($blogPost);
-        $this->entityManager->flush($blogPost);
-        $slug = str_replace(' ', '_',  $json_data['items'][0]['volumeInfo']['title']);
-        $slug .= '_'.$blogPost->getId();
-        $blogPost->setSlug($slug);
-        $this->entityManager->persist($blogPost);
-        $this->entityManager->flush($blogPost);
-        return $this->redirectToRoute('homepage');
     }
 }
