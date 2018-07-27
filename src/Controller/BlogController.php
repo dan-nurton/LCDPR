@@ -38,7 +38,7 @@ class BlogController extends Controller
      * @Route("/", name="homepage")
      * @Route("/critiques", name="display_reviews")
      */
-    public function entriesAction(Request $request)
+    public function displayReviews(Request $request)
     {
         $page = 1;
 
@@ -56,18 +56,15 @@ class BlogController extends Controller
     /**
      * @Route("/critique/{slug}", name="display_review")
      */
-    public function entryAction($slug)
+    public function displayReview($slug)
     {
         $blogPost = $this->blogPostRepository->findOneBySlug($slug);
 
         if (!$blogPost) {
             $this->addFlash('error', 'Article introuvable...');
-
-
             return $this->redirectToRoute('display_reviews');
 
         }
-
         return $this->render('blog/display_review.html.twig', array(
             'blogPost' => $blogPost
         ));
@@ -178,5 +175,24 @@ class BlogController extends Controller
         $this->entityManager->persist($blogPost);
         $this->entityManager->flush($blogPost);
         return $this->redirectToRoute('homepage');
+    }
+    /**
+     * @Route("/search-review}", name="search_review")
+     */
+    public function  searchReview(){
+        $search = $_POST['search'];
+        $reviews = $this->blogPostRepository->findAll();
+        $result = [];
+
+        foreach ($reviews as $review){
+            if($review->getTitle() == $search){
+                $result [] = $review;
+            }
+        }
+        return $this->render('blog/display_result_reviews.html.twig', [
+            'blogPosts' => $result
+        ]);
+
+
     }
 }

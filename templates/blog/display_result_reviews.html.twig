@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block title %}App:blog:entry{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="blog-header">
+            {% if blogPosts %}
+            <h1 class="blog-title">Résultat de recherche pour  "{{ blogPosts[0].title }}"</h1>
+            {% else  %}
+            <h1 class="blog-title">Pas de résultat trouvé</h1>
+            {% endif %}
+        </div>
+        {% if blogPosts %}
+        <div class="row">
+            <article class="row justify-content-center  col-12">
+                <div class="livre col-12">
+                    <h2 class="blog-post-title" style="text-align: center">{{ blogPosts[0].title }}</h2>
+                    <h3 style="color: red">Synopsis</h3>
+                    <p>{{ blogPosts[0].description|raw }}</p>
+                </div>
+            </article>
+        </div>
+    </div>
+                    {% for blogPost in blogPosts %}
+                        <article class="row justify-content-center offset-6 col-12">
+                        <div class="livre col-7" style="background-color: white; border-radius: unset">
+                    <div style="font-style: italic">Posté par <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">{{ blogPost.author.name }}  </a> le {{ blogPost.updatedAt|date('Y-m-d') }}
+                    </br>{{ blogPost.review|raw }}</p> </div>
+                        </div>
+                        </article>
+                    {% endfor %}
+    {% endif %}
+    </div>
+
+
+
+
+{% endblock %}
