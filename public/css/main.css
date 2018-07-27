@@ -102,22 +102,14 @@ th,td{
   align-items: left;
 }
 .card{
-  background-color: #343a40 !important;
-  color:white;
+  background: rgba(211, 211,211,1); !important;
+
 }
 .card-header{
-  background-color: #fff4ad!important;
+  background-color: #343a40!important;
+  color:white;
 }
 
-
-#update_all_blog_form_update{
-  background-color: #c6a665;
-  margin-top: 10px;
-  color : white
-}
-#update_all_blog_form_update:hover{
-  color:black;
-}
 .row{
   margin:0 !important;
 }
@@ -145,7 +137,13 @@ table{
   word-break: break-all;
   word-break: break-word;
 }
+button{
+  margin-top: 10px;
+}
 
+.alert{
+  text-align: center !important;
+}
 
 
 

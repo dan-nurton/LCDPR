@@ -126,7 +126,7 @@ class AuthorController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAuthorAndReviewsAction($entryId)
+    public function deleteAdminReviewsAction($entryId)
     {
         $blogPost = $this->blogPostRepository->findOneById($entryId);
         $this->entityManager->remove($blogPost);
@@ -144,7 +144,7 @@ class AuthorController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function updateReview(Request $request, $entryId){
+    public function updateAuthorReviewAction(Request $request, $entryId){
         $blogPost = $this->blogPostRepository->findOneById($entryId);
         $form = $this->createForm(UpdateBlogFormType::class, $blogPost);
         $form->handleRequest($request);
@@ -165,7 +165,7 @@ class AuthorController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function updateAllBlogPost(Request $request, $entryId){
+    public function updateAdminReviewsAction(Request $request, $entryId){
         $blogPost = $this->blogPostRepository->findOneById($entryId);
         $form = $this->createForm(UpdateAllBlogFormType::class, $blogPost);
         $form->handleRequest($request);
@@ -190,12 +190,10 @@ class AuthorController extends Controller
     public function deleteAuthorAction($entryId)
     {
         $author = $this->authorRepository->findOneById($entryId);
-        dump($author->findOneByUsername($this->getUser()->getUserName()));die();
         $this->entityManager->remove($author);
         $this->entityManager->flush();
-        $request->getSession()->set('user_is_author', true);
         $this->addFlash('success', 'Le post a été effacé!');
-        return $this->redirectToRoute('admin_entries');
+        return $this->redirectToRoute('admin_panel');
 
     }
 

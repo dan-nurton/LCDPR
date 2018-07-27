@@ -36,11 +36,7 @@ class BlogController extends Controller
 
     /**
      * @Route("/", name="homepage")
-<<<<<<< HEAD
      * @Route("/critiques", name="display_reviews")
-=======
-     * @Route("/reviews", name="reviews")
->>>>>>> devDam
      */
     public function entriesAction(Request $request)
     {
@@ -58,11 +54,7 @@ class BlogController extends Controller
     }
 
     /**
-<<<<<<< HEAD
      * @Route("/critique/{slug}", name="display_review")
-=======
-     * @Route("/entry/{slug}", name="review")
->>>>>>> devDam
      */
     public function entryAction($slug)
     {

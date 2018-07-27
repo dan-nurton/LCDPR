@@ -84,7 +84,7 @@ class UpdateAuthorFormType extends AbstractType
                 'submit',
                 SubmitType::class,
                 [
-                    'attr' => ['class' => 'form-control btn-primary pull-right'],
+                    'attr' => ['class' => 'form-control btn btn-info btn-lg float-right'],
                     'label' => 'Enregistrer'
                 ]
             );
