@@ -3,15 +3,14 @@
 {% block title %}App:blog:entry{% endblock %}
 
 {% block body %}
+
     <div class="container">
         <div class="blog-header">
-            <h1 class="blog-title">Critiques</h1>
-            <p class="lead blog-description">Derniéres critiques</p>
+            <h1 class="blog-title">Critique</h1>
         </div>
-
         <div class="row">
-            <div class="col-sm-8 blog-main">
-                <div class="blog-post">
+            <article class="row justify-content-center  col-12">
+                <div class="livre col-12">
                     <h2 class="blog-post-title">{{ blogPost.title }}</h2>
                     <p class="blog-post-meta">
                         {{ blogPost.updatedAt|date('Y-m-d H:i') }} par <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
@@ -24,7 +23,8 @@
                     <h3>Avis</h3>
                     <p>{{ blogPost.review|raw }}</p>
                 </div>
-            </div>
+            </article>
         </div>
     </div>
+
 {% endblock %}

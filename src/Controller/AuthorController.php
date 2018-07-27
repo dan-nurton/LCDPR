@@ -66,7 +66,6 @@ class AuthorController extends Controller
         return $this->render('author/review_form.html.twig');
     }
 
-
     /**
      * @Route("/", name="admin_index")
      * @Route("/panel", name="admin_panel")
@@ -195,8 +194,9 @@ class AuthorController extends Controller
         $this->entityManager->remove($author);
         $this->entityManager->flush();
         $request->getSession()->set('user_is_author', true);
-        $this->addFlash('success', 'L\'auteur a été effacé!');
-        return $this->redirectToRoute('admin_panel');
+        $this->addFlash('success', 'Le post a été effacé!');
+        return $this->redirectToRoute('admin_entries');
+
     }
 
     //update auteur

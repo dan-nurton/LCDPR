@@ -7,6 +7,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\BlogPost;
+use App\Form\EntryFormType;
+
 
 class BlogController extends Controller
 {
@@ -34,7 +36,11 @@ class BlogController extends Controller
 
     /**
      * @Route("/", name="homepage")
+<<<<<<< HEAD
      * @Route("/critiques", name="display_reviews")
+=======
+     * @Route("/reviews", name="reviews")
+>>>>>>> devDam
      */
     public function entriesAction(Request $request)
     {
@@ -52,7 +58,11 @@ class BlogController extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * @Route("/critique/{slug}", name="display_review")
+=======
+     * @Route("/entry/{slug}", name="review")
+>>>>>>> devDam
      */
     public function entryAction($slug)
     {
@@ -61,7 +71,9 @@ class BlogController extends Controller
         if (!$blogPost) {
             $this->addFlash('error', 'Article introuvable...');
 
+
             return $this->redirectToRoute('display_reviews');
+
         }
 
         return $this->render('blog/display_review.html.twig', array(
@@ -78,13 +90,14 @@ class BlogController extends Controller
 
         if (!$author) {
             $this->addFlash('error', 'Auteur introuvable...');
+
             return $this->redirectToRoute('display_reviews');
         }
-
         return $this->render('blog/display_author.html.twig', [
             'author' => $author
         ]);
     }
+
 
     /**
      * @Route("/get-book}", name="get_book")
@@ -101,12 +114,16 @@ class BlogController extends Controller
                 $json_data = json_decode($json, true);
             }
             else{
+
                 return $this->render('author/entry_form.html.twig');
             }
         }
         else{
             return $this->render('author/entry_form.html.twig');
-        }
+
+            }
+
+
         if(isset($json_data['items'])){
             if(!isset( $json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'])){
                 $cover ="https://vignette.wikia.nocookie.net/main-cast/images/5/5b/Sorry-image-not-available.png/revision/latest/scale-to-width-down/480?cb=20160625173435";
@@ -142,6 +159,7 @@ class BlogController extends Controller
                 $review = $_POST['avis'];
             }
             else{
+
                 return $this->render('author/entry_form.html.twig');
             }
         }
