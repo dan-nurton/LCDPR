@@ -24,6 +24,9 @@ class BlogController extends Controller
     /** @var \Doctrine\Common\Persistence\ObjectRepository */
     private $blogPostRepository;
 
+    /** @var \Doctrine\Common\Persistence\ObjectRepository */
+    private $commentRepository;
+
     /**
      * @param EntityManagerInterface $entityManager
      */
@@ -32,6 +35,7 @@ class BlogController extends Controller
         $this->entityManager = $entityManager;
         $this->blogPostRepository = $entityManager->getRepository('App:BlogPost');
         $this->authorRepository = $entityManager->getRepository('App:Author');
+        $this->commentRepository = $entityManager->getRepository('App:Comment');
     }
 
     /**
@@ -41,7 +45,6 @@ class BlogController extends Controller
     public function displayReviews(Request $request)
     {
         $page = 1;
-
         if ($request->get('page')) {
             $page = $request->get('page');
         }
@@ -49,7 +52,8 @@ class BlogController extends Controller
             'blogPosts' => $this->blogPostRepository->getAllPosts($page, self::POST_LIMIT),
             'totalBlogPosts' => $this->blogPostRepository->getPostCount(),
             'page' => $page,
-            'entryLimit' => self::POST_LIMIT
+            'entryLimit' => self::POST_LIMIT,
+            'comments' => $this->commentRepository->findAll()
         ]);
     }
 
@@ -180,12 +184,13 @@ class BlogController extends Controller
      * @Route("/search-review}", name="search_review")
      */
     public function  searchReview(){
-        $search = $_POST['search'];
+
+        $search = strtolower ($_POST['search']);
         $reviews = $this->blogPostRepository->findAll();
         $result = [];
 
         foreach ($reviews as $review){
-            if($review->getTitle() == $search){
+            if(strtolower($review->getTitle()) == $search){
                 $result [] = $review;
             }
         }

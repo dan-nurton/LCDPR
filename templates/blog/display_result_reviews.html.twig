@@ -22,18 +22,14 @@
             </article>
         </div>
     </div>
-                    {% for blogPost in blogPosts %}
-                        <article class="row justify-content-center offset-6 col-12">
-                        <div class="livre col-7" style="background-color: white; border-radius: unset">
+            {% for blogPost in blogPosts %}
+                <article class="row justify-content-center offset-6 col-12">
+                    <div class="livre col-7" style="background-color: white; border-radius: unset">
                     <div style="font-style: italic">Posté par <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">{{ blogPost.author.name }}  </a> le {{ blogPost.updatedAt|date('Y-m-d') }}
                     </br>{{ blogPost.review|raw }}</p> </div>
-                        </div>
-                        </article>
-                    {% endfor %}
+                    </div>
+                </article>
+            {% endfor %}
     {% endif %}
     </div>
-
-
-
-
 {% endblock %}
