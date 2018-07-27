@@ -2,8 +2,6 @@
   font-family: "allure";
   src: url('../allure.otf');
 }
-
-
 body {
   font-family: Georgia, "Times New Roman", Times, serif;
   background-image: url("../images/BackgroundTexture.jpg");
@@ -24,6 +22,7 @@ h1{
 }
 .container{
   min-height: 300px;
+  align-content: center;
 }
 
 /* Pagination */
@@ -44,10 +43,11 @@ img {
   padding-right: 20px;
 }
 footer{
+  margin-top: 100px;
   background-color: #343a40;
   height: 150px;
   color:white;
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .avis{
@@ -130,21 +130,17 @@ th,td{
   margin-top: 100px !important;
   margin-bottom: 100px !important;
 }
-.livres{
+.livres, .auteur, .livre{
   margin-bottom: 20px !important;
   background: rgba(211, 211, 211, 0.8);
   border-radius: 140px / 2px;
   box-shadow: 0 0 5px #aaa, 0 0 10px #888, 0 0 15px #666;
 }
-.livres:after{
-  margin-bottom: 20px !important;
-  background: rgba(211, 211, 211, 0.8);
-  border-radius: 125px / 1px;
-  box-shadow: 0 0 5px #444, 0 0 8px #333, 0 0 10px #666;
-}
+
 table{
     background-color: white !important;
 }
+
 
 
 

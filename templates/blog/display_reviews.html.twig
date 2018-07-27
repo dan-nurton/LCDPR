@@ -9,7 +9,7 @@
         </div>
         {% for blogPost in blogPosts %}
             <div class="row">
-                <article class="row justify-content-center">
+                <article class="row justify-content-center col-12">
                     <div class="livres col-md-12">
                         <span style="font-weight: bold;">{{ blogPost.category }}</span>
                         <h2> {{ blogPost.title }} <span style="font-style: italic; font-size: 0.5em; color:gray">({{ blogPost.writer }})</span></h2>
@@ -24,7 +24,7 @@
                             <img src="{{ blogPost.cover }}" alt="" style="width: 150px;">
                         <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
                         <div><p><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
-                        <a href="{{ path('entry', {'slug': blogPost.slug}) }}">Plus de détails</a>
+                        <a href="{{ path('review', {'slug': blogPost.slug}) }}">Plus de détails</a>
                         <hr/>
                     </div>
                 </article>
@@ -41,12 +41,12 @@
                 <nav>
                     <ul class="pager row justify-content-center" style="list-style: none;">
                         <li class="previous {% if canPrevious == false %}disabled{% endif %}">
-                            <a href="{% if canPrevious %}{{ path('entries', {'page': page - 1}) }}{% endif %}">
+                            <a href="{% if canPrevious %}{{ path('reviews', {'page': page - 1}) }}{% endif %}">
                                 <span aria-hidden="true">&larr;</span> Moins
                             </a>
                         </li>
                         <li class="next {% if canNext == false %}disabled{% endif %}">
-                            <a href="{% if canNext %}{{ path('entries', {'page': page + 1}) }}{% endif %}">
+                            <a href="{% if canNext %}{{ path('reviews', {'page': page + 1}) }}{% endif %}">
                                 Plus <span aria-hidden="true">&rarr;</span>
                             </a>
                         </li>
