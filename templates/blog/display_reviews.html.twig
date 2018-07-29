@@ -26,10 +26,17 @@
                         <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
 
                         <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
-                        {% for comment in comments %}
-                            <div>{{ comment.content }}</div>
-                        {% endfor %}
+
                         <a href="{{ path('display_review', {'slug': blogPost.slug}) }}">Plus de détails</a>
+                       {#blogPost.comments.snapshot[0].content#}
+                        <div class = "commentaire">
+                            <h3>7 commentaires</h3>
+                            <div><a href="{{ path('display_comments', {'id': blogPost.id}) }}">
+                                    Voir les commentaires
+                                </a></div>
+
+                    </div>
+
                         <hr/>
                     </div>
                 </article>

@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
 
 
 /**
@@ -81,6 +84,11 @@ class BlogPost
     private $review;
 
     /**
+     * @OneToMany(targetEntity="Comment", mappedBy="blogPost")
+     */
+    private $comments;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -93,11 +101,35 @@ class BlogPost
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+
+
+
+    public function __construct() {
+        $this->comments = new ArrayCollection();
+    }
+
     /**
-     * Get id
+     * Get comments
      *
-     * @return int
+     * @return Collection
      */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param Comment $comments
+     * @return $this
+     */
+    public function addComments(Comment $comments)
+    {
+        $this->comments[] = $comments;
+        return $this;
+    }
+
+
+
     public function getId()
     {
         return $this->id;

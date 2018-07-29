@@ -31,4 +31,22 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @param $blogPostId
+     *
+     * @return mixed
+     */
+    public function getAllComments($blogPostId){
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder
+            ->select('c')
+            ->from('App:Comment', 'c')
+            ->where('c.blogPost = :blogPost_id')->setParameter('blogPost_id',$blogPostId);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+
+
 }

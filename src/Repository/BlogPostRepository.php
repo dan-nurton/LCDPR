@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\BlogPost;
+use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -66,6 +67,28 @@ class BlogPostRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /**
+     * @param int $page
+     * @param int $limit
+     *
+     * @param $id
+     * @return array
+     */
+    public function getAllPostsWithComments($page = 1, $limit = 5){
+
+        /* SELECT *
+          FROM blog_post
+          INNER JOIN comment ON blog_post.id = comment.blog_post_id
+        */
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder
+            ->select('bp','c')
+            ->from('App:BlogPost', 'bp')
+            ->join('bp.comments','c','WITH', 'bp.id=c.blogPost');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 
     /**
      * @return mixed

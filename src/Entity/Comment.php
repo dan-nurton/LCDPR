@@ -27,8 +27,8 @@ class Comment
     /**
      * @var BlogPost
      *
-     * @ORM\ManyToOne(targetEntity="BlogPost")
-     * @ORM\JoinColumn(name="blog_post_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="BlogPost", inversedBy="comments")
+     * @ORM\JoinColumn(name="blog_post_id", referencedColumnName="id")
      */
     private $blogPost;
 
@@ -70,6 +70,23 @@ class Comment
     }
 
     /**
+     * @return BlogPost
+     */
+    public function getBlogPost(): BlogPost
+    {
+        return $this->blogPost;
+    }
+
+    /**
+     * @param BlogPost $blogPost
+     */
+    public function setBlogPost(BlogPost $blogPost)
+    {
+        $this->blogPost = $blogPost;
+    }
+
+
+    /**
      * @return Author
      */
     public function getAuthor(): Author
@@ -85,21 +102,6 @@ class Comment
         $this->author = $author;
     }
 
-    /**
-     * @return BlogPost
-     */
-    public function getBlogPost(): BlogPost
-    {
-        return $this->blogPost;
-    }
-
-    /**
-     * @param BlogPost $blogPost
-     */
-    public function setBlogPost(BlogPost $blogPost): void
-    {
-        $this->blogPost = $blogPost;
-    }
 
     /**
      * @return string

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -45,15 +46,17 @@ class BlogController extends Controller
     public function displayReviews(Request $request)
     {
         $page = 1;
+        $blogPosts = $this->blogPostRepository->getAllPostsForAdmin($page, self::POST_LIMIT);
+        //dump($blogPosts);
+        //die();
         if ($request->get('page')) {
             $page = $request->get('page');
         }
         return $this->render('blog/display_reviews.html.twig', [
-            'blogPosts' => $this->blogPostRepository->getAllPosts($page, self::POST_LIMIT),
+            'blogPosts' => $blogPosts,
             'totalBlogPosts' => $this->blogPostRepository->getPostCount(),
             'page' => $page,
             'entryLimit' => self::POST_LIMIT,
-            'comments' => $this->commentRepository->findAll()
         ]);
     }
 
