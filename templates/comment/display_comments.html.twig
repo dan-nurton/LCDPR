@@ -12,16 +12,16 @@
         {% endif %}
     </div>
         <div class="row justify-content-center offset-6 col-12">
-            <form action="{{ path('search_review') }}"  method="POST">
-                <textarea rows="3" name="avis" id="avis" class="form-control" required="" style="width: 600px; margin-bottom: 50px;" placeholder="Ecrire un commentaire"></textarea>
-                <button class="btn btn-outline-info my-2 my-sm-0" type="submit" style="display: none" >Rechercher </button>
+            <form action="{{ path('post_comment', {'id': id}) }}"  method="POST">
+                <textarea rows="3" name="comment" id="comment" class="form-control" required="" style="width: 600px;" placeholder="Ecrire un commentaire"></textarea>
+                <button class="btn btn-info" type="submit" style="margin-bottom: 50px;">Poster</button>
             </form>
         </div>
     {% if comments %}
         {% for comment in comments %}
             <article class="row justify-content-center offset-6 col-12">
                 <div class="livre col-7" style="background-color: white; border-radius: unset">
-                    <div style="font-style: italic">Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d') }}
+                    <div style="font-style: italic">Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
                         </br>{{ comment.content|raw }}</p> </div>
                 </div>
             </article>
