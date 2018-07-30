@@ -21,8 +21,29 @@
 
                     <h3>Avis</h3>
                     <p>{{ blogPost.review|raw }}</p>
+
+            {% if comments %}
+                <h2 class ="numberComment col-4">{{ countComment }} commentaires</h2>
+            {% else  %}
+                <h2 class ="numberComment">Pas de commentaires</h2>
+            {% endif %}
+                    {% if app.user %}
+            <form class="col-6" style="padding: unset;" action="{{ path('post_comment', {'id': id}) }}"  method="POST">
+                <textarea rows="3" name="comment" id="comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
+                <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
+            </form>
+                    {% endif %}
+        {% if comments %}
+            {% for comment in comments %}
+                    <div class="commentaire col-6" style="background-color: white;">
+                        <div style="font-style: italic">Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
+                            </br>{{ comment.content|raw }}</p> </div>
+                    </div>
+            {% endfor %}
+        {% endif %}
                 </div>
             </article>
+    </div>
         </div>
     </div>
 

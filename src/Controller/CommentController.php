@@ -45,21 +45,9 @@ class CommentController extends Controller
     }
 
     /**
-     * @Route("/commentaires/{id}", name="display_comments")
-     */
-    public function displayReviews($id)
-    {
-         $comments = $this->commentRepository->getAllComments($id);
-
-        return $this->render('comment/display_comments.html.twig', [
-            'comments' => $comments,
-            'id' => $id
-        ]);
-    }
-
-    /**
      * @Route("/comment/creation/{id}", name="post_comment")
      * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function createCommentAction($id)
     {
@@ -72,12 +60,14 @@ class CommentController extends Controller
         $this->entityManager->persist($comment);
         $this->entityManager->flush($comment);
         $comments = $this->commentRepository->getAllComments($id);
+        $countComment = $this->commentRepository->getCountComment($id);
 
-        return $this->render('comment/display_comments.html.twig', [
+        return $this->render('blog/display_review.html.twig', array(
+            'blogPost' => $blogPost,
             'comments' => $comments,
-            'id' => $id
-        ]);
-
+            'countComment' => $countComment,
+            'id' => $id,
+        ));
 
     }
 

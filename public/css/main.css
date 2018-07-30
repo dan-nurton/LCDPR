@@ -144,6 +144,18 @@ button{
   text-align: center !important;
 }
 
+.numberComment{
+  margin-top: 25px;
+  margin-bottom: 25px;
+  color: red;
+}
+
+.numberComment:hover{
+  color:black;
+
+}
+
+
 
 
 

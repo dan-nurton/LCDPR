@@ -47,6 +47,24 @@ class CommentRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /**
+     * @param $blogPostId
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getCountComment($blogPostId){
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder
+            ->select('count(c)')
+            ->from('App:Comment', 'c')
+            ->where('c.blogPost = :blogPost_id')->setParameter('blogPost_id',$blogPostId);
+
+        return $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
+
+
 
 
 }

@@ -61,11 +61,16 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/critique/{slug}", name="display_review")
+     * @Route("/critique/{id}/{slug}", name="display_review")
+     * @param $slug
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function displayReview($slug)
+    public function displayReview($slug,$id)
     {
         $blogPost = $this->blogPostRepository->findOneBySlug($slug);
+        $comments = $this->commentRepository->getAllComments($id);
+        $countComment = $this->commentRepository->getCountComment($id);
 
         if (!$blogPost) {
             $this->addFlash('error', 'Article introuvable...');
@@ -73,7 +78,10 @@ class BlogController extends Controller
 
         }
         return $this->render('blog/display_review.html.twig', array(
-            'blogPost' => $blogPost
+            'blogPost' => $blogPost,
+            'comments' => $comments,
+            'countComment' => $countComment,
+            'id' => $id,
         ));
     }
 
