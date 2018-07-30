@@ -23,7 +23,7 @@
                     <p>{{ blogPost.review|raw }}</p>
 
             {% if comments %}
-                <h2 class ="numberComment col-4">{{ countComment }} commentaires</h2>
+                <h2 class ="numberComment col-4">{{ countComment }} commentaire(s)</h2>
             {% else  %}
                 <h2 class ="numberComment">Pas de commentaires</h2>
             {% endif %}
@@ -41,6 +41,9 @@
                     </div>
             {% endfor %}
         {% endif %}
+                    {% if comments %}
+                    <div class="plus col-6" ><a href="{{ path('display_comments', {'id': blogPost.id}) }}">Tous les commentaire(s)</a></div>
+                    {% endif %}
                 </div>
             </article>
     </div>

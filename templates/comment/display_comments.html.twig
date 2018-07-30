@@ -6,21 +6,15 @@
     <div class="container">
     <div class="blog-header">
         {% if comments %}
-            <h1>Commentaires</h1>
+            <h1 style="margin-top: 20px; margin-bottom: 20px;">Commentaires</h1>
         {% else  %}
             <h1 class="blog-title">Pas de commentaires</h1>
         {% endif %}
     </div>
-        <div class="row justify-content-center offset-6 col-12">
-            <form action="{{ path('post_comment', {'id': id}) }}"  method="POST">
-                <textarea rows="3" name="comment" id="comment" class="form-control" required="" style="width: 600px;" placeholder="Ecrire un commentaire"></textarea>
-                <button class="btn btn-info" type="submit" style="margin-bottom: 50px;">Poster</button>
-            </form>
-        </div>
     {% if comments %}
         {% for comment in comments %}
             <article class="row justify-content-center offset-6 col-12">
-                <div class="livre col-7" style="background-color: white; border-radius: unset">
+                <div class="commentaire col-6" style="background-color: white; margin-bottom: 20px;">
                     <div style="font-style: italic">Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
                         </br>{{ comment.content|raw }}</p> </div>
                 </div>

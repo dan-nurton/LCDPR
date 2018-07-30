@@ -152,7 +152,14 @@ button{
 
 .numberComment:hover{
   color:black;
-
+}
+.plus{
+  text-align: right;
+  color:red;
+}
+.plus:hover{
+  color:black;
+  cursor: pointer;
 }
 
 

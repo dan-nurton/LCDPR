@@ -45,6 +45,22 @@ class CommentController extends Controller
     }
 
     /**
+     * @Route("/commentaires/{id}", name="display_comments")
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function displayAllComment($id){
+        $blogPost = $this->blogPostRepository->find($id);
+        $comments = $this->commentRepository->getAllComments($id);
+        return $this->render('comment/display_comments.html.twig', array(
+            'blogPost' => $blogPost,
+            'comments' => $comments,
+        ));
+
+    }
+
+
+    /**
      * @Route("/comment/creation/{id}", name="post_comment")
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response

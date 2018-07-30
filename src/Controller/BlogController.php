@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\BlogPost;
-use App\Form\EntryFormType;
+
 
 
 class BlogController extends Controller
@@ -68,20 +68,22 @@ class BlogController extends Controller
      */
     public function displayReview($slug,$id)
     {
+        $page = 1;
         $blogPost = $this->blogPostRepository->findOneBySlug($slug);
-        $comments = $this->commentRepository->getAllComments($id);
+        $comments = $this->commentRepository->getAllCommentsWithLimit($id, $page, self::POST_LIMIT);
         $countComment = $this->commentRepository->getCountComment($id);
 
         if (!$blogPost) {
             $this->addFlash('error', 'Article introuvable...');
             return $this->redirectToRoute('display_reviews');
-
         }
         return $this->render('blog/display_review.html.twig', array(
             'blogPost' => $blogPost,
             'comments' => $comments,
             'countComment' => $countComment,
             'id' => $id,
+            'page' => $page,
+            'entryLimit' => self::POST_LIMIT,
         ));
     }
 
