@@ -61,7 +61,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/critique/{id}/{slug}", name="display_review")
+     * @Route("admin/critique/{id}/{slug}", name="display_review")
      * @param $slug
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -69,6 +69,7 @@ class BlogController extends Controller
     public function displayReview($slug,$id)
     {
         $page = 1;
+        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         $blogPost = $this->blogPostRepository->findOneBySlug($slug);
         $comments = $this->commentRepository->getAllCommentsWithLimit($id, $page, self::POST_LIMIT);
         $countComment = $this->commentRepository->getCountComment($id);
@@ -84,6 +85,7 @@ class BlogController extends Controller
             'id' => $id,
             'page' => $page,
             'entryLimit' => self::POST_LIMIT,
+            'author' => $author,
         ));
     }
 

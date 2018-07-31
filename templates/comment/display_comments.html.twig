@@ -10,13 +10,36 @@
         {% else  %}
             <h1 class="blog-title">Pas de commentaires</h1>
         {% endif %}
+        <p class="flashs">
+            {% for  messages in app.flashes %}
+            {% for message in messages %}
+        <div class="alert alert" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endfor %}
+        </p>
     </div>
     {% if comments %}
         {% for comment in comments %}
             <article class="row justify-content-center offset-6 col-12">
                 <div class="commentaire col-6" style="background-color: white; margin-bottom: 20px;">
+                    {% if author.username == comment.author.username%}
+                        <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'id': comment.id, 'blogPostId':blogPost.id}) }}">x</a></span>
+                        <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})">edit</span>
+                    {% else %}
+                    {% if author.admin%}
+                    <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'id': comment.id, 'blogPostId':blogPost.id}) }}">x</a></span>
+                    {% endif %}
+                    {% endif %}
+                    <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'id':blogPost.id, 'commentId': comment.id}) }}"  method="POST">
+                        <textarea rows="3" name="update_comment" id="update_comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
+                        <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
+                    </form>
                     <div style="font-style: italic">Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
-                        </br>{{ comment.content|raw }}</p> </div>
+                        <div id="comment{{ comment.id }}">{{ comment.content|raw }}</div>
+                    </div>
                 </div>
             </article>
         {% endfor %}

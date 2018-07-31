@@ -120,12 +120,12 @@ class AuthorController extends Controller
 
     // supprimer critiques de tous les utilisateurs
     /**
-     * @Route("/supprimer-toutes-critiques/{entryId}", name="admin_delete_all_entry")
-     *
-     * @param $entryId
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
+ * @Route("/supprimer-toutes-critiques/{entryId}", name="admin_delete_all_entry")
+ *
+ * @param $entryId
+ *
+ * @return \Symfony\Component\HttpFoundation\RedirectResponse
+ */
     public function deleteAdminReviewsAction($entryId)
     {
         $blogPost = $this->blogPostRepository->findOneById($entryId);
@@ -205,7 +205,7 @@ class AuthorController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function updateAuthorEntry(Request $request, $entryId){
+    public function updateAuthorAction(Request $request, $entryId){
         $author = $this->authorRepository->findOneById($entryId);
         $form = $this->createForm(UpdateAuthorFormType::class, $author);
         $form->handleRequest($request);

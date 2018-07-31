@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Author;
 use App\Entity\Comment;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,23 +46,26 @@ class CommentController extends Controller
     }
 
     /**
-     * @Route("/commentaires/{id}", name="display_comments")
+     * @Route("admin/commentaires/{id}", name="display_comments")
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function displayAllComment($id){
+
         $blogPost = $this->blogPostRepository->find($id);
         $comments = $this->commentRepository->getAllComments($id);
+        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
+
         return $this->render('comment/display_comments.html.twig', array(
             'blogPost' => $blogPost,
             'comments' => $comments,
+            'author' => $author,
         ));
-
     }
 
 
     /**
-     * @Route("/comment/creation/{id}", name="post_comment")
+     * @Route("admin/comment/creation/{id}", name="post_comment")
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -83,6 +87,50 @@ class CommentController extends Controller
             'comments' => $comments,
             'countComment' => $countComment,
             'id' => $id,
+        ));
+    }
+
+    /**
+     * @Route("admin/supprimer-commentaire/{id}/{blogPostId}", name="delete_comment")
+     *
+     * @param $id
+     * @param $blogPostId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteCommentAction($id,$blogPostId)
+    {
+        $comment = $this->commentRepository->find($id);
+        $this->entityManager->remove($comment);
+        $this->entityManager->flush();
+        $this->addFlash('success', 'Le commentaire a été effacé!');
+        return $this->redirectToRoute('display_comments', array(
+        'id' => $blogPostId,
+    ));
+    }
+
+    /**
+     * @Route("admin/comment/creation/{id}/{commentId}", name="update_comment")
+     * @param $id
+     * @param $commentId
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function UpdateCommentAction($id,$commentId )
+    {
+
+        $blogPost = $this->blogPostRepository->find($id);
+        $comments = $this->commentRepository->getAllComments($id);
+        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
+
+        $comment = $this->commentRepository->find($commentId);
+        $comment->setContent($_POST['update_comment']);
+        $comment->setUpdatedAt(new DateTime());
+        $this->entityManager->persist($comment);
+        $this->entityManager->flush($comment);
+
+        return $this->render('comment/display_comments.html.twig', array(
+            'blogPost' => $blogPost,
+            'comments' => $comments,
+            'author' => $author,
         ));
 
     }

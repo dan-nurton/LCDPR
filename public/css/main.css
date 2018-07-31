@@ -161,6 +161,15 @@ button{
   color:black;
   cursor: pointer;
 }
+.deleteComment{
+  cursor: pointer;
+  font-family: Arial;
+  color: red;
+
+
+
+
+}
 
 
 

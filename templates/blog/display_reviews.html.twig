@@ -26,8 +26,9 @@
                         <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
 
                         <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
-
+                        {% if app.user %}
                         <a href="{{ path('display_review', {'id': blogPost.id, 'slug': blogPost.slug}) }}">Plus de détails</a>
+                        {% endif %}
                         <hr/>
                     </div>
                 </article>

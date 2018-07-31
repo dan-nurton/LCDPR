@@ -22,25 +22,29 @@
                     <h3>Avis</h3>
                     <p>{{ blogPost.review|raw }}</p>
 
-            {% if comments %}
-                <h2 class ="numberComment col-4">{{ countComment }} commentaire(s)</h2>
-            {% else  %}
-                <h2 class ="numberComment">Pas de commentaires</h2>
-            {% endif %}
-                    {% if app.user %}
-            <form class="col-6" style="padding: unset;" action="{{ path('post_comment', {'id': id}) }}"  method="POST">
-                <textarea rows="3" name="comment" id="comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
-                <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
-            </form>
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <article class="row col-12" style="padding: unset">
+                                <div class="commentaire col-6" style="background-color: white; margin-bottom: 20px;">
+                                    {% if author.username == comment.author.username%}
+                                        <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'id': comment.id, 'blogPostId':blogPost.id}) }}">x</a></span>
+                                        <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})">edit</span>
+                                    {% else %}
+                                        {% if author.admin%}
+                                            <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'id': comment.id, 'blogPostId':blogPost.id}) }}">x</a></span>
+                                        {% endif %}
+                                    {% endif %}
+                                    <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'id':blogPost.id, 'commentId': comment.id}) }}"  method="POST">
+                                        <textarea rows="3" name="update_comment" id="update_comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
+                                        <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
+                                    </form>
+                                    <div style="font-style: italic">Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
+                                        <div id="comment{{ comment.id }}">{{ comment.content|raw }}</div>
+                                    </div>
+                                </div>
+                            </article>
+                        {% endfor %}
                     {% endif %}
-        {% if comments %}
-            {% for comment in comments %}
-                    <div class="commentaire col-6" style="background-color: white;">
-                        <div style="font-style: italic">Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
-                            </br>{{ comment.content|raw }}</p> </div>
-                    </div>
-            {% endfor %}
-        {% endif %}
                     {% if comments %}
                     <div class="plus col-6" ><a href="{{ path('display_comments', {'id': blogPost.id}) }}">Tous les commentaire(s)</a></div>
                     {% endif %}
