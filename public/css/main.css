@@ -58,7 +58,7 @@ footer{
   margin-top: 50px;
 }
 .title{
-  height: 300px;
+  height: 200px;
 }
 .headerTitle{
   background: rgba(211, 211, 211, 0.8);
@@ -161,15 +161,20 @@ button{
   color:black;
   cursor: pointer;
 }
-.deleteComment{
+.deleteComment {
   cursor: pointer;
   font-family: Arial;
   color: red;
-
-
-
-
 }
+.alphabet{
+  font-size: 1.2em;
+}
+.headerTitle a{
+  color:black;
+}
+
+
+
 
 
 
