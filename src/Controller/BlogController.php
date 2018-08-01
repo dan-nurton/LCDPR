@@ -16,6 +16,9 @@ class BlogController extends Controller
     /** @var integer */
     const POST_LIMIT = 5;
 
+    /** @var string */
+    private $message = '';
+
     /** @var EntityManagerInterface */
     private $entityManager;
 
@@ -122,13 +125,13 @@ class BlogController extends Controller
                 $json_data = json_decode($json, true);
             }
             else{
-
-                return $this->render('author/entry_form.html.twig');
+                $this->addFlash('erreur', 'isbn non valide');
+                return $this->render('author/review_form.html.twig');
             }
         }
         else{
-            return $this->render('author/entry_form.html.twig');
-
+            $this->addFlash('erreur', 'isbn non valide');
+            return $this->render('author/review_form.html.twig');
             }
 
 
@@ -168,13 +171,28 @@ class BlogController extends Controller
             }
             else{
 
-                return $this->render('author/entry_form.html.twig');
+                return $this->render('author/review_form.html.twig');
             }
         }
         else{
-            return $this->render('author/entry_form.html.twig');
+            $this->addFlash('erreur', 'livre non reconnu');
+            return $this->render('author/review_form.html.twig');
         }
         var_dump($json_data['items'][0]);
+
+        // si livre existe déjà
+        $reviews = $this->blogPostRepository->findAll();
+        foreach ($reviews as $review) {
+            if ($review->getTitle() == $title) {
+                $this->message = 'Le livre existe déjà merci de poster un commentaire';
+                $this->addFlash('exist', 'Le livre existe déjà merci de poster un commentaire');
+                return $this->redirectToRoute('display_review',array(
+                    'slug'=> $review->getSlug(),
+                    'id' => $review->getId(),
+            ));
+            }
+        }
+
 
         //instanciation BlogPost, hydratation
         $blogPost = new BlogPost();
@@ -206,12 +224,13 @@ class BlogController extends Controller
 
         foreach ($reviews as $review){
             if(strtolower($review->getTitle()) == $search){
-                $result [] = $review;
+                return $this->redirectToRoute('display_review',array(
+                    'slug'=> $review->getSlug(),
+                    'id' => $review->getId(),
+                ));
+
             }
         }
-        return $this->render('blog/display_result_reviews.html.twig', [
-            'blogPosts' => $result
-        ]);
 
 
     }

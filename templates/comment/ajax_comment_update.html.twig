@@ -1,16 +1,10 @@
-{% extends "base.html.twig" %}
-
-{% block title %}App:blog:comment{% endblock %}
-
-{% block body %}
-    <div class="container" id="comment">
+<div class="container">
     <div class="blog-header">
         {% if comments %}
             <h1 style="margin-top: 20px; margin-bottom: 20px;">Commentaires</h1>
         {% else  %}
             <h1 class="blog-title">Pas de commentaires</h1>
         {% endif %}
-    </div>
         <p class="flashs">
             {% for  messages in app.flashes %}
             {% for message in messages %}
@@ -21,6 +15,7 @@
         {% endfor %}
         {% endfor %}
         </p>
+    </div>
     {% if comments %}
         {% for comment in comments %}
             <article class="row justify-content-center offset-6 col-12">
@@ -29,9 +24,9 @@
                         <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'id': comment.id, 'blogPostId':blogPost.id}) }}">x</a></span>
                         <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})">edit</span>
                     {% else %}
-                    {% if author.admin%}
-                    <span class="deleteComment justify-content-right"><a href=" {{ path('delete_comment', {'id': comment.id, 'blogPostId':blogPost.id}) }}">x</a></span>
-                    {% endif %}
+                        {% if author.admin%}
+                            <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'id': comment.id, 'blogPostId':blogPost.id}) }}">x</a></span>
+                        {% endif %}
                     {% endif %}
                     <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'id':blogPost.id, 'commentId': comment.id}) }}"  method="POST">
                         <textarea rows="3" name="update_comment" id="update_comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
@@ -44,10 +39,4 @@
             </article>
         {% endfor %}
     {% endif %}
-        </br>
-        <form class="justify-content-center offset-3 col-6 form_comment" style="padding: unset;" action="{{ path('post_comment_comments_review', {'id':blogPost.id}) }}"  method="POST">
-            <textarea rows="3" name="comment" id="comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
-            <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
-        </form>
-    </div>
-{% endblock %}
+</div>

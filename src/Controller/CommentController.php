@@ -87,8 +87,35 @@ class CommentController extends Controller
             'comments' => $comments,
             'countComment' => $countComment,
             'id' => $id,
+            'author'=> $author
         ));
     }
+
+    /**
+     * @Route("admin/comment/creation/comment/{id}", name="post_comment_comments_review")
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function createCommentActionInCommentReviews($id)
+    {
+        $comment = new Comment();
+        $blogPost = $this->blogPostRepository->find($id);
+        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
+        $comment->setContent($_POST['comment']);
+        $comment->setAuthor($author);
+        $comment->setBlogPost($blogPost);
+        $this->entityManager->persist($comment);
+        $this->entityManager->flush($comment);
+        $comments = $this->commentRepository->getAllComments($id);
+        $countComment = $this->commentRepository->getCountComment($id);
+
+        return $this->render('comment/display_comments.html.twig', array(
+            'blogPost' => $blogPost,
+            'comments' => $comments,
+            'author' => $author,
+        ));
+    }
+
 
     /**
      * @Route("admin/supprimer-commentaire/{id}/{blogPostId}", name="delete_comment")
@@ -107,6 +134,7 @@ class CommentController extends Controller
         'id' => $blogPostId,
     ));
     }
+
 
     /**
      * @Route("admin/comment/creation/{id}/{commentId}", name="update_comment")
@@ -132,10 +160,36 @@ class CommentController extends Controller
             'comments' => $comments,
             'author' => $author,
         ));
-
     }
 
+    /**
+     * @Route("admin/comment/creation/review/{id}/{commentId}", name="update_comment_review")
+     * @param $id
+     * @param $commentId
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function UpdateCommentActionInReview($id,$commentId )
+    {
 
+        $blogPost = $this->blogPostRepository->find($id);
+        $comments = $this->commentRepository->getAllComments($id);
+        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
+        $countComment = $this->commentRepository->getCountComment($id);
+
+        $comment = $this->commentRepository->find($commentId);
+        $comment->setContent($_POST['update_comment']);
+        $comment->setUpdatedAt(new DateTime());
+        $this->entityManager->persist($comment);
+        $this->entityManager->flush($comment);
+
+        return $this->render('blog/display_review.html.twig', array(
+            'blogPost' => $blogPost,
+            'comments' => $comments,
+            'countComment' => $countComment,
+            'id' => $id,
+            'author'=> $author
+        ));
+    }
 
 
 }

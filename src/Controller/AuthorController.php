@@ -35,8 +35,6 @@ class AuthorController extends Controller
     public function createAuthorAction(Request $request)
     {
         if ($this->authorRepository->findOneByUsername($this->getUser()->getUserName())) {
-            // Redirect to dashboard.
-            $this->addFlash('error', 'Unable to create author, author already exists!');
             return $this->redirectToRoute('homepage');
         }
         $author = new Author();
