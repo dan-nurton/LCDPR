@@ -3,19 +3,19 @@
 {% block title %}App:blog:entry{% endblock %}
 
 {% block body %}
-    <p class="flashs">
-    {% for  messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert" role="alert">
-                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
     <div class="container">
         <div class="blog-header">
             <h1 class="blog-title">Critique</h1>
         </div>
+        <p class="flashs">
+            {% for  messages in app.flashes %}
+            {% for message in messages %}
+        <div class="alert alert" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endfor %}
         <div class="row">
             <article class="row justify-content-center  col-12">
                 <div class="livre col-12">
@@ -31,8 +31,11 @@
                     <h3>Avis</h3>
                     <p>{{ blogPost.review|raw }}</p>
                 </br>
+                    {% if commentReview is defined %}
+                    <div class="commentReview" style="display: none;">{{ commentReview }}</div>
+                    {% endif %}
                     <form class="col-6 form_comment" style="padding: unset;" action="{{ path('post_comment', {'id':blogPost.id}) }}"  method="POST">
-                        <textarea rows="3" name="comment" id="comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
+                        <textarea rows="3" name="comment" id="comment" class="form-control"  placeholder="Ecrire un commentaire"></textarea>
                         <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
                     </form>
                     {% if comments %}
@@ -64,3 +67,8 @@
     </div>
 
 {% endblock %}
+{% block javascripts %}
+
+
+{% endblock %}
+

@@ -182,13 +182,23 @@ class BlogController extends Controller
 
         // si livre existe déjà
         $reviews = $this->blogPostRepository->findAll();
+        $page = 1;
         foreach ($reviews as $search) {
             if ($search->getTitle() == $title) {
-                $this->message = 'Le livre existe déjà merci de poster un commentaire';
-                $this->addFlash('exist', 'Le livre existe déjà merci de poster un commentaire');
-                return $this->redirectToRoute('display_review',array(
-                    'slug'=> $search->getSlug(),
+                $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
+                $comments = $this->commentRepository->getAllCommentsWithLimit($search->getId(), $page, self::POST_LIMIT);
+                $countComment = $this->commentRepository->getCountComment($search->getId());
+                $this->message = 'Ce livre existe déjà. Vous pouvez poster un commentaire si vous le souhaitez';
+                $this->addFlash('exist', 'Ce livre existe déjà. Vous pouvez poster un commentaire si vous le souhaitez');
+                return $this->render('blog/display_review.html.twig', array(
+                    'blogPost' => $search,
+                    'comments' => $comments,
+                    'countComment' => $countComment,
                     'id' => $search->getId(),
+                    'page' => $page,
+                    'entryLimit' => self::POST_LIMIT,
+                    'author' => $author,
+                    'commentReview' => $review
             ));
             }
         }
