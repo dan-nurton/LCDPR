@@ -182,13 +182,13 @@ class BlogController extends Controller
 
         // si livre existe déjà
         $reviews = $this->blogPostRepository->findAll();
-        foreach ($reviews as $review) {
-            if ($review->getTitle() == $title) {
+        foreach ($reviews as $search) {
+            if ($search->getTitle() == $title) {
                 $this->message = 'Le livre existe déjà merci de poster un commentaire';
                 $this->addFlash('exist', 'Le livre existe déjà merci de poster un commentaire');
                 return $this->redirectToRoute('display_review',array(
-                    'slug'=> $review->getSlug(),
-                    'id' => $review->getId(),
+                    'slug'=> $search->getSlug(),
+                    'id' => $search->getId(),
             ));
             }
         }
