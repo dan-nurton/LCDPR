@@ -203,7 +203,6 @@ class BlogController extends Controller
             }
         }
 
-
         //instanciation BlogPost, hydratation
         $blogPost = new BlogPost();
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
@@ -238,10 +237,30 @@ class BlogController extends Controller
                     'slug'=> $review->getSlug(),
                     'id' => $review->getId(),
                 ));
-
             }
         }
-
-
     }
+
+
+    /**
+     * @Route("/search-index/{letter}", name="search_index")
+     * @param $letter
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function  searchIndex($letter){
+
+        $reviews = $this->blogPostRepository->searchByIndex($letter);
+        $blogPosts = [];
+
+        foreach ($reviews as $review){
+            $blogPosts[] = $review;
+        }
+                return $this->render('blog/display_result_reviews.html.twig',array(
+                    'blogPosts'=> $blogPosts
+                ));
+    }
+
+
+
+
 }

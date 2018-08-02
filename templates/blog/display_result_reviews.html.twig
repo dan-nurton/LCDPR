@@ -4,33 +4,33 @@
 
 {% block body %}
     <div class="container">
-        <div class="blog-header">
-            {% if blogPosts %}
-            <h1 class="blog-title">Résultat de recherche pour  "{{ blogPosts[0].title }}"</h1>
-            {% else  %}
-            <h1 class="blog-title">Pas de résultat trouvé</h1>
-            {% endif %}
-        </div>
         {% if blogPosts %}
-        <div class="row">
-            <article class="row justify-content-center  col-12">
-                <div class="livre col-12">
-                    <h2 class="blog-post-title" style="text-align: center">{{ blogPosts[0].title }}</h2>
-                    <h3 style="color: red">Synopsis</h3>
-                    <p>{{ blogPosts[0].description|raw }}</p>
-                    <h2 style="color: red">Les avis</h2>
-                {% for blogPost in blogPosts %}
-                    <article class="row col-12" style="padding: unset">
-                        <div class="livre col-7" style="background-color: white; border-radius: unset">
-                            <div style="font-style: italic">Posté par <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">{{ blogPost.author.name }}  </a> le {{ blogPost.updatedAt|date('Y-m-d') }}
-                                </br>{{ blogPost.review|raw }}</p> </div>
-                        </div>
-                    </article>
-                {% endfor %}
-            </article>
-        </div>
-    </div>
-
-    {% endif %}
+            <h1 class="row justify-content-center col-12" style="margin-bottom: 20px;margin-top:50px">Résultat(s) trouvé(s)</h1>
+        {% else %}
+            <h1 class="row justify-content-center col-12" style="margin-bottom: 20px; margin-top:50px"> Pas de résultats trouvés</h1>
+        {% endif %}
+    {% for blogPost in blogPosts %}
+        <article class="row justify-content-center col-12">
+            <div class="livres col-md-12">
+                <span style="font-weight: bold;">{{ blogPost.category }}</span>
+                <h2> {{ blogPost.title }} <span style="font-style: italic; font-size: 0.5em; color:gray">({{ blogPost.writer }})</span></h2>
+                <p style="font-style: oblique;"><i class="fas fa-calendar-alt"></i> {{ blogPost.getUpdatedAt|date('Y-m-d H:i') }}  par
+                    {% if blogPost.author %}
+                        <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
+                            {{ blogPost.author.name }}
+                        </a>
+                    {% else %}
+                        Auteur inconnu
+                    {% endif %}
+                    <img src="{{ blogPost.cover }}" alt="" style="width: 150px;">
+                <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
+                <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
+                {% if app.user %}
+                    <a href="{{ path('display_review', {'id': blogPost.id, 'slug': blogPost.slug}) }}">Plus de détails</a>
+                {% endif %}
+                <hr/>
+            </div>
+        </article>
+    {% endfor %}
     </div>
 {% endblock %}

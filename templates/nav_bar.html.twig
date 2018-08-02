@@ -29,44 +29,42 @@
             {% endif %}
         </ul>
         <form class="form-inline" action="{{ path('search_review') }}"  method="POST">
-            <input type="text"  name="search" id="search" class="form-control" placeholder="ex: Les misérables" style="margin-right: 10px;">
+            <input type="text"  name="search" id="search" class="form-control" placeholder="ex:Les misérables" style="margin-right: 10px;">
             <button class="btn btn-outline-info my-2 my-sm-0" type="submit" >Rechercher </button>
         </form>
     </div>
 </nav>
     <div class="headerTitle">
     <div class="btn-toolbar d-flex justify-content-between alphabet" role="toolbar" aria-label="...">
-        <div class="btn-group" role="group" aria-label="..."><a  href="">A</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">B</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">C</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">D</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">E</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">F</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">G</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">H</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">I</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">J</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">K</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">L</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">M</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">N</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">O</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">P</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">Q</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">R</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">S</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">T</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">U</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">V</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">W</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">X</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">Y</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="">Z</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'a'}) }}">A</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index' , {'letter':'b'}) }}">B</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'c'}) }}">C</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'d'}) }}">D</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'e'}) }}">E</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'f'}) }}">F</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'g'}) }}">G</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'h'}) }}">H</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'i'}) }}">I</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'j'}) }}">J</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'k'}) }}">K</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'l'}) }}">L</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'m'}) }}">M</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'n'}) }}">N</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'o'}) }}">O</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'p'}) }}">P</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'q'}) }}">Q</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'r'}) }}">R</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'s'}) }}">S</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'t'}) }}">T</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'u'}) }}>U</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'v'}) }}">V</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'w'}) }}">W</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'x'}) }}">X</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'y'}) }}">Y</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'z'}) }}">Z</a></div>
     </div>
 </div>
 </div>
-
-
 <div class="headerTitle">
     <div class="title offset-4 col-6 ">
         <h1 style="color: black;padding-top: 50px;">L.C.D.P.R <br/>(Le cercle des Poètes retrouvés)</h1></div>

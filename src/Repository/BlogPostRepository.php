@@ -75,11 +75,6 @@ class BlogPostRepository extends ServiceEntityRepository
      * @return array
      */
     public function getAllPostsWithComments($page = 1, $limit = 5){
-
-        /* SELECT *
-          FROM blog_post
-          INNER JOIN comment ON blog_post.id = comment.blog_post_id
-        */
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryBuilder
@@ -118,5 +113,21 @@ class BlogPostRepository extends ServiceEntityRepository
             ->where('bp.author = :author')->setParameter('author', $author);
 
         return $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * @param $letter
+     * @return array
+     */
+    public function searchByIndex($letter)
+    {
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder
+            ->select('bp')
+            ->from('App:BlogPost', 'bp')
+            ->where('bp.title LIKE :letter')->setParameter('letter',$letter.'%');
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }
