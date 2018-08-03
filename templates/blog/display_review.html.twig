@@ -3,6 +3,7 @@
 {% block title %}App:blog:entry{% endblock %}
 
 {% block body %}
+    {% set uri =  app.request.attributes.get('_route') %}
     <div class="container">
         <div class="blog-header">
             <h1 class="blog-title">Critique</h1>
@@ -46,7 +47,9 @@
                                         <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})">edit</span>
                                     {% else %}
                                     {% endif %}
-                                    <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment_review', {'id':blogPost.id, 'commentId': comment.id}) }}"  method="POST">
+
+
+                                    <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'id':blogPost.id, 'commentId': comment.id,'slug': blogPost.slug, 'uri':uri}) }}"  method="POST">
                                         <textarea rows="3" name="update_comment" id="update_comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
                                         <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
                                     </form>
@@ -65,10 +68,6 @@
     </div>
         </div>
     </div>
-
 {% endblock %}
-{% block javascripts %}
 
-
-{% endblock %}
 

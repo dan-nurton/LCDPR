@@ -5,6 +5,7 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\Author;
 use App\Entity\Comment;
+use http\Env\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -137,59 +138,33 @@ class CommentController extends Controller
 
 
     /**
-     * @Route("admin/comment/creation/{id}/{commentId}", name="update_comment")
+     * @Route("admin/comment/creation/{id}/{commentId}/{slug}/{uri}", name="update_comment")
      * @param $id
      * @param $commentId
+     * @param $uri
+     * @param $slug
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function UpdateCommentAction($id,$commentId )
+    public function UpdateCommentAction($id,$commentId,$slug,$uri)
     {
-
-        $blogPost = $this->blogPostRepository->find($id);
-        $comments = $this->commentRepository->getAllComments($id);
-        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
-
         $comment = $this->commentRepository->find($commentId);
         $comment->setContent($_POST['update_comment']);
         $comment->setUpdatedAt(new DateTime());
         $this->entityManager->persist($comment);
         $this->entityManager->flush($comment);
 
-        return $this->render('comment/display_comments.html.twig', array(
-            'blogPost' => $blogPost,
-            'comments' => $comments,
-            'author' => $author,
-        ));
+        // si methode appellé par la page display review
+        if ($uri == 'display_review'){
+            return $this->redirectToRoute('display_review', array(
+                'id' => $id,
+                'slug' => $slug
+            ));
+        }
+        // si appellé par une autre page
+        else{
+            return $this->redirectToRoute('display_comments', array(
+                'id' => $id,
+            ));
+        }
     }
-
-    /**
-     * @Route("admin/comment/creation/review/{id}/{commentId}", name="update_comment_review")
-     * @param $id
-     * @param $commentId
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function UpdateCommentActionInReview($id,$commentId )
-    {
-
-        $blogPost = $this->blogPostRepository->find($id);
-        $comments = $this->commentRepository->getAllComments($id);
-        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
-        $countComment = $this->commentRepository->getCountComment($id);
-
-        $comment = $this->commentRepository->find($commentId);
-        $comment->setContent($_POST['update_comment']);
-        $comment->setUpdatedAt(new DateTime());
-        $this->entityManager->persist($comment);
-        $this->entityManager->flush($comment);
-
-        return $this->render('blog/display_review.html.twig', array(
-            'blogPost' => $blogPost,
-            'comments' => $comments,
-            'countComment' => $countComment,
-            'id' => $id,
-            'author'=> $author
-        ));
-    }
-
-
 }
