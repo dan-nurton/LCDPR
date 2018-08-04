@@ -3,47 +3,45 @@ namespace App\Controller;
 use App\Form\UpdateAllBlogFormType;
 use App\Form\UpdateAuthorFormType;
 use App\Form\UpdateBlogFormType;
+use App\Manager\AuthorManager;
+use App\Manager\BlogManager;
+use App\Manager\CommentManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Author;
 use App\Form\AuthorFormType;
 /**
  * @Route("/admin")
  */
 class AuthorController extends Controller
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
-    /** @var \Doctrine\Common\Persistence\ObjectRepository */
-    private $authorRepository;
-    /** @var \Doctrine\Common\Persistence\ObjectRepository */
-    private $blogPostRepository;
+    private $commentManager;
+    private $authorManager;
+    private $blogManager;
+
     /**
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
-        $this->blogPostRepository = $entityManager->getRepository('App:BlogPost');
-        $this->authorRepository = $entityManager->getRepository('App:Author');
+        $this->authorManager = new AuthorManager($entityManager);
+        $this->commentManager = new CommentManager($entityManager);
+        $this->blogManager = new blogManager($entityManager);
     }
     /**
      * @Route("/auteur/creation", name="author_create")
      */
     public function createAuthorAction(Request $request)
     {
-        if ($this->authorRepository->findOneByUsername($this->getUser()->getUserName())) {
+        if ($this->authorManager->findUser($this->getUser()->getUserName())) {
             return $this->redirectToRoute('homepage');
         }
-        $author = new Author();
-        $author->setUsername($this->getUser()->getUserName());
+        $author = $this->authorManager->create($this->getUser()->getUserName());
         $form = $this->createForm(AuthorFormType::class, $author);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($author);
-            $this->entityManager->flush($author);
+            $this->authorManager->save($author);
             $request->getSession()->set('user_is_author', true);
             $this->addFlash('success', 'Félicitation! Vous pouvez maintenant poster vos critiques!');
             return $this->redirectToRoute('homepage');
@@ -60,18 +58,18 @@ class AuthorController extends Controller
      */
     public function panelAction()
     {
-        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
+        $author = $this->authorManager->findUser($this->getUser()->getUserName());
         $authors = [];
         $blogPosts = [];
         $blogPostsCounts = [];
         if ($author) {
-            $blogPosts = $this->blogPostRepository->findByAuthor($author);
+            $blogPosts = $this->blogManager->findByAuthor($author);
         }
         if($author->isAdmin()){
-            $blogPosts = $this->blogPostRepository->getAllPostsForAdmin();
-            $authors = $this->authorRepository->getAllAuthorsForAdmin();
+            $blogPosts = $this->blogManager->findBlogPostForAdmin();
+            $authors = $this->authorManager->findForAdmin();
             foreach($authors as $author){
-                $blogPostsCounts [$author->getPseudo()]=  $this->blogPostRepository->countByAuthor($author);
+                $blogPostsCounts [$author->getPseudo()]=  $this->blogManager->countByAuthor($author);
             }
         }
         return $this->render('author/panel.html.twig', [
@@ -90,14 +88,13 @@ class AuthorController extends Controller
      */
     public function deleteAuthorReviewAction($blogPostId)
     {
-        $blogPost = $this->blogPostRepository->findOneById($blogPostId);
-        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
+        $blogPost = $this->blogManager->find($blogPostId);
+        $author = $this->authorManager->findUser($this->getUser()->getUserName());
         if (!$blogPost || $author !== $blogPost->getAuthor()) {
             $this->addFlash('erreur', 'Supression impossible!');
             return $this->redirectToRoute('admin_panel');
         }
-        $this->entityManager->remove($blogPost);
-        $this->entityManager->flush();
+        $this->blogManager->remove($blogPost);
         $this->addFlash('success', 'Le post a été effacé!');
         return $this->redirectToRoute('admin_panel');
     }
@@ -110,9 +107,8 @@ class AuthorController extends Controller
      */
     public function deleteAdminReviewsAction($blogPostId)
     {
-        $blogPost = $this->blogPostRepository->findOneById($blogPostId);
-        $this->entityManager->remove($blogPost);
-        $this->entityManager->flush();
+        $blogPost = $this->blogManager->find($blogPostId);
+        $this->blogManager->remove($blogPost);
         $this->addFlash('success', 'Le post a été effacé!');
         return $this->redirectToRoute('admin_panel');
     }
@@ -125,11 +121,11 @@ class AuthorController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function updateAuthorReviewAction(Request $request, $blogPostId){
-        $blogPost = $this->blogPostRepository->findOneById($blogPostId);
+        $blogPost = $this->blogManager->find($blogPostId);
         $form = $this->createForm(UpdateBlogFormType::class, $blogPost);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->flush($blogPost);
+            $this->blogManager->save($blogPost);
             return $this->redirectToRoute('admin_panel');
         }
         return $this->render('author/udpate_review_form.html.twig', [
@@ -145,12 +141,12 @@ class AuthorController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function updateAdminReviewsAction(Request $request, $blogPostId){
-        $blogPost = $this->blogPostRepository->findOneById($blogPostId);
+        $blogPost = $this->blogManager->find($blogPostId);
         $form = $this->createForm(UpdateAllBlogFormType::class, $blogPost);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->flush($blogPost);
+            $this->blogManager->save($blogPost);
             return $this->redirectToRoute('admin_panel');
         }
         return $this->render('author/update_blog_post_form.html.twig', [
@@ -166,9 +162,8 @@ class AuthorController extends Controller
      */
     public function deleteAuthorAction($authorId)
     {
-        $author = $this->authorRepository->findOneById($authorId);
-        $this->entityManager->remove($author);
-        $this->entityManager->flush();
+        $author =$this->authorManager->findById($authorId);
+        $this->authorManager->remove($author);
         $this->addFlash('success', 'Le post a été effacé!');
         return $this->redirectToRoute('admin_panel');
     }
@@ -181,11 +176,11 @@ class AuthorController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function updateAuthorAction(Request $request, $authorId){
-        $author = $this->authorRepository->findOneById($authorId);
+        $author = $this->authorManager->findById($authorId);
         $form = $this->createForm(UpdateAuthorFormType::class, $author);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->flush($author);
+            $this->authorManager->save($author);
             return $this->redirectToRoute('admin_panel');
         }
         return $this->render('author/update_author_form.html.twig', [

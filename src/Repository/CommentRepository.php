@@ -65,7 +65,6 @@ class CommentRepository extends ServiceEntityRepository
             ->where('c.blogPost = :blogPost_id')->setParameter('blogPost_id',$blogPostId)
             ->orderBy('c.id', 'DESC');
 
-
         return $queryBuilder->getQuery()->getResult();
     }
 

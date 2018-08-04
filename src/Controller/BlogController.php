@@ -2,44 +2,31 @@
 
 namespace App\Controller;
 
-
 use App\ApiBooks;
+use App\Manager\AuthorManager;
 use App\Manager\BlogManager;
+use App\Manager\CommentManager;
 use Doctrine\ORM\EntityManagerInterface;
-use mysqli;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\BlogPost;
-
-
 
 class BlogController extends Controller
 {
     /** @var integer */
     const POST_LIMIT = 5;
-
-    /** @var EntityManagerInterface */
-    private $entityManager;
-
-    /** @var \Doctrine\Common\Persistence\ObjectRepository */
-    private $authorRepository;
-
-    /** @var \Doctrine\Common\Persistence\ObjectRepository */
-    private $blogPostRepository;
-
-    /** @var \Doctrine\Common\Persistence\ObjectRepository */
-    private $commentRepository;
+    private $commentManager;
+    private $authorManager;
+    private $blogManager;
 
     /**
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
-        $this->blogPostRepository = $entityManager->getRepository('App:BlogPost');
-        $this->authorRepository = $entityManager->getRepository('App:Author');
-        $this->commentRepository = $entityManager->getRepository('App:Comment');
+        $this->authorManager = new AuthorManager($entityManager);
+        $this->commentManager = new CommentManager($entityManager);
+        $this->blogManager = new blogManager($entityManager);
     }
 
     //page accueil
@@ -50,13 +37,13 @@ class BlogController extends Controller
     public function displayReviewsAction(Request $request)
     {
         $page = 1;
-        $blogPosts = $this->blogPostRepository->getAllPostsForAdmin($page, self::POST_LIMIT);
+        $blogPosts = $this->blogManager->findBlogPostWithLimit($page, self::POST_LIMIT);
         if ($request->get('page')) {
             $page = $request->get('page');
         }
         return $this->render('blog/display_reviews.html.twig', [
             'blogPosts' => $blogPosts,
-            'totalBlogPosts' => $this->blogPostRepository->getPostCount(),
+            'totalBlogPosts' => $this->blogManager->countBlogPosts(),
             'page' => $page,
             'entryLimit' => self::POST_LIMIT,
         ]);
@@ -72,29 +59,26 @@ class BlogController extends Controller
     public function displayReviewAction($blogPostId,$slug)
     {
         $page = 1;
-        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
-        $blogPost = $this->blogPostRepository->findOneBySlug($slug);
-        $comments = $this->commentRepository->getAllCommentsWithLimit($blogPostId, $page, self::POST_LIMIT);
-        $countComment = $this->commentRepository->getCountComment($blogPostId);
+        $blogPost = $this->blogManager->findBlogPostBySlug($slug);
         if (!$blogPost) {
             $this->addFlash('error', 'Article introuvable...');
             return $this->redirectToRoute('display_reviews');
         }
         return $this->render('blog/display_review.html.twig', array(
             'blogPost' => $blogPost,
-            'comments' => $comments,
-            'countComment' => $countComment,
+            'comments' => $this->commentManager->findCommentsWithLimit($blogPostId, $page, self::POST_LIMIT),
+            'countComment' => $this->commentManager->countComment($blogPostId),
             'page' => $page,
             'entryLimit' => self::POST_LIMIT,
-            'author' => $author,
+            'author' => $this->authorManager->findUser($this->getUser()->getUserName()),
         ));
     }
 
     /**
-     * @Route("/creation-critique", name="create_review")
+     * @Route("/formulaire-critique", name="display_form_review")
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function createReviewAction()
+    public function displayReviewFormAction()
     {
         return $this->render('author/review_form.html.twig');
     }
@@ -102,12 +86,14 @@ class BlogController extends Controller
     //page auteur
     /**
      * @Route("/author/{name}", name="author")
+     * @param $name
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function displayAuthorAction($name)
     {
-        $author = $this->authorRepository->findOneByUsername($name);
+        $author = $this->authorManager->findByName($name);
         if (!$author) {
-            $this->addFlash('error', 'Auteur introuvable...');
+            $this->addFlash('error', 'Auteur introuvable');
             return $this->redirectToRoute('display_reviews');
         }
         return $this->render('blog/display_author.html.twig', [
@@ -120,7 +106,7 @@ class BlogController extends Controller
      * @Route("/get-book}", name="get_book")
      */
     public function  getBookAction(){
-        $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
+        $author = $this->authorManager->findUser($this->getUser()->getUserName());
         // si il y a un ISBN posté
         if(isset($_POST['isbn']) && !empty($_POST['isbn'])){
             // si il y a un avis posté
@@ -135,8 +121,7 @@ class BlogController extends Controller
                         $review = strip_tags ($_POST['avis']);
                         $book['review'] = $review;
                         $book['author']= $author;
-                        $manager = new BlogManager();
-                        $blogPost = $manager->hydrate($book);
+                        $blogPost = $this->blogManager->hydrate($book);
                     }
                     else{
                         $this->addFlash('erreur', 'Isbn non valide. L\'ISBN doit etre un chiffre entre 10 ou 13 numéros');
@@ -161,12 +146,12 @@ class BlogController extends Controller
         // si livre existe déjà
         $title = $blogPost->getTitle();
         $review = $blogPost->getReview();
-        $reviews = $this->blogPostRepository->findAll();
+        $reviews = $this->blogManager->findAll();
         $page = 1;
         foreach ($reviews as $search) {
             if ($search->getTitle() == $title) {
-                $comments = $this->commentRepository->getAllCommentsWithLimit($search->getId(), $page, self::POST_LIMIT);
-                $countComment = $this->commentRepository->getCountComment($search->getId());
+                $comments = $this->commentManager->findCommentsWithLimit($search->getId(), $page, self::POST_LIMIT);
+                $countComment =$this->commentManager->countComment($search->getId());
                 $this->addFlash('exist', 'Ce livre existe déjà. Vous pouvez poster un commentaire si vous le souhaitez');
                 return $this->render('blog/display_review.html.twig', array(
                     'blogPost' => $search,
@@ -180,8 +165,7 @@ class BlogController extends Controller
                 ));
             }
         }
-        $this->entityManager->persist($blogPost);
-        $this->entityManager->flush($blogPost);
+        $this->blogManager->save($blogPost);
         return $this->redirectToRoute('homepage');
     }
 
@@ -191,13 +175,13 @@ class BlogController extends Controller
      */
     public function  searchReviewAction(){
         $search = strtolower ($_POST['search']);
-        $reviews = $this->blogPostRepository->findAll();
+        $reviews = $this->blogManager->findAll();
         $result = [];
         foreach ($reviews as $review){
             if(strtolower($review->getTitle()) == $search){
                 return $this->redirectToRoute('display_review',array(
                     'slug'=> $review->getSlug(),
-                    'id' => $review->getId(),
+                    'blogPostId' => $review->getId(),
                 ));
             }
         }
@@ -210,7 +194,7 @@ class BlogController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function  searchIndexAction($letter){
-        $reviews = $this->blogPostRepository->searchByIndex($letter);
+        $reviews = $this->blogManager->findByIndex($letter);
         $blogPosts = [];
         foreach ($reviews as $review){
             $blogPosts[] = $review;
