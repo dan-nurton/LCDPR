@@ -38,7 +38,7 @@ class CommentController extends Controller
     /**
      * @Route("/comment", name="comment")
      */
-    public function index()
+    public function indexAction()
     {
         return $this->render('comment/index.html.twig', [
             'controller_name' => 'CommentController',
@@ -50,7 +50,7 @@ class CommentController extends Controller
      * @param $blogPostId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function displayAllComment($blogPostId){
+    public function displayAllCommentAction($blogPostId){
 
         $blogPost = $this->blogPostRepository->find($blogPostId);
         $comments = $this->commentRepository->getAllComments($blogPostId);
@@ -96,7 +96,7 @@ class CommentController extends Controller
      * @param $blogPostId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function createCommentActionInCommentReviews($blogPostId)
+    public function createCommentActionInCommentReviewsAction($blogPostId)
     {
         $comment = new Comment();
         $blogPost = $this->blogPostRepository->find($blogPostId);

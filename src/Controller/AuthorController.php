@@ -52,15 +52,6 @@ class AuthorController extends Controller
             'form' => $form->createView()
         ]);
     }
-    /**
-     * @Route("/creation-critique", name="author_create_review")
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function createReviewAction(Request $request)
-    {
-        return $this->render('author/review_form.html.twig');
-    }
 
     /**
      * @Route("/", name="admin_index")
