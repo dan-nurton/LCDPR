@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CommentController extends Controller
 {
-
     /** @var EntityManagerInterface */
     private $entityManager;
 
@@ -47,14 +46,14 @@ class CommentController extends Controller
     }
 
     /**
-     * @Route("admin/commentaires/{id}", name="display_comments")
-     * @param $id
+     * @Route("admin/commentaires/{blogPostId}", name="display_comments")
+     * @param $blogPostId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function displayAllComment($id){
+    public function displayAllComment($blogPostId){
 
-        $blogPost = $this->blogPostRepository->find($id);
-        $comments = $this->commentRepository->getAllComments($id);
+        $blogPost = $this->blogPostRepository->find($blogPostId);
+        $comments = $this->commentRepository->getAllComments($blogPostId);
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
 
         return $this->render('comment/display_comments.html.twig', array(
@@ -66,49 +65,48 @@ class CommentController extends Controller
 
 
     /**
-     * @Route("admin/comment/creation/{id}", name="post_comment")
-     * @param $id
+     * @Route("admin/comment/creation/{blogPostId}", name="create_comment")
+     * @param $blogPostId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function createCommentAction($id)
+    public function createCommentAction($blogPostId)
     {
         $comment = new Comment();
-        $blogPost = $this->blogPostRepository->find($id);
+        $blogPost = $this->blogPostRepository->find($blogPostId);
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         $comment->setContent($_POST['comment']);
         $comment->setAuthor($author);
         $comment->setBlogPost($blogPost);
         $this->entityManager->persist($comment);
         $this->entityManager->flush($comment);
-        $comments = $this->commentRepository->getAllComments($id);
-        $countComment = $this->commentRepository->getCountComment($id);
+        $comments = $this->commentRepository->getAllComments($blogPostId);
+        $countComment = $this->commentRepository->getCountComment($blogPostId);
 
         return $this->render('blog/display_review.html.twig', array(
             'blogPost' => $blogPost,
             'comments' => $comments,
             'countComment' => $countComment,
-            'id' => $id,
+            'id' => $blogPostId,
             'author'=> $author
         ));
     }
 
     /**
-     * @Route("admin/comment/creation/comment/{id}", name="post_comment_comments_review")
-     * @param $id
+     * @Route("admin/comment/creation/comment/{blogPostId}", name="create_comment_review")
+     * @param $blogPostId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function createCommentActionInCommentReviews($id)
+    public function createCommentActionInCommentReviews($blogPostId)
     {
         $comment = new Comment();
-        $blogPost = $this->blogPostRepository->find($id);
+        $blogPost = $this->blogPostRepository->find($blogPostId);
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         $comment->setContent($_POST['comment']);
         $comment->setAuthor($author);
         $comment->setBlogPost($blogPost);
         $this->entityManager->persist($comment);
         $this->entityManager->flush($comment);
-        $comments = $this->commentRepository->getAllComments($id);
-        $countComment = $this->commentRepository->getCountComment($id);
+        $comments = $this->commentRepository->getAllComments($blogPostId);
 
         return $this->render('comment/display_comments.html.twig', array(
             'blogPost' => $blogPost,
@@ -120,33 +118,28 @@ class CommentController extends Controller
 
     /**
      * @Route("admin/supprimer-commentaire/{blogPostId}/{commentId}/{slug}", name="delete_comment")
-     *
      * @param $blogPostId
      * @param $commentId
-     * @param $slug
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteCommentAction($blogPostId,$commentId,$slug)
+    public function deleteCommentAction($blogPostId,$commentId)
     {
         $comment = $this->commentRepository->find($commentId);
         $this->entityManager->remove($comment);
         $this->entityManager->flush();
         $this->addFlash('success', 'Le commentaire a été effacé!');
             return $this->redirectToRoute('display_comments', array(
-                'id' => $blogPostId,
+                'blogPostId' => $blogPostId,
             ));
-
     }
-
 
     /**
      * @Route("admin/comment/update/{blogPostId}/{commentId}/{slug}", name="update_comment")
      * @param $blogPostId
      * @param $commentId
-     * @param $slug
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function UpdateCommentAction($blogPostId,$commentId,$slug)
+    public function UpdateCommentAction($blogPostId,$commentId)
     {
         $comment = $this->commentRepository->find($commentId);
         $comment->setContent($_POST['update_comment']);
@@ -155,7 +148,7 @@ class CommentController extends Controller
         $this->entityManager->flush($comment);
 
         return $this->redirectToRoute('display_comments', array(
-            'id' => $blogPostId,
+            'blogPostId' => $blogPostId,
             ));
     }
 }

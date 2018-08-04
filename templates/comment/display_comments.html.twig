@@ -45,7 +45,7 @@
         {% endfor %}
     {% endif %}
         </br>
-        <form class="justify-content-center offset-3 col-6 form_comment" style="padding: unset;" action="{{ path('post_comment_comments_review', {'id':blogPost.id}) }}"  method="POST">
+        <form class="justify-content-center offset-3 col-6 form_comment" style="padding: unset;" action="{{ path('create_comment_review', {'blogPostId':blogPost.id}) }}"  method="POST">
             <textarea rows="3" name="comment" id="comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
             <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
         </form>

@@ -16,9 +16,6 @@ class BlogController extends Controller
     /** @var integer */
     const POST_LIMIT = 5;
 
-    /** @var string */
-    private $message = '';
-
     /** @var EntityManagerInterface */
     private $entityManager;
 
@@ -42,11 +39,12 @@ class BlogController extends Controller
         $this->commentRepository = $entityManager->getRepository('App:Comment');
     }
 
+    //page accueil
     /**
      * @Route("/", name="homepage")
      * @Route("/critiques", name="display_reviews")
      */
-    public function displayReviews(Request $request)
+    public function displayReviewsAction(Request $request)
     {
         $page = 1;
         $blogPosts = $this->blogPostRepository->getAllPostsForAdmin($page, self::POST_LIMIT);
@@ -62,20 +60,20 @@ class BlogController extends Controller
         ]);
     }
 
+    //page critique
     /**
-     * @Route("admin/critique/{id}/{slug}", name="display_review")
+     * @Route("admin/critique/{blogPostId}/{slug}", name="display_review")
      * @param $slug
-     * @param $id
+     * @param $blogPostId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function displayReview($id,$slug)
+    public function displayReview($blogPostId,$slug)
     {
-
         $page = 1;
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         $blogPost = $this->blogPostRepository->findOneBySlug($slug);
-        $comments = $this->commentRepository->getAllCommentsWithLimit($id, $page, self::POST_LIMIT);
-        $countComment = $this->commentRepository->getCountComment($id);
+        $comments = $this->commentRepository->getAllCommentsWithLimit($blogPostId, $page, self::POST_LIMIT);
+        $countComment = $this->commentRepository->getCountComment($blogPostId);
 
         if (!$blogPost) {
             $this->addFlash('error', 'Article introuvable...');
@@ -85,23 +83,21 @@ class BlogController extends Controller
             'blogPost' => $blogPost,
             'comments' => $comments,
             'countComment' => $countComment,
-            'id' => $id,
             'page' => $page,
             'entryLimit' => self::POST_LIMIT,
             'author' => $author,
         ));
     }
 
+    //page auteur
     /**
      * @Route("/author/{name}", name="author")
      */
     public function authorAction($name)
     {
         $author = $this->authorRepository->findOneByUsername($name);
-
         if (!$author) {
             $this->addFlash('error', 'Auteur introuvable...');
-
             return $this->redirectToRoute('display_reviews');
         }
         return $this->render('blog/display_author.html.twig', [
@@ -109,7 +105,7 @@ class BlogController extends Controller
         ]);
     }
 
-
+    // fonction récupération livre API
     /**
      * @Route("/get-book}", name="get_book")
      */
@@ -133,7 +129,6 @@ class BlogController extends Controller
             $this->addFlash('erreur', 'isbn non valide');
             return $this->render('author/review_form.html.twig');
             }
-
 
         if(isset($json_data['items'])){
             if(!isset( $json_data['items'][0]['volumeInfo']['imageLinks']['thumbnail'])){
@@ -202,7 +197,6 @@ class BlogController extends Controller
             ));
             }
         }
-
         //instanciation BlogPost, hydratation
         $blogPost = new BlogPost();
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
@@ -222,6 +216,8 @@ class BlogController extends Controller
         $this->entityManager->flush($blogPost);
         return $this->redirectToRoute('homepage');
     }
+
+    // fonction recherche livre par titre
     /**
      * @Route("/search-review}", name="search_review")
      */
@@ -230,7 +226,6 @@ class BlogController extends Controller
         $search = strtolower ($_POST['search']);
         $reviews = $this->blogPostRepository->findAll();
         $result = [];
-
         foreach ($reviews as $review){
             if(strtolower($review->getTitle()) == $search){
                 return $this->redirectToRoute('display_review',array(
@@ -241,7 +236,7 @@ class BlogController extends Controller
         }
     }
 
-
+// fonction recherche par index
     /**
      * @Route("/search-index/{letter}", name="search_index")
      * @param $letter
@@ -251,7 +246,6 @@ class BlogController extends Controller
 
         $reviews = $this->blogPostRepository->searchByIndex($letter);
         $blogPosts = [];
-
         foreach ($reviews as $review){
             $blogPosts[] = $review;
         }
@@ -259,8 +253,5 @@ class BlogController extends Controller
                     'blogPosts'=> $blogPosts
                 ));
     }
-
-
-
 
 }

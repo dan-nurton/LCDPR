@@ -34,7 +34,7 @@
                     {% if commentReview is defined %}
                     <div class="commentReview" style="display: none;">{{ commentReview }}</div>
                     {% endif %}
-                    <form class="col-6 form_comment" style="padding: unset;" action="{{ path('post_comment', {'id':blogPost.id}) }}"  method="POST">
+                    <form class="col-6 form_comment" style="padding: unset;" action="{{ path('create_comment', {'blogPostId':blogPost.id}) }}"  method="POST">
                         <textarea rows="3" name="comment" id="comment" class="form-control"  placeholder="Ecrire un commentaire"></textarea>
                         <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
                     </form>
@@ -50,7 +50,7 @@
                         {% endfor %}
                     {% endif %}
                     {% if comments %}
-                    <div class="plus col-6" ><a href="{{ path('display_comments', {'id': blogPost.id}) }}">Tous les commentaire(s)</a></div>
+                    <div class="plus col-6" ><a href="{{ path('display_comments', {'blogPostId': blogPost.id}) }}">Tous les commentaire(s)</a></div>
                     {% endif %}
                 </div>
             </article>
