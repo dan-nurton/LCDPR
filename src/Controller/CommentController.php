@@ -119,33 +119,34 @@ class CommentController extends Controller
 
 
     /**
-     * @Route("admin/supprimer-commentaire/{id}/{blogPostId}", name="delete_comment")
+     * @Route("admin/supprimer-commentaire/{blogPostId}/{commentId}/{slug}", name="delete_comment")
      *
-     * @param $id
      * @param $blogPostId
+     * @param $commentId
+     * @param $slug
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteCommentAction($id,$blogPostId)
+    public function deleteCommentAction($blogPostId,$commentId,$slug)
     {
-        $comment = $this->commentRepository->find($id);
+        $comment = $this->commentRepository->find($commentId);
         $this->entityManager->remove($comment);
         $this->entityManager->flush();
         $this->addFlash('success', 'Le commentaire a été effacé!');
-        return $this->redirectToRoute('display_comments', array(
-        'id' => $blogPostId,
-    ));
+            return $this->redirectToRoute('display_comments', array(
+                'id' => $blogPostId,
+            ));
+
     }
 
 
     /**
-     * @Route("admin/comment/creation/{id}/{commentId}/{slug}/{uri}", name="update_comment")
-     * @param $id
+     * @Route("admin/comment/update/{blogPostId}/{commentId}/{slug}", name="update_comment")
+     * @param $blogPostId
      * @param $commentId
-     * @param $uri
      * @param $slug
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function UpdateCommentAction($id,$commentId,$slug,$uri)
+    public function UpdateCommentAction($blogPostId,$commentId,$slug)
     {
         $comment = $this->commentRepository->find($commentId);
         $comment->setContent($_POST['update_comment']);
@@ -153,18 +154,8 @@ class CommentController extends Controller
         $this->entityManager->persist($comment);
         $this->entityManager->flush($comment);
 
-        // si methode appellé par la page display review
-        if ($uri == 'display_review'){
-            return $this->redirectToRoute('display_review', array(
-                'id' => $id,
-                'slug' => $slug
+        return $this->redirectToRoute('display_comments', array(
+            'id' => $blogPostId,
             ));
-        }
-        // si appellé par une autre page
-        else{
-            return $this->redirectToRoute('display_comments', array(
-                'id' => $id,
-            ));
-        }
     }
 }

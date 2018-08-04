@@ -19,7 +19,6 @@ class BlogPost
 {
     /**
      * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -28,49 +27,42 @@ class BlogPost
 
     /**
      * @var string
-     *
      * @ORM\Column(name="title", type="string", length=255,unique=true)
      */
     private $title;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="writer", type="string", length=255)
      */
     private $writer;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="category", type="string", length=255)
      */
     private $category;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="slug", type="string", length=255, unique=true, nullable=true)
      */
     private $slug;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="description", type="string", length=2000)
      */
     private $description;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="cover", type="text")
      */
     private $cover;
 
     /**
      * @var Author
-     *
      * @ORM\ManyToOne(targetEntity="Author")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -78,7 +70,6 @@ class BlogPost
 
     /**
      * @var string
-     *
      * @ORM\Column(name="review", type="text")
      */
     private $review;
@@ -90,18 +81,15 @@ class BlogPost
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
-
 
 
     public function __construct() {
@@ -128,8 +116,6 @@ class BlogPost
         return $this;
     }
 
-
-
     public function getId()
     {
         return $this->id;
@@ -137,21 +123,17 @@ class BlogPost
 
     /**
      * Set title
-     *
      * @param string $title
-     *
      * @return BlogPost
      */
     public function setTitle($title)
     {
         $this->title = $title;
-
         return $this;
     }
 
     /**
      * Get title
-     *
      * @return string
      */
     public function getTitle()
@@ -161,21 +143,17 @@ class BlogPost
 
     /**
      * Set writer
-     *
      * @param string $writer
-     *
      * @return BlogPost
      */
     public function setWriter($writer)
     {
         $this->writer = $writer;
-
         return $this;
     }
 
     /**
      * Get writer
-     *
      * @return string
      */
     public function getWriter()
@@ -185,7 +163,6 @@ class BlogPost
 
     /**
      * Get category
-     *
      * @return string
      */
     public function getCategory()
@@ -196,9 +173,7 @@ class BlogPost
 
     /**
      * set $category
-     *
      * @param string $category
-     *
      */
     public function setCategory($category)
     {
@@ -209,21 +184,17 @@ class BlogPost
 
     /**
      * Set slug
-     *
      * @param string $slug
-     *
      * @return BlogPost
      */
     public function setSlug($slug)
     {
         $this->slug = $slug;
-
         return $this;
     }
 
     /**
      * Get slug
-     *
      * @return string
      */
     public function getSlug()
@@ -233,21 +204,17 @@ class BlogPost
 
     /**
      * Set description
-     *
      * @param string $description
-     *
      * @return BlogPost
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
      * Get description
-     *
      * @return string
      */
     public function getDescription()
@@ -257,21 +224,17 @@ class BlogPost
 
     /**
      * Set cover
-     *
      * @param string $cover
-     *
      * @return BlogPost
      */
     public function setCover($cover)
     {
         $this->cover = $cover;
-
         return $this;
     }
 
     /**
      * Get body
-     *
      * @return string
      */
     public function getCover()
@@ -281,21 +244,17 @@ class BlogPost
 
     /**
      * Set author
-     *
      * @param Author $author
-     *
      * @return BlogPost
      */
     public function setAuthor(Author $author)
     {
         $this->author = $author;
-
         return $this;
     }
 
     /**
      * Get author
-     *
      * @return Author
      */
     public function getAuthor()
@@ -304,21 +263,17 @@ class BlogPost
     }
     /**
      * Set review
-     *
      * @param string $review
-     *
      * @return BlogPost
      */
     public function setReview($review)
     {
         $this->review = $review;
-
         return $this;
     }
 
     /**
      * Get review
-     *
      * @return string
      */
     public function getReview()
@@ -328,21 +283,17 @@ class BlogPost
 
     /**
      * Set createdAt
-     *
      * @param \DateTime $createdAt
-     *
      * @return BlogPost
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
     /**
      * Get createdAt
-     *
      * @return \DateTime
      */
     public function getCreatedAt()
@@ -352,21 +303,17 @@ class BlogPost
 
     /**
      * Set updatedAt
-     *
      * @param \DateTime $updatedAt
-     *
      * @return BlogPost
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-
         return $this;
     }
 
     /**
      * Get updatedAt
-     *
      * @return \DateTime
      */
     public function getUpdatedAt()
@@ -382,7 +329,6 @@ class BlogPost
         if (!$this->getCreatedAt()) {
             $this->setCreatedAt(new \DateTime());
         }
-
         if (!$this->getUpdatedAt()) {
             $this->setUpdatedAt(new \DateTime());
         }

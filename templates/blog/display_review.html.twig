@@ -3,7 +3,6 @@
 {% block title %}App:blog:entry{% endblock %}
 
 {% block body %}
-    {% set uri =  app.request.attributes.get('_route') %}
     <div class="container">
         <div class="blog-header">
             <h1 class="blog-title">Critique</h1>
@@ -43,16 +42,6 @@
                         {% for comment in comments %}
                             <article class="row col-12" style="padding: unset">
                                 <div class="commentaire col-6" style="background-color: white; margin-bottom: 20px;">
-                                    {% if author.username == comment.author.username%}
-                                        <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})">edit</span>
-                                    {% else %}
-                                    {% endif %}
-
-
-                                    <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'id':blogPost.id, 'commentId': comment.id,'slug': blogPost.slug, 'uri':uri}) }}"  method="POST">
-                                        <textarea rows="3" name="update_comment" id="update_comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
-                                        <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
-                                    </form>
                                     <div style="font-style: italic">Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
                                         <div id="comment{{ comment.id }}">{{ comment.content|raw }}</div>
                                     </div>

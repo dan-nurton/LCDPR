@@ -3,7 +3,6 @@
 {% block title %}App:blog:comment{% endblock %}
 
 {% block body %}
-    {% set uri =  app.request.attributes.get('_route') %}
     <div class="container" id="comment">
     <div class="blog-header">
         {% if comments %}
@@ -27,14 +26,14 @@
             <article class="row justify-content-center offset-6 col-12">
                 <div class="commentaire col-6" style="background-color: white; margin-bottom: 20px;">
                     {% if author.username == comment.author.username%}
-                        <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'id': comment.id, 'blogPostId':blogPost.id}) }}">x</a></span>
+                        <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.id}) }}">x</a></span>
                         <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})">edit</span>
                     {% else %}
                     {% if author.admin%}
-                    <span class="deleteComment justify-content-right"><a href=" {{ path('delete_comment', {'id': comment.id, 'blogPostId':blogPost.id}) }}">x</a></span>
+                    <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.id}) }}">x</a></span>
                     {% endif %}
                     {% endif %}
-                    <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'id':blogPost.id, 'commentId': comment.id,'slug':blogPost.id,'uri':uri}) }}"  method="POST">
+                    <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.id}) }}"  method="POST">
                         <textarea rows="3" name="update_comment" id="update_comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
                         <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
                     </form>

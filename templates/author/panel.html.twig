@@ -37,8 +37,8 @@
                                     Action
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item"{% if author.isAdmin %} href="{{ path('admin_delete_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('author_delete_entry', {'entryId': blogPost.id}) }}"{% endif %}>Supprimer</a>
-                                    <a class="dropdown-item" {% if author.isAdmin %}href="{{ path('admin_update_all_entry', {'entryId': blogPost.id}) }}"{% else %}href="{{ path('author_review_update_entry', {'entryId': blogPost.id}) }}"{% endif %}>Editer</a>
+                                    <a class="dropdown-item"{% if author.isAdmin %} href="{{ path('admin_delete_review', {'blogPostId': blogPost.id}) }}"{% else %}href="{{ path('delete_review', {'blogPostId': blogPost.id}) }}"{% endif %}>Supprimer</a>
+                                    <a class="dropdown-item" {% if author.isAdmin %}href="{{ path('admin_update_review', {'blogPostId': blogPost.id}) }}"{% else %}href="{{ path('update_review', {'blogPostId': blogPost.id}) }}"{% endif %}>Editer</a>
                                 </div>
                             </td>
                         </tr>
@@ -75,8 +75,8 @@
                                         Action
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{{ path('author_delete', {'entryId': author.id}) }}">Supprimer</a>
-                                        <a class="dropdown-item" href="{{ path('author_update', {'entryId': author.id}) }}">Editer</a>
+                                        <a class="dropdown-item" href="{{ path('delete_author', {'authorId': author.id}) }}">Supprimer</a>
+                                        <a class="dropdown-item" href="{{ path('update_author', {'authorId': author.id}) }}">Editer</a>
 
                                     </div>
                                 </td>

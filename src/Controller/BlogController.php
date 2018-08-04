@@ -50,8 +50,7 @@ class BlogController extends Controller
     {
         $page = 1;
         $blogPosts = $this->blogPostRepository->getAllPostsForAdmin($page, self::POST_LIMIT);
-        //dump($blogPosts);
-        //die();
+
         if ($request->get('page')) {
             $page = $request->get('page');
         }
@@ -69,8 +68,9 @@ class BlogController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function displayReview($slug,$id)
+    public function displayReview($id,$slug)
     {
+
         $page = 1;
         $author = $this->authorRepository->findOneByUsername($this->getUser()->getUserName());
         $blogPost = $this->blogPostRepository->findOneBySlug($slug);

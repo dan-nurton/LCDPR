@@ -19,7 +19,6 @@ class Comment
 
     /**
      * @var Author
-     *
      * @ORM\ManyToOne(targetEntity="Author")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -27,29 +26,25 @@ class Comment
 
     /**
      * @var BlogPost
-     *
-     * @ORM\ManyToOne(targetEntity="BlogPost", inversedBy="comments")
-     * @ORM\JoinColumn(name="blog_post_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="BlogPost")
+     * @ORM\JoinColumn(name="blog_post_id", referencedColumnName="id",onDelete="CASCADE")
      */
     private $blogPost;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="content", type="string", length=2000)
      */
     private $content;
 
     /**
      * @var DateTime
-     *
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
 
     /**
      * @var DateTime
-     *
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;

@@ -74,7 +74,7 @@ class UpdateAllBlogFormType extends AbstractType
                 SubmitType::class,
                 [
                     'attr' => ['class' => 'form-control btn btn-info btn-lg float-right'],
-                    'label' => 'Ajouter'
+                    'label' => 'Enregistrer'
                 ]
             );
     }
