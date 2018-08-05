@@ -2,11 +2,7 @@
 {% block body %}
     <div class="container">
         <div class="blog-header">
-        {% if blogPosts %}
-            <h2 class="row justify-content-center col-12"><mark>Résultat(s) trouvé(s)</mark></h2>
-        {% else %}
-            <h2 class="row justify-content-center col-12"><mark>Aucun résultat</mark></h2>
-        {% endif %}
+            <h2 class="row justify-content-center"><mark>Tous nos critiques</mark></h2>
         </div>
         {% for blogPost in blogPosts %}
             <div class="row">
@@ -33,6 +29,15 @@
                     </div>
                 </article>
             </div>
-    {% endfor %}
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Erreur:</span>
+                Vous n'avez pas encore posté de critiques. Merci de vous enregistrer pour poster une critique.
+            </div>
+        {% endfor %}
+        <div class="moreReview">
+            <a href="{{ path('display_reviews')}}">Plus de Critiques</a>
+        </div>
     </div>
 {% endblock %}

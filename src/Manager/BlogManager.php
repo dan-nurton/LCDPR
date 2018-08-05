@@ -78,7 +78,7 @@ class BlogManager
     }
 
     public function findBlogPostWithLimit($page,$limit){
-        $blogPosts = $this->blogPostRepository->getAllPostsForAdmin($page, $limit);
+        $blogPosts = $this->blogPostRepository->getAllPostsWithLimit($page, $limit);
         return $blogPosts;
     }
 

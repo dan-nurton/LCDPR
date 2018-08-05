@@ -66,6 +66,7 @@ class CommentController extends Controller
             'blogPost' => $blogPost
         ];
        $comment = $this->commentManager->hydrate($commentData);
+       $this->commentManager->save($comment);
         if ($route == 'display_comments') {
             return $this->redirectToRoute('display_comments', array(
                 'blogPostId' => $blogPostId,

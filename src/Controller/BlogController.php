@@ -32,22 +32,27 @@ class BlogController extends Controller
     //page accueil
     /**
      * @Route("/", name="homepage")
-     * @Route("/critiques", name="display_reviews")
+     * @Route("/critiques/home", name="display_reviews_with_limits")
      */
-    public function displayReviewsAction(Request $request)
+    public function displayReviewsWithLimitAction()
     {
         $page = 1;
         $blogPosts = $this->blogManager->findBlogPostWithLimit($page, self::POST_LIMIT);
-        if ($request->get('page')) {
-            $page = $request->get('page');
-        }
         return $this->render('blog/display_reviews.html.twig', [
             'blogPosts' => $blogPosts,
-            'totalBlogPosts' => $this->blogManager->countBlogPosts(),
-            'page' => $page,
-            'entryLimit' => self::POST_LIMIT,
         ]);
     }
+    /**
+     * @Route("/critiques", name="display_reviews")
+     */
+    public function displayReviewsAction()
+    {
+        $blogPosts = $this->blogManager->findAll();
+        return $this->render('blog/display_all_reviews.html.twig', [
+            'blogPosts' => $blogPosts,
+        ]);
+    }
+
 
     //page critique
     /**
@@ -67,7 +72,6 @@ class BlogController extends Controller
             'blogPost' => $blogPost,
             'comments' => $this->commentManager->findCommentsWithLimit($blogPostId,self::POST_LIMIT),
             'countComment' => $this->commentManager->countComment($blogPostId),
-            'entryLimit' => self::POST_LIMIT,
             'author' => $this->authorManager->findUser($this->getUser()->getUserName()),
         ));
     }
@@ -187,7 +191,7 @@ class BlogController extends Controller
 
 // fonction recherche par index
     /**
-     * @Route("/search-index/{letter}", name="search_index")
+     * @Route("/resultat_index/{letter}", name="search_index")
      * @param $letter
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */

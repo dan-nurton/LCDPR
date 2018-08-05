@@ -2,17 +2,16 @@
 {% block body %}
     <div class="container col-sm-12">
         <div class="blog-header">
-            <h1 class="tab_admin">Tableau de bord de {{ author.name }} {% if author.isAdmin %} (Administrateur){% endif %}</h1>
+            <h2 class="tab_admin"><mark>Tableau de bord de {{ author.name }} {% if author.isAdmin %} (Administrateur){% endif %}</mark></h2>
         </div>
-
             <div class="col-xs-2 col-sm-12 blog-main">
                 <table class="table table-striped critique_admin" >
                     {% if author.isAdmin %}
                     <thead>
-                    <th colspan="6" style="text-align: center;background-color: #343a40 ;color:white;">Critiques</th>
+                    <th colspan="6">Critiques</th>
                     </thead>
                     {% endif %}
-                    <thead style="background-color:#42b55f;color:white;">
+                    <thead style="background-color:#AA3333;color:white;">
                     <th>Titre</th>
                     <th>Crée le</th>
                     <th>Mis à jour le</th>
@@ -52,7 +51,7 @@
                             <thead>
                             <th colspan="6" style="text-align: center;background-color: #343a40;color: white;">Auteurs</th>
                             </thead>
-                            <thead  style="background-color:#42b55f;color:white;">
+                            <thead style="background-color:#AA3333;color:white;">
                             <th>Prénom</th>
                             <th>Nom de famille</th>
                             <th>Pseudo</th>

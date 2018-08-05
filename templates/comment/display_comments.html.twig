@@ -4,7 +4,7 @@
     <div class="container" id="comment">
     <div class="blog-header">
         {% if comments %}
-            <h1 style="margin-top: 20px; margin-bottom: 20px;">Commentaires</h1>
+            <h1>Commentaires</h1>
         {% else  %}
             <h1 class="blog-title">Pas de commentaires</h1>
         {% endif %}
@@ -21,7 +21,7 @@
         </p>
         <form class="justify-content-center offset-3 col-6 form_comment" action="{{ path('create_comment', {'blogPostId':blogPost.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
             <textarea style="padding: unset;" rows="3" name="comment" id="comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
-            <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
+            <button class="btn btn-info postComment" type="submit">Poster</button>
         </form>
     {% if comments %}
         {% for comment in comments %}
@@ -37,10 +37,10 @@
                     {% endif %}
                     <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
                         <textarea rows="3" name="update_comment" id="update_comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
-                        <button class="btn btn-info" type="submit" style="margin-bottom: 20px;">Poster</button>
+                        <button class="btn btn-info postComment" type="submit">Poster</button>
                     </form>
-                    <div class ="postBy"> Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
-                        <div id="comment{{ comment.id }}">{{ comment.content|raw }}</div>
+                    <div class ="postBy"> Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }} </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
+                        <div class="displayComment" id="comment{{ comment.id }}">{{ comment.content|raw }}</div>
                     </div>
                 </div>
             </article>

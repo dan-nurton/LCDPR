@@ -2,6 +2,17 @@
   font-family: "allure";
   src: url('../allure.otf');
 }
+.row{
+  margin:0 !important;
+}
+mark{
+  background: rgba(211, 211, 211, 0.8);
+  border-radius: 3px ;
+  box-shadow: 5px 5px 5px #aaa;
+  color: #AA3333;
+  font-family:fantasy ;
+}
+
 body {
   font-family: Georgia, "Times New Roman", Times, serif;
   background-image: url("../images/BackgroundTexture.jpg");
@@ -15,9 +26,12 @@ footer{
   color:white;
 }
 h1{
- font-family: "allure";
+  font-family:"Fira Code Retina";
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 button{
+  margin-bottom: 10px;
   margin-top: 10px;
 }
 table{
@@ -33,6 +47,10 @@ header, .index{
 .index a{
   color:black;
 }
+.index a:hover{
+  text-decoration-color: #AA3333;
+  font-weight: bold;
+}
 .alphabet{
   font-size: 1.2em;
 }
@@ -40,13 +58,26 @@ header, .index{
   min-height: 300px;
   align-content: center;
 }
+.blog-header{
+  text-align: center;
+  font-family: "allure";
+  margin-bottom: 100px;
+  margin-top: 100px;
+}
+.livres{
+  margin-bottom: 20px !important;
+  background: rgba(211, 211, 211, 0.8);
+  border-radius: 3px ;
+  box-shadow: 5px 5px 5px  #aaa;
+}
 .title{
   height: 200px;
   padding-top: 50px;
 }
 /*avis critique*/
 .avis{
-  color:red;
+  font-family:fantasy ;
+  color:#AA3333;
   font-size: 1.2em;
   font-style: italic;
 }
@@ -67,47 +98,40 @@ header, .index{
   font-style: oblique;
   text-align: right;
 }
-.comment{
+.comment, .auteur{
   background-color: white;
   margin-bottom: 20px;
+}
+.auteur{
+  text-align: center;
 }
 .postBy{
   font-style: italic;
 }
-
-
-
 .formulaire{
   margin-bottom: 50px;
-  margin-top: 50px;
-}
-.button_critique, .button_author{
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin-top: 100px;
 }
 th,td{
   text-align: center !important;
   border: #7c8ea3 1px solid;
 }
-.tab_admin{
+thead{
   text-align: center;
-}
-.blog-header{
-  text-align: center;
-  font-family: "allure";
+  background-color: #343a40 ;
+  color:white;
 }
 
 .blog-main{
-  min-height: 200px;
-  max-height: 300px;
+  min-height: 300px;
+  max-height: 500px;
   overflow: auto;
 }
 .author-main{
-    min-height: 200px;
-    max-height: 300px;
+    min-height: 300px;
+    max-height: 500px;
   overflow: auto;
 }
-
 .admin{
   display: flex;
   flex-direction: row;
@@ -115,67 +139,42 @@ th,td{
 }
 .card{
   background: rgba(211, 211,211,1); !important;
-
 }
 .card-header{
-  background-color: #343a40!important;
-  color:white;
+  background-color: #AA3333!important;
+  color:black;
+  font-family: fantasy;
+  text-align: center;
 }
-
-.row{
-  margin:0 !important;
-}
-
-.tab_admin{
-  margin-bottom: 100px;
-  margin-top: 100px;
-}
-.blog-title{
-  margin-top: 100px !important;
-  margin-bottom: 100px !important;
-}
-.livres, .auteur, .livre{
-  margin-bottom: 20px !important;
-  background: rgba(211, 211, 211, 0.8);
-  border-radius: 140px / 2px;
-  box-shadow: 0 0 5px #aaa, 0 0 10px #888, 0 0 15px #666;
-}
-
-
-.review{
+.review, .displayComment{
   -ms-word-break: break-all;
   word-break: break-all;
   word-break: break-word;
 }
-
 .alert{
   text-align: center !important;
 }
-
-.numberComment{
-  margin-top: 25px;
-  margin-bottom: 25px;
-  color: red;
-}
-
-.numberComment:hover{
-  color:black;
-}
 .plus{
   text-align: right;
-  color:red;
-}
-.plus:hover{
-  color:black;
-  cursor: pointer;
 }
 .deleteComment {
   cursor: pointer;
   font-family: Arial;
   color: red;
 }
+.letter{
+  color: #AA3333;
+}
 
-
+.lcdpr{
+  font-family: fantasy;
+}
+.point{
+  color:black;
+}
+blockquote{
+  padding-bottom: 20px;
+}
 
 
 

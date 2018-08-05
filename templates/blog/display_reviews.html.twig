@@ -2,7 +2,7 @@
 {% block body %}
     <div class="container">
         <div class="blog-header">
-            <h1 class="blog-title row justify-content-center">Nos derniéres critiques</h1>
+            <h2 class="row justify-content-center"><mark>Nos derniéres critiques</mark></h2>
         </div>
         {% for blogPost in blogPosts %}
             <div class="row">
@@ -20,7 +20,7 @@
                                 {% endif %}
                             </p>
                         </div>
-                        <h2 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h2>
+                        <h3 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h3>
                             <img src="{{ blogPost.cover }}" alt="couverture" style="width: 150px;">
                         <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
                         <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
@@ -38,5 +38,8 @@
                         Vous n'avez pas encore posté de critiques. Merci de vous enregistrer pour poster une critique.
                     </div>
                 {% endfor %}
+        <div class="moreReview">
+            <a href="{{ path('display_reviews')}}">Plus de Critiques</a>
+        </div>
     </div>
 {% endblock %}

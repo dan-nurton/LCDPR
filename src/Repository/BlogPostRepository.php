@@ -39,7 +39,7 @@ class BlogPostRepository extends ServiceEntityRepository
  *
  * @return array
  */
-    public function getAllPosts($page = 1, $limit = 5)
+    public function getAllPostsWithLimit($page = 1, $limit = 5)
     {
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
@@ -47,7 +47,6 @@ class BlogPostRepository extends ServiceEntityRepository
             ->select('bp')
             ->from('App:BlogPost', 'bp')
             ->orderBy('bp.id', 'DESC')
-            ->setFirstResult($limit * ($page - 1))
             ->setMaxResults($limit);
 
         return $queryBuilder->getQuery()->getResult();
@@ -55,7 +54,7 @@ class BlogPostRepository extends ServiceEntityRepository
     /**
      * @return array
      */
-    public function getAllPostsForAdmin()
+    public function getAllPosts()
     {
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
