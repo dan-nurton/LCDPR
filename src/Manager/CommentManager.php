@@ -79,8 +79,8 @@ class CommentManager
         return $comments;
     }
 
-    public function findCommentsWithLimit($blogPostId,$page,$limit){
-        $comments = $this->commentRepository->getAllCommentsWithLimit($blogPostId, $page, $limit);
+    public function findCommentsWithLimit($blogPostId,$limit){
+        $comments = $this->commentRepository->getAllCommentsWithLimit($blogPostId,$limit);
         return $comments;
     }
 

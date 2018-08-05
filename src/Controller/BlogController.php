@@ -58,7 +58,6 @@ class BlogController extends Controller
      */
     public function displayReviewAction($blogPostId,$slug)
     {
-        $page = 1;
         $blogPost = $this->blogManager->findBlogPostBySlug($slug);
         if (!$blogPost) {
             $this->addFlash('error', 'Article introuvable...');
@@ -66,9 +65,8 @@ class BlogController extends Controller
         }
         return $this->render('blog/display_review.html.twig', array(
             'blogPost' => $blogPost,
-            'comments' => $this->commentManager->findCommentsWithLimit($blogPostId, $page, self::POST_LIMIT),
+            'comments' => $this->commentManager->findCommentsWithLimit($blogPostId,self::POST_LIMIT),
             'countComment' => $this->commentManager->countComment($blogPostId),
-            'page' => $page,
             'entryLimit' => self::POST_LIMIT,
             'author' => $this->authorManager->findUser($this->getUser()->getUserName()),
         ));

@@ -7,40 +7,6 @@ body {
   background-image: url("../images/BackgroundTexture.jpg");
   background-attachment: fixed;
   background-size: cover;
-  -webkit-animation: Gradient 20s ease infinite;
-  -moz-animation: Gradient 20s ease infinite;
-  animation: Gradient 20s ease infinite;
-}
-h1{
- font-family: "allure";
-}
-
-.containerPrincipal{
-  background-color:#fffdf4;
-  width: 80%;
-  margin:auto;
-}
-.container{
-  min-height: 300px;
-  align-content: center;
-}
-
-/* Pagination */
-.pager {
-  margin-bottom: 60px;
-  text-align: left;
-}
-.pager > li > a {
-  width: 140px;
-  padding: 10px 20px;
-  text-align: center;
-  border-radius: 30px;
-}
-
-
-img {
-  float: left;
-  padding-right: 20px;
 }
 footer{
   margin-top: 100px;
@@ -48,21 +14,69 @@ footer{
   height: 150px;
   color:white;
 }
-
+h1{
+ font-family: "allure";
+}
+button{
+  margin-top: 10px;
+}
+table{
+  background-color: white !important;
+}
+img {
+  float: left;
+  padding-right: 20px;
+}
+header, .index{
+  background: rgba(211, 211, 211, 0.8);
+}
+.index a{
+  color:black;
+}
+.alphabet{
+  font-size: 1.2em;
+}
+.container{
+  min-height: 300px;
+  align-content: center;
+}
+.title{
+  height: 200px;
+  padding-top: 50px;
+}
+/*avis critique*/
 .avis{
   color:red;
   font-size: 1.2em;
   font-style: italic;
 }
+/*bloc critique*/
 .critiques{
   margin-top: 50px;
 }
-.title{
-  height: 200px;
+.category{
+  font-weight: bold;
+  padding: unset;
 }
-.headerTitle{
-  background: rgba(211, 211, 211, 0.8);
+.writer{
+  font-style: italic;
+  font-size: 0.5em;
+  color:gray
 }
+.datePost{
+  font-style: oblique;
+  text-align: right;
+}
+.comment{
+  background-color: white;
+  margin-bottom: 20px;
+}
+.postBy{
+  font-style: italic;
+}
+
+
+
 .formulaire{
   margin-bottom: 50px;
   margin-top: 50px;
@@ -71,7 +85,6 @@ footer{
   margin-bottom: 20px;
   margin-top: 20px;
 }
-
 th,td{
   text-align: center !important;
   border: #7c8ea3 1px solid;
@@ -128,16 +141,11 @@ th,td{
   box-shadow: 0 0 5px #aaa, 0 0 10px #888, 0 0 15px #666;
 }
 
-table{
-    background-color: white !important;
-}
+
 .review{
   -ms-word-break: break-all;
   word-break: break-all;
   word-break: break-word;
-}
-button{
-  margin-top: 10px;
 }
 
 .alert{
@@ -166,12 +174,7 @@ button{
   font-family: Arial;
   color: red;
 }
-.alphabet{
-  font-size: 1.2em;
-}
-.headerTitle a{
-  color:black;
-}
+
 
 
 

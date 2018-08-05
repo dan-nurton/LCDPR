@@ -1,7 +1,4 @@
 {% extends "base.html.twig" %}
-
-{% block title %}Blog Posts{% endblock %}
-
 {% block body %}
     <div class="container">
         <div class="blog-header">
@@ -11,17 +8,20 @@
             <div class="row">
                 <article class="row justify-content-center col-12">
                     <div class="livres col-md-12">
-                        <span style="font-weight: bold;">{{ blogPost.category }}</span>
-                        <h2> {{ blogPost.title }} <span style="font-style: italic; font-size: 0.5em; color:gray">({{ blogPost.writer }})</span></h2>
-                        <p style="font-style: oblique;"><i class="fas fa-calendar-alt"></i> {{ blogPost.getUpdatedAt|date('Y-m-d H:i') }}  par
-                            {% if blogPost.author %}
-                                <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
-                                    {{ blogPost.author.name }}
-                                </a>
-                            {% else %}
-                                Auteur inconnu
-                            {% endif %}
-                            <img src="{{ blogPost.cover }}" alt="" style="width: 150px;">
+                        <div class="row">
+                            <span class="col-4 category">{{ blogPost.category }}</span>
+                            <p class=" col-8 datePost">{{ blogPost.getUpdatedAt|date('Y-m-d H:i') }} par
+                                {% if blogPost.author %}
+                                    <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
+                                        {{ blogPost.author.name }}
+                                    </a>
+                                {% else %}
+                                    Auteur inconnu
+                                {% endif %}
+                            </p>
+                        </div>
+                        <h2 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h2>
+                            <img src="{{ blogPost.cover }}" alt="couverture" style="width: 150px;">
                         <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
                         <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
                         {% if app.user %}
@@ -34,35 +34,9 @@
                 {% else %}
                     <div class="alert alert-danger" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <span class="sr-only">Error:</span>
+                        <span class="sr-only">Erreur:</span>
                         Vous n'avez pas encore posté de critiques. Merci de vous enregistrer pour poster une critique.
                     </div>
                 {% endfor %}
-                {% set canPrevious = page > 1 %}
-                {% set canNext = (page * entryLimit) < totalBlogPosts %}
-                <nav>
-                    <ul class="pager row justify-content-center" style="list-style: none;">
-                        <li class="previous {% if canPrevious == false %}disabled{% endif %}">
-
-                            <a href="{% if canPrevious %}{{ path('display_reviews', {'page': page - 1}) }}{% endif %}">
-
-
-
-                                <span aria-hidden="true">&larr;</span> Moins
-                            </a>
-                        </li>
-                        <li class="next {% if canNext == false %}disabled{% endif %}">
-
-                            <a href="{% if canNext %}{{ path('display_reviews', {'page': page + 1}) }}{% endif %}">
-
-
-
-                                Plus <span aria-hidden="true">&rarr;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
     </div>
-
-
 {% endblock %}

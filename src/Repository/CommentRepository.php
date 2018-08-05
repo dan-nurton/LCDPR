@@ -33,12 +33,10 @@ class CommentRepository extends ServiceEntityRepository
     */
     /**
      * @param $blogPostId
-     *
-     * @param int $page
      * @param int $limit
      * @return mixed
      */
-    public function getAllCommentsWithLimit($blogPostId, $page = 1, $limit = 5){
+    public function getAllCommentsWithLimit($blogPostId, $limit = 5){
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryBuilder
@@ -46,7 +44,6 @@ class CommentRepository extends ServiceEntityRepository
             ->from('App:Comment', 'c')
             ->where('c.blogPost = :blogPost_id')->setParameter('blogPost_id',$blogPostId)
             ->orderBy('c.id', 'DESC')
-            ->setFirstResult($limit * ($page - 1))
             ->setMaxResults($limit);
 
         return $queryBuilder->getQuery()->getResult();

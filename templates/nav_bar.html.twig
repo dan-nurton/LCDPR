@@ -1,4 +1,4 @@
-
+{% block navBar %}
 <div class="sticky-top" >
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="opacity: 0.9;box-shadow: 3px 3px 10px 5px #000;">
     <a class="navbar-brand" href="{{ path("homepage") }}"><img src="{{ asset('images/livre.jpg') }}" alt="Logo" style="width:80px;"></a>
@@ -34,7 +34,7 @@
         </form>
     </div>
 </nav>
-    <div class="headerTitle">
+    <div class="index">
     <div class="btn-toolbar d-flex justify-content-between alphabet" role="toolbar" aria-label="...">
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'a'}) }}">A</a></div>
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index' , {'letter':'b'}) }}">B</a></div>
@@ -56,7 +56,7 @@
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'r'}) }}">R</a></div>
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'s'}) }}">S</a></div>
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'t'}) }}">T</a></div>
-        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'u'}) }}>U</a></div>
+        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'u'}) }}">U</a></div>
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'v'}) }}">V</a></div>
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'w'}) }}">W</a></div>
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'x'}) }}">X</a></div>
@@ -65,11 +65,4 @@
     </div>
 </div>
 </div>
-<div class="headerTitle">
-    <div class="title offset-4 col-6 ">
-        <h1 style="color: black;padding-top: 50px;">L.C.D.P.R <br/>(Le cercle des Poètes retrouvés)</h1></div>
-    <div class="citation offset-8 col-4">
-        <blockquote>" La vertu paradoxale de la lecture est de nous abstraire du monde pour lui trouver un sens." <br />
-            <em>Daniel Pennac</em></blockquote>
-    </div>
-</div>
+{% endblock %}
