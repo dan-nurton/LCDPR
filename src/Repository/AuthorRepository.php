@@ -19,6 +19,8 @@ class AuthorRepository extends ServiceEntityRepository
         parent::__construct($registry, Author::class);
     }
 
+    /*SELECT * from author
+      ORDER BY id DESC*/
     public function getAllAuthorsForAdmin()
     {
         $entityManager = $this->getEntityManager();
@@ -27,7 +29,6 @@ class AuthorRepository extends ServiceEntityRepository
             ->select('a')
             ->from('App:Author', 'a')
             ->orderBy('a.id', 'DESC');
-
 
         return $queryBuilder->getQuery()->getResult();
     }

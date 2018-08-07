@@ -61,6 +61,14 @@ class BlogManager
        $blogPost = $this->blogPostRepository->findOneBySlug($slug);
        return $blogPost;
     }
+    public function findBlogPostsNewComment($limit){
+        $blogPosts = $this->blogPostRepository->getAllPostsWithNewComment($limit);
+        return $blogPosts;
+    }
+    public function findBlogPostsMostComment($limit){
+        $blogPosts = $this->blogPostRepository->getAllPostsMostCommented($limit);
+        return $blogPosts;
+    }
 
     public function find($blogPostId){
       $blogPost = $this->blogPostRepository->find($blogPostId);
@@ -83,7 +91,11 @@ class BlogManager
     }
 
     public function findByIndex($letter){
-        $blogPost =$this->blogPostRepository->searchByIndex($letter);
+        $blogPosts =$this->blogPostRepository->searchByIndex($letter);
+        return $blogPosts;
+    }
+    public function findByTitle($title){
+        $blogPost =$this->blogPostRepository->searchByTitle($title);
         return $blogPost;
     }
 

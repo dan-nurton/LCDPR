@@ -39,9 +39,7 @@ class CommentManager
 
     public function hydrate($commentData){
         $comment = new Comment();
-        //on passe a $data un tableau avec des clés correspondant aux attributs
         foreach ($commentData as $key => $value) {
-            // On récupère le nom du setter correspondant à l'attribut.
             $method = 'set' . ucfirst($key);
             $comment-> $method($value);
         }
@@ -60,7 +58,6 @@ class CommentManager
 
     public function update($comment,$commentData){
         foreach ($commentData as $key => $value) {
-            // On récupère le nom du setter correspondant à l'attribut.
             $method = 'set' . ucfirst($key);
             $comment-> $method($value);
         }

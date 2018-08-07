@@ -33,6 +33,9 @@ class BlogPostRepository extends ServiceEntityRepository
     }
     */
 
+    /*SELECT * from blog_post
+      ORDER BY id DESC
+      LIMIT $limit */
     /**
  * @param int $page
  * @param int $limit
@@ -51,6 +54,9 @@ class BlogPostRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    /*SELECT * from blog_post
+     ORDER BY id DESC*/
     /**
      * @return array
      */
@@ -66,11 +72,11 @@ class BlogPostRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /*SELECT * from blog_post
+     INNER JOIN comment ON blog_post.id = comment.blog_post_id*/
     /**
      * @param int $page
      * @param int $limit
-     *
-     * @param $id
      * @return array
      */
     public function getAllPostsWithComments($page = 1, $limit = 5){
@@ -84,6 +90,7 @@ class BlogPostRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /*SELECT COUNT(*) FROM blog_post*/
     /**
      * @return mixed
      * @throws \Doctrine\ORM\NonUniqueResultException
@@ -98,6 +105,9 @@ class BlogPostRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }
+
+    /*SELECT COUNT(*) FROM blog_post
+    WHERE author_id = $author*/
     /**
      * @return mixed
      * @throws \Doctrine\ORM\NonUniqueResultException
@@ -114,6 +124,8 @@ class BlogPostRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
+    /*SELECT * FROM blog_post
+    WHERE title LIKE  '''.$letter/'%''*/
     /**
      * @param $letter
      * @return array
@@ -129,4 +141,72 @@ class BlogPostRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    /*SELECT * FROM blog_post
+   WHERE title LIKE  '''.$letter/'%''*/
+    /**
+     * @param $search
+     * @return array
+     */
+    public function searchByTitle($search)
+    {
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder
+            ->select('bp')
+            ->from('App:BlogPost', 'bp')
+            ->where('bp.title = :search OR bp.category = :search  OR bp.writer = :search')->setParameter('search', $search);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    /*SELECT * from blog_post
+     INNER JOIN comment ON blog_post.id = comment.blog_post_id
+     ORDER BY comment.updated_at DESC*/
+    /**
+     * @param int $limit
+     * @return array
+     */
+    public function getAllPostsWithNewComment($limit = 5){
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder
+            ->select('bp')
+            ->from('App:BlogPost', 'bp')
+            ->join('bp.comments','c','WITH', 'bp.id=c.blogPost')
+            ->orderBy('c.updatedAt','DESC')
+            ->setMaxResults($limit);
+
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    /*select blog_post.title,blog_post.id, count(comment.blog_post_id)
+    from blog_post, comment
+    where comment.blog_post_id = blog_post.id
+    GROUP by blog_post.title
+    ORDER BY COUNT(comment.blog_post_id)*/
+    /**
+     * @param int $limit
+     * @return array
+     */
+    public function getAllPostsMostCommented($limit = 5){
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder
+            ->select('bp','c')
+            ->from('App:BlogPost', 'bp')
+            ->join('bp.comments','c','WITH', 'bp.id=c.blogPost')
+            ->groupBy('bp.title')
+            ->orderBy('count(c.blogPost)','DESC')
+            ->setMaxResults($limit);
+
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+
+
+
+
 }

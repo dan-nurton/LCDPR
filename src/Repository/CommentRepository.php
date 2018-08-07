@@ -65,7 +65,10 @@ class CommentRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-
+/*
+ *  SELECT COUNT(*) FROM comment
+    WHERE blog_post_id = $blogPostId
+ */
     /**
      * @param $blogPostId
      * @return mixed

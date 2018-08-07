@@ -38,8 +38,13 @@ class BlogController extends Controller
     {
         $page = 1;
         $blogPosts = $this->blogManager->findBlogPostWithLimit($page, self::POST_LIMIT);
+        $newBlogpostsComment = $this->blogManager->findBlogPostsNewComment(self::POST_LIMIT);
+        $blogpostsMostCommented = $this->blogManager->findBlogPostsMostComment(self::POST_LIMIT);
+
         return $this->render('blog/display_reviews.html.twig', [
             'blogPosts' => $blogPosts,
+            'newBlogpostsComment'=> $newBlogpostsComment,
+            'blogpostsMostCommented' => $blogpostsMostCommented
         ]);
     }
     /**
@@ -176,17 +181,13 @@ class BlogController extends Controller
      * @Route("/search-review}", name="search_review")
      */
     public function  searchReviewAction(){
-        $search = strtolower ($_POST['search']);
-        $reviews = $this->blogManager->findAll();
-        $result = [];
-        foreach ($reviews as $review){
-            if(strtolower($review->getTitle()) == $search){
-                return $this->redirectToRoute('display_review',array(
-                    'slug'=> $review->getSlug(),
-                    'blogPostId' => $review->getId(),
-                ));
-            }
-        }
+        $title = strtolower ($_POST['search']);
+        $blogPosts = $this->blogManager->findByTitle($title);
+        //dump($reviews);
+        //die();
+        return $this->render('blog/display_result_reviews.html.twig',array(
+            'blogPosts'=> $blogPosts
+        ));
     }
 
 // fonction recherche par index

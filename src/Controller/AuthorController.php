@@ -66,7 +66,7 @@ class AuthorController extends Controller
             $blogPosts = $this->blogManager->findByAuthor($author);
         }
         if($author->isAdmin()){
-            $blogPosts = $this->blogManager->findBlogPostForAdmin();
+            $blogPosts = $this->blogManager->findAll();
             $authors = $this->authorManager->findForAdmin();
             foreach($authors as $author){
                 $blogPostsCounts [$author->getPseudo()]=  $this->blogManager->countByAuthor($author);
