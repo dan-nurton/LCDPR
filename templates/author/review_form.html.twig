@@ -3,8 +3,10 @@
     <p class="flashs">
     {% for  messages in app.flashes %}
         {% for message in messages %}
+
             <div class="alert alert" role="alert">
                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <i class="fas fa-frown  fa-3x" style=" color: yellow"></i></br>
                 {{ message }}
             </div>
         {% endfor %}
@@ -17,7 +19,7 @@
                     <div class="panel panel-default">
                         <div class="card card-outline-secondary">
                             <div class="card-header">
-                                <h3 class="mb-0">Formulaire critiques</h3>
+                                <h3 class="mb-0" style="color: white">Formulaire critiques</h3>
                             </div>
                             <div class="card-body">
                                 <form class="form" role="form" autocomplete="off" action="{{ path('get_book') }}" method="POST">

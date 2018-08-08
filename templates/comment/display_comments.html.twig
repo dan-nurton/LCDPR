@@ -4,7 +4,7 @@
     <div class="container" id="comment">
     <div class="blog-header">
         {% if comments %}
-            <h1>Commentaires</h1>
+            <h2 class="bandeau"><span style="color: #AA3333"> C</span>ommentaires</h2>
         {% else  %}
             <h1 class="blog-title">Pas de commentaires</h1>
         {% endif %}
@@ -19,17 +19,18 @@
         {% endfor %}
         {% endfor %}
         </p>
+        <a href="{{ path('display_review', {'blogPostId':blogPost.id,'slug':blogPost.slug}) }}" ><div class ="back" style="color: black"><i class="fas fa-undo-alt"></i> Revenir page critique</div></a>
         <form class="justify-content-center offset-3 col-6 form_comment" action="{{ path('create_comment', {'blogPostId':blogPost.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
             <textarea style="padding: unset;" rows="3" name="comment" id="comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
-            <button class="btn btn-info postComment" type="submit">Poster</button>
+            <button class="btn btn-info postComment" type="submit">Poster <i class="fas fa-comments"></i></button>
         </form>
     {% if comments %}
         {% for comment in comments %}
             <article class="row justify-content-center offset-6 col-12">
                 <div class="comment col-6">
                     {% if author.username == comment.author.username%}
-                        <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}">x</a></span>
-                        <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})">edit</span>
+                        <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"><i class="fas fa-trash-alt"></i></a></span>
+                        <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})"><i class="fas fa-comments"></i></span>
                     {% else %}
                     {% if author.admin%}
                     <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}">x</a></span>
@@ -37,7 +38,7 @@
                     {% endif %}
                     <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
                         <textarea rows="3" name="update_comment" id="update_comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
-                        <button class="btn btn-info postComment" type="submit">Poster</button>
+                        <button class="btn btn-info postComment" type="submit">Poster <i class="fas fa-comments"></i></button>
                     </form>
                     <div class ="postBy"> Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }} </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
                         <div class="displayComment" id="comment{{ comment.id }}">{{ comment.content|raw }}</div>

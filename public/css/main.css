@@ -9,7 +9,7 @@ mark{
   background: rgba(211, 211, 211, 0.8);
   border-radius: 3px ;
   box-shadow: 5px 5px 5px #aaa;
-  color: #AA3333;
+  color: black;
   font-family:fantasy ;
 }
 
@@ -199,6 +199,26 @@ blockquote{
   font-family:fantasy ;
   padding: unset;
   margin: unset;
+}
+.alert{
+  font-weight: bold;
+  font-size: 1.2em;
+  color: red;
+  background-color: rgba(211, 211, 211, 0.8);
+  opacity: 0.8;
+}
+
+.talk{
+  text-align: center;
+  font-family: fantasy;
+ color: black;
+  font-weight: normal;
+  font-style: oblique;
+  text-decoration: underline;
+  text-decoration-color: #AA3333;
+
+
+
 }
 
 

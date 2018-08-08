@@ -131,12 +131,14 @@ class BlogController extends Controller
                         $blogPost = $this->blogManager->hydrate($book);
                     }
                     else{
-                        $this->addFlash('erreur', 'Isbn non valide. L\'ISBN doit etre un chiffre entre 10 ou 13 numéros');
+                        $this->addFlash('erreur', 'Isbn non valide...
+                         L\'ISBN doit etre un chiffre entre 10 ou 13 numéros');
                         return $this->render('author/review_form.html.twig');
                     }
                 }
                 else{
-                    $this->addFlash('erreur', 'Isbn non valide. L\'ISBN doit etre un chiffre entre 10 ou 13 numéros');
+                    $this->addFlash('erreur', 'Isbn non valide...
+                     L\'ISBN doit etre un chiffre entre 10 ou 13 numéros');
                     return $this->render('author/review_form.html.twig');
                 }
             }

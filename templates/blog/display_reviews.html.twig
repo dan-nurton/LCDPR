@@ -5,32 +5,21 @@
             <h2 class="row justify-content-center bandeau"><span style="color: #AA3333"> C</span>ritiques</h2>
         </div>
         <div class="row">
-            <div class="col-md-3 d-none d-lg-block blocLast">
-                <h2 class="justify-content-center">Derniéres critiques commentées</h2>
+            <aside class="col-md-3 d-none d-lg-block blocLast">
+                <h2 class="justify-content-center talk">Vous en parlez derniérement</h2>
                 {% for newBlogpostComment in newBlogpostsComment %}
                     <div class="row">
                         <article class="row justify-content-center col-12">
                             <div class="lastBook col-md-12">
-                                <div class="row">
-                                    <p class=" col-12" style="padding: unset">Posté par par
-                                        {% if newBlogpostComment.author %}
-                                            <a href="{{ path('author', {'name': newBlogpostComment.author.username|url_encode }) }}">
-                                                {{ newBlogpostComment.author.name }}
-                                            </a>
-                                        {% else %}
-                                            Auteur inconnu
-                                        {% endif %}
-                                    </p>
-                                </div>
                                 <h5 class="bookTitle"> {{ newBlogpostComment.title }} <span class="writer">({{ newBlogpostComment.writer }})</span></h5>
                                 {% if app.user %}
-                                    <a href="{{ path('display_review', {'blogPostId': newBlogpostComment.id, 'slug': newBlogpostComment.slug}) }}"><i class="fas fa-arrow-circle-right"></i></a>
+                                    <a href="{{ path('display_review', {'blogPostId': newBlogpostComment.id, 'slug': newBlogpostComment.slug}) }}"><i class="fas fa-arrow-circle-right" title="Plus de détails"></i></a>
                                 {% endif %}
                             </div>
                         </article>
                     </div>
                 {% endfor %}
-            </div>
+            </aside>
             <div class="col 8">
                 {% for blogPost in blogPosts %}
                     <div class="row">
@@ -67,32 +56,21 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="col-md-3 d-none d-lg-block blocLast" >
-                <h2 class="justify-content-center">On fire!</h2>
+            <aside class="col-md-3 d-none d-lg-block blocLast" >
+                <h2 class="justify-content-center talk">Vous en parlez le plus</h2>
                 {% for blogpostMostCommented in blogpostsMostCommented %}
                     <div class="row">
                         <article class="row justify-content-center col-12">
                             <div class="lastBook col-md-12">
-                                <div class="row">
-                                    <p class=" col-12 "style="padding: unset">Posté par
-                                        {% if blogpostMostCommented.author %}
-                                            <a href="{{ path('author', {'name': blogpostMostCommented.author.username|url_encode }) }}">
-                                                {{ blogpostMostCommented.author.name }}
-                                            </a>
-                                        {% else %}
-                                            Auteur inconnu
-                                        {% endif %}
-                                    </p>
-                                </div>
                                 <h5 class="bookTitle"> {{ blogpostMostCommented.title }} <span class="writer">({{ blogpostMostCommented.writer }})</span></h5>
                                 {% if app.user %}
-                                    <a href="{{ path('display_review', {'blogPostId': blogpostMostCommented.id, 'slug': blogpostMostCommented.slug}) }}"><i class="fas fa-arrow-circle-right"></i></a>
+                                    <a href="{{ path('display_review', {'blogPostId': blogpostMostCommented.id, 'slug': blogpostMostCommented.slug}) }}"><i class="fas fa-arrow-circle-right" title="Plus de détails" ></i></a>
                                 {% endif %}
                             </div>
                         </article>
                     </div>
                 {% endfor %}
-            </div>
+            </aside>
         </div>
 
         <div class="moreReview">

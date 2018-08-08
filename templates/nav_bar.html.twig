@@ -9,28 +9,28 @@
         <ul class="navbar-nav mr-auto">
             {% if app.request.get('_route') not in ['homepage', 'display_reviews'] %}
                 <li class="">
-                    <a class="nav-link active"  href="{{ path("homepage") }}">Accueil<span class="sr-only">(current)</span></a>
+                    <a class="nav-link active"  href="{{ path("homepage") }}"><i class="fas fa-home"></i> Accueil<span class="sr-only">(current)</span></a>
                 </li>
             {% endif %}
             {% if app.user %}
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ path("admin_index") }}">Tableau de bord<span class="sr-only">(current)</span></a>
+                    <a class="nav-link active" href="{{ path("admin_index") }}"><i class="fas fa-toolbox"></i> Tableau de bord<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ path('display_form_review') }}">Poster critiques</a>
+                    <a class="nav-link active" href="{{ path('display_form_review') }}"><i class="fas fa-newspaper"></i> Poster critiques</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ logout_url("secured_area") }}">Deconnexion</a>
+                    <a class="nav-link active" href="{{ logout_url("secured_area") }}"><i class="fas fa-sign-out-alt"></i>Deconnexion</a>
                 </li>
             {% else %}
                 <li class="nav">
-                    <a class="nav-link active"  href="/connect/auth0">Se connecter</a>
+                    <a class="nav-link active"  href="/connect/auth0"><i class="fas fa-sign-in-alt"></i> Se connecter </a>
                 </li>
             {% endif %}
         </ul>
         <form class="form-inline" action="{{ path('search_review') }}"  method="POST">
             <input type="text"  name="search" id="search" class="form-control" placeholder="Titre, Auteur, catégorie... " style="margin-right: 10px;">
-            <button class="btn btn-outline-info my-2 my-sm-0" type="submit" >Rechercher </button>
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit" > <i class="fas fa-search" title="Rechercher"></i></button>
         </form>
     </div>
 </nav>
