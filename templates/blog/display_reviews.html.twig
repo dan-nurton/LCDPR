@@ -20,6 +20,7 @@
                     </div>
                 {% endfor %}
             </aside>
+
             <div class="col 8">
                 {% for blogPost in blogPosts %}
                     <div class="row">
@@ -42,7 +43,11 @@
                                 <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
                                 <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
                                 {% if app.user %}
-                                    <a href="{{ path('display_review', {'blogPostId': blogPost.id, 'slug': blogPost.slug}) }}">Plus de détails</a>
+                                    <a href="{{ path('display_review', {'blogPostId': blogPost.id, 'slug': blogPost.slug}) }}"></a>
+                                    <!-- Bouton execution modal -->
+                                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                        Plus de détails
+                                    </button>
                                 {% endif %}
                                 <hr/>
                             </div>
@@ -56,6 +61,24 @@
                     </div>
                 {% endfor %}
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Actualité</h4>
+                        </div>
+                        <div class="modal-body">
+                               
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+
+
+
             <aside class="col-md-3 d-none d-lg-block blocLast" >
                 <h2 class="justify-content-center talk">Vous en parlez le plus</h2>
                 {% for blogpostMostCommented in blogpostsMostCommented %}
