@@ -47,7 +47,7 @@ class BlogController extends Controller
             'blogPosts' => $blogPosts,
             'newBlogpostsComment'=> $newBlogpostsComment,
             'blogpostsMostCommented' => $blogpostsMostCommented,
-            'rss' => $rss
+            'rss' => $rss,
         ]);
     }
     /**

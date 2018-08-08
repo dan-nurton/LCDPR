@@ -1,17 +1,6 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="d-block w-100" src="" alt="Second slide">Chargement en cours...</div>
-            </div>
-            {% for actu in rss %}
-                <div class="carousel-item ">
-                    <div class="d-block w-100" src="" alt="First slide"><span>{{ actu.date|date('Y-m-d H:i') }} </span><i class="fas fa-rss" style="color: #fd7e14"></i><a href=" {{ actu.link }}" target="_blank"><h5 class="bookTitle"> {{ actu.title }}</h5></a></div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+    {% include "rss.html.twig" %}
     <div class="container">
         <div class="blog-header">
             <h2 class="row justify-content-center bandeau"><span style="color: #AA3333"> C</span>ritiques</h2>
@@ -32,7 +21,6 @@
                     </div>
                 {% endfor %}
             </aside>
-
             <div class="col 8">
                 {% for blogPost in blogPosts %}
                     <div class="row">
@@ -55,11 +43,7 @@
                                 <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
                                 <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
                                 {% if app.user %}
-                                    <a href="{{ path('display_review', {'blogPostId': blogPost.id, 'slug': blogPost.slug}) }}"></a>
-                                    <!-- Bouton execution modal -->
-                                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                                        Plus de détails
-                                    </button>
+                                    <a href="{{ path('display_review', {'blogPostId': blogPost.id, 'slug': blogPost.slug}) }}"><button class="btn btn-primary btn-lg">Plus de détails</button></a>
                                 {% endif %}
                                 <hr/>
                             </div>
@@ -73,24 +57,6 @@
                     </div>
                 {% endfor %}
             </div>
-            <!-- Modal -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">Actualité</h4>
-                        </div>
-                        <div class="modal-body">
-                               
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-
-
-
-
             <aside class="col-md-3 d-none d-lg-block blocLast" >
                 <h2 class="justify-content-center talk">Vous en parlez le plus</h2>
                 {% for blogpostMostCommented in blogpostsMostCommented %}

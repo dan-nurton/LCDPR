@@ -1,0 +1,76 @@
+{% block modal %}
+<!-- Bouton execution modal -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Plus de détails
+</button>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Actualité</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <article class="row justify-content-center col-12">
+                        <div class="livres col-md-12">
+                            <div class="row">
+                                <span class="col-4 category">{{ blogPost.category }}</span>
+                                <p class=" col-8 datePost">{{ blogPost.getUpdatedAt|date('Y-m-d H:i') }} par
+                                    {% if blogPost.author %}
+                                        <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
+                                            {{ blogPost.author.name }}
+                                        </a>
+                                    {% else %}
+                                        Auteur inconnu
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <h3 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h3>
+                            <img src="{{ blogPost.cover }}" alt="couverture" style="width: 150px;">
+                            <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
+                            <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
+                            </br>
+                            {% if commentReview is defined %}
+                                <h2 class="commentReview" style="display: none;">{{ commentReview }}</h2>
+                            {% endif %}
+                            <form class="col-6 form_comment" style="padding: unset;" action="{{ path('create_comment', {'blogPostId':blogPost.id,'slug':blogPost.slug, 'route':route}) }}"  method="POST">
+                                <textarea rows="3" name="comment" id="comment" class="form-control"  placeholder="Ecrire un commentaire"></textarea>
+                                <button class="btn btn-info postComment" type="submit" style="margin-bottom: 20px;">Poster <i class="fas fa-comments"></i></button>
+                            </form>
+                            {% if blogPost.comments %}
+                                {% for comment in blogPost.comments %}
+                                    <article class="row col-12" style="padding: unset">
+                                        <div class="comment col-6">
+                                            {% if author.username == comment.author.username%}
+                                                <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug, 'route':route}) }}"><i class="fas fa-trash-alt"  title="Supprimer commentaire"></i></a></span>
+                                                <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})"><i class="fas fa-comments" title="Editer commentaire"></i></span>
+                                            {% else %}
+                                                {% if author.admin%}
+                                                    <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"><i class="fas fa-trash-alt"  title="Supprimer commentaire"></i></a></span>
+                                                {% endif %}
+                                            {% endif %}
+                                            <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
+                                                <textarea rows="3" name="update_comment" id="update_comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
+                                                <button class="btn btn-info postComment" type="submit" style="margin-bottom: 20px;">Poster <i class="fas fa-comments"></i></button>
+                                            </form>
+                                            <div class ="postBy"> Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
+                                                <div class="displayComment" id="comment{{ comment.id }}">{{ comment.content|raw }}</div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                {% endfor %}
+                            {% endif %}
+                            {% if blogPost.comments %}
+                                <div class="plus col-6" ><a href="{{ path('display_comments', {'blogPostId': blogPost.id}) }}">Tous les commentaires({{ blogPost.comments|length }})</a></div>
+                            {% endif %}
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endblock %}

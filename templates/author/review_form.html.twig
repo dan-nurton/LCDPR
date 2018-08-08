@@ -1,17 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="d-block w-100" src="" alt="Second slide">Chargement en cours...</div>
-            </div>
-            {% for actu in rss %}
-                <div class="carousel-item ">
-                    <div class="d-block w-100" src="" alt="First slide"><span>{{ actu.date|date('Y-m-d H:i') }} </span><i class="fas fa-rss" style="color: #fd7e14"></i><a href=" {{ actu.link }}" target="_blank"><h5 class="bookTitle"> {{ actu.title }}</h5></a></div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+    {% include "rss.html.twig" %}
     <p class="flashs">
     {% for  messages in app.flashes %}
         {% for message in messages %}
