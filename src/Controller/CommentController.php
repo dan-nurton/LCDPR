@@ -42,10 +42,13 @@ class CommentController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function displayAllCommentAction($blogPostId){
+        $rss = new feedIoController();
+        $rss = $rss->getRss();
         return $this->render('comment/display_comments.html.twig', array(
             'blogPost' => $this->blogManager->find($blogPostId),
             'comments' => $this->commentManager->findComments($blogPostId),
-            'author' => $this->authorManager->findUser($this->getUser()->getUserName())
+            'author' => $this->authorManager->findUser($this->getUser()->getUserName()),
+            'rss' => $rss
         ));
     }
 

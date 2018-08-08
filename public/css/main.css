@@ -216,9 +216,11 @@ blockquote{
   font-style: oblique;
   text-decoration: underline;
   text-decoration-color: #AA3333;
-
-
-
+}
+#carouselExampleSlidesOnly{
+  background-color: rgba(211, 211, 211, 0.5) !important;
+  text-align: center;
+  margin-top: -16px;
 }
 
 

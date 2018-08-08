@@ -40,11 +40,14 @@ class BlogController extends Controller
         $blogPosts = $this->blogManager->findBlogPostWithLimit($page, self::POST_LIMIT);
         $newBlogpostsComment = $this->blogManager->findBlogPostsNewComment(self::POST_LIMIT);
         $blogpostsMostCommented = $this->blogManager->findBlogPostsMostComment(self::POST_LIMIT);
+        $rss = new feedIoController();
+        $rss = $rss->getRss();
 
         return $this->render('blog/display_reviews.html.twig', [
             'blogPosts' => $blogPosts,
             'newBlogpostsComment'=> $newBlogpostsComment,
-            'blogpostsMostCommented' => $blogpostsMostCommented
+            'blogpostsMostCommented' => $blogpostsMostCommented,
+            'rss' => $rss
         ]);
     }
     /**
@@ -52,9 +55,12 @@ class BlogController extends Controller
      */
     public function displayReviewsAction()
     {
+        $rss = new feedIoController();
+        $rss = $rss->getRss();
         $blogPosts = $this->blogManager->findAll();
         return $this->render('blog/display_all_reviews.html.twig', [
             'blogPosts' => $blogPosts,
+            'rss'=>$rss
         ]);
     }
 
@@ -68,6 +74,8 @@ class BlogController extends Controller
      */
     public function displayReviewAction($blogPostId,$slug)
     {
+        $rss = new feedIoController();
+        $rss = $rss->getRss();
         $blogPost = $this->blogManager->findBlogPostBySlug($slug);
         if (!$blogPost) {
             $this->addFlash('error', 'Article introuvable...');
@@ -78,6 +86,7 @@ class BlogController extends Controller
             'comments' => $this->commentManager->findCommentsWithLimit($blogPostId,self::POST_LIMIT),
             'countComment' => $this->commentManager->countComment($blogPostId),
             'author' => $this->authorManager->findUser($this->getUser()->getUserName()),
+            'rss'=>$rss
         ));
     }
 
@@ -87,7 +96,12 @@ class BlogController extends Controller
      */
     public function displayReviewFormAction()
     {
-        return $this->render('author/review_form.html.twig');
+        $rss = new feedIoController();
+        $rss = $rss->getRss();
+        return $this->render('author/review_form.html.twig',array(
+            'rss'=>$rss
+            ));
+
     }
 
     //page auteur
