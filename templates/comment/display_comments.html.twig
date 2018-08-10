@@ -1,18 +1,7 @@
 {% extends "base.html.twig" %}
 {% block body %}
     {% set route = app.request.get('_route') %}
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="d-block w-100" src="" alt="Second slide">Chargement en cours...</div>
-            </div>
-            {% for actu in rss %}
-                <div class="carousel-item ">
-                    <div class="d-block w-100" src="" alt="First slide"><span>{{ actu.date|date('Y-m-d H:i') }} </span><i class="fas fa-rss" style="color: #fd7e14"></i><a href=" {{ actu.link }}"  target="_blank"><h5 class="bookTitle"> {{ actu.title }}</h5></a></div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+    {% include "rss.html.twig" %}
     <div class="container" id="comment">
     <div class="blog-header">
         {% if comments %}
@@ -20,6 +9,7 @@
         {% else  %}
             <h1 class="blog-title">Pas de commentaires</h1>
         {% endif %}
+        <a href="{{ path('display_review', {'blogPostId':blogPost.id,'slug':blogPost.slug}) }}" ><div class ="back"><i class="fas fa-undo-alt"></i> Revenir page critique</div></a>
     </div>
         <p class="flashs">
             {% for  messages in app.flashes %}
@@ -31,15 +21,14 @@
         {% endfor %}
         {% endfor %}
         </p>
-        <a href="{{ path('display_review', {'blogPostId':blogPost.id,'slug':blogPost.slug}) }}" ><div class ="back" style="color: black"><i class="fas fa-undo-alt"></i> Revenir page critique</div></a>
-        <form class="justify-content-center offset-3 col-6 form_comment" action="{{ path('create_comment', {'blogPostId':blogPost.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
+        <form class="justify-content-center offset-lg-3 col-lg-6 col-xs-12 form_comment" action="{{ path('create_comment', {'blogPostId':blogPost.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
             <textarea style="padding: unset;" rows="3" name="comment" id="comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
             <button class="btn btn-info postComment" type="submit">Poster <i class="fas fa-comments"></i></button>
         </form>
     {% if comments %}
         {% for comment in comments %}
             <article class="row justify-content-center offset-6 col-12">
-                <div class="comment col-6">
+                <div class="comment col-lg-6 col-xs-12">
                     {% if author.username == comment.author.username%}
                         <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"><i class="fas fa-trash-alt"></i></a></span>
                         <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})"><i class="fas fa-comments"></i></span>
@@ -49,7 +38,7 @@
                     {% endif %}
                     {% endif %}
                     <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
-                        <textarea rows="3" name="update_comment" id="update_comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
+                        <textarea rows="3" name="update_comment" id="update_comment{{ comment.id }}" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
                         <button class="btn btn-info postComment" type="submit">Poster <i class="fas fa-comments"></i></button>
                     </form>
                     <div class ="postBy"> Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }} </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}

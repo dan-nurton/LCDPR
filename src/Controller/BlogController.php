@@ -139,34 +139,43 @@ class BlogController extends Controller
                     if( strlen($isbn) == 10 || strlen($isbn) == 13 ){
                         $book = new ApiBooks();
                         $book = $book->getBook($isbn);
-                        $review = strip_tags ($_POST['avis']);
-                        $book['review'] = $review;
-                        $book['author']= $author;
-                        $blogPost = $this->blogManager->hydrate($book);
+                        if(!empty($book)){
+                            $review = strip_tags ($_POST['avis']);
+                            $book['review'] = $review;
+                            $book['author']= $author;
+                            $blogPost = $this->blogManager->hydrate($book);
+                        }
+                        else{
+                            $this->addFlash('erreur', 'livre non reconnu...');
+                            return $this->redirectToRoute('display_form_review');
+                        }
+
                     }
                     else{
                         $this->addFlash('erreur', 'Isbn non valide...
                          L\'ISBN doit etre un chiffre entre 10 ou 13 numéros');
-                        return $this->render('author/review_form.html.twig');
+                        return $this->redirectToRoute('display_form_review');
                     }
                 }
                 else{
                     $this->addFlash('erreur', 'Isbn non valide...
                      L\'ISBN doit etre un chiffre entre 10 ou 13 numéros');
-                    return $this->render('author/review_form.html.twig');
+                    return $this->redirectToRoute('display_form_review');
                 }
             }
             else{
                 $this->addFlash('erreur', 'Pas d\'avis entré');
-                return $this->render('author/review_form.html.twig');
+                return $this->redirectToRoute('display_form_review');
             }
         }
         else{
             $this->addFlash('erreur', 'Pas d\'ISBN entré');
-            return $this->render('author/review_form.html.twig');
+            return $this->redirectToRoute('display_form_review');
         }
 
         // si livre existe déjà
+        $rss = new feedIoController();
+        $rss = $rss->getRss();
         $title = $blogPost->getTitle();
         $review = $blogPost->getReview();
         $reviews = $this->blogManager->findAll();
@@ -184,7 +193,8 @@ class BlogController extends Controller
                     'page' => $page,
                     'entryLimit' => self::POST_LIMIT,
                     'author' => $author,
-                    'commentReview' => $review
+                    'commentReview' => $review,
+                    'rss'=>$rss
                 ));
             }
         }
@@ -199,10 +209,11 @@ class BlogController extends Controller
     public function  searchReviewAction(){
         $title = strtolower ($_POST['search']);
         $blogPosts = $this->blogManager->findByTitle($title);
-        //dump($reviews);
-        //die();
+        $rss = new feedIoController();
+        $rss = $rss->getRss();
         return $this->render('blog/display_result_reviews.html.twig',array(
-            'blogPosts'=> $blogPosts
+            'blogPosts'=> $blogPosts,
+            'rss'=>$rss
         ));
     }
 
@@ -213,13 +224,16 @@ class BlogController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function  searchIndexAction($letter){
+        $rss = new feedIoController();
+        $rss = $rss->getRss();
         $reviews = $this->blogManager->findByIndex($letter);
         $blogPosts = [];
         foreach ($reviews as $review){
             $blogPosts[] = $review;
         }
                 return $this->render('blog/display_result_reviews.html.twig',array(
-                    'blogPosts'=> $blogPosts
+                    'blogPosts'=> $blogPosts,
+                    'rss'=>$rss
                 ));
     }
 

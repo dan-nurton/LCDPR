@@ -179,11 +179,13 @@ blockquote{
   background: rgba(211, 211, 211, 0.5);
   border-radius: 5px ;
  height: max-content;
+
 }
 .lastBook{
   margin-bottom: 10px !important;
   margin-top: 10px !important;
   background: rgba(211, 211, 211, 0.8);
+
 
 }
 .lastBook:hover{
@@ -222,7 +224,18 @@ blockquote{
   text-align: center;
   margin-top: -16px;
 }
-
+.back{
+  margin-top: 20px;
+  font-family: fantasy;
+   color: black;
+}
+.back:hover{
+  color:#AA3333;
+}
+aside{
+  padding:  unset;
+  margin: unset;
+}
 
 
 

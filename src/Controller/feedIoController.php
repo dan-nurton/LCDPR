@@ -30,7 +30,7 @@ class feedIoController
 
 
 // read a feed
-        $url = 'http://www.centrenationaldulivre.fr/fr/flux_rss/flux-1/format-ATOM1.0';
+        $url = 'https://www.lemonde.fr/livres/rss_full.xml';
 
         $result = $feedIo->read($url);
 

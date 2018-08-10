@@ -3,11 +3,11 @@
     {% include "rss.html.twig" %}
     <div class="container">
         <div class="blog-header">
-            <h2 class="row justify-content-center bandeau"><span style="color: #AA3333"> C</span>ritiques</h2>
+            <h2 class="row justify-content-center bandeau">Nos derniéres Critiques</h2>
         </div>
         <div class="row">
-            <aside class="col-md-3 d-none d-lg-block blocLast">
-                <h2 class="justify-content-center talk">Vous en parlez derniérement</h2>
+            <aside class="col-md-4 d-none d-lg-block blocLast" style="margin-top: 50px;margin-bottom: 50px;">
+                <h2 class="justify-content-center talk">Vous en parlez</h2>
                 {% for newBlogpostComment in newBlogpostsComment %}
                     <div class="row">
                         <article class="row justify-content-center col-12">
@@ -21,43 +21,7 @@
                     </div>
                 {% endfor %}
             </aside>
-            <div class="col 8">
-                {% for blogPost in blogPosts %}
-                    <div class="row">
-                        <article class="row justify-content-center col-12">
-                            <div class="livres col-md-12">
-                                <div class="row">
-                                    <span class="col-4 category">{{ blogPost.category }}</span>
-                                    <p class=" col-8 datePost">{{ blogPost.getUpdatedAt|date('Y-m-d H:i') }} par
-                                        {% if blogPost.author %}
-                                            <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
-                                                {{ blogPost.author.name }}
-                                            </a>
-                                        {% else %}
-                                            Auteur inconnu
-                                        {% endif %}
-                                    </p>
-                                </div>
-                                <h3 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h3>
-                                <img src="{{ blogPost.cover }}" alt="couverture" style="width: 150px;">
-                                <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
-                                <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
-                                {% if app.user %}
-                                    <a href="{{ path('display_review', {'blogPostId': blogPost.id, 'slug': blogPost.slug}) }}"><button class="btn btn-primary btn-lg">Plus de détails</button></a>
-                                {% endif %}
-                                <hr/>
-                            </div>
-                        </article>
-                    </div>
-                {% else %}
-                    <div class="alert alert-danger" role="alert">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <span class="sr-only">Erreur:</span>
-                        Vous n'avez pas encore posté de critiques. Merci de vous enregistrer pour poster une critique.
-                    </div>
-                {% endfor %}
-            </div>
-            <aside class="col-md-3 d-none d-lg-block blocLast" >
+            <aside class="offset-4 col-md-4 d-none d-lg-block blocLast" style= "margin-top: 50px; margin-bottom: 50px;" >
                 <h2 class="justify-content-center talk">Vous en parlez le plus</h2>
                 {% for blogpostMostCommented in blogpostsMostCommented %}
                     <div class="row">
@@ -73,7 +37,38 @@
                 {% endfor %}
             </aside>
         </div>
-
+                {% for blogPost in blogPosts %}
+                    <article class=" col-12">
+                        <div class="livres col-12">
+                            <div class="row">
+                                <span class="col-4 category">{{ blogPost.category }}</span>
+                                <p class=" col-8 datePost">{{ blogPost.getUpdatedAt|date('Y-m-d H:i') }} par
+                                    {% if blogPost.author %}
+                                        <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
+                                            {{ blogPost.author.name }}
+                                        </a>
+                                    {% else %}
+                                        Auteur inconnu
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <h3 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h3>
+                            <img src="{{ blogPost.cover }}" alt="couverture" style="width: 120px; max-height:150px; min-height: 150px;">
+                            <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description|truncate(100)}}</p>
+                            <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review|truncate(100)}}</p></div>
+                            {% if app.user %}
+                                <a href="{{ path('display_review', {'blogPostId': blogPost.id, 'slug': blogPost.slug}) }}"><button class="btn btn-primary">Plus de détails</button></a>
+                            {% endif %}
+                            <hr/>
+                        </div>
+                    </article>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Erreur:</span>
+                        Vous n'avez pas encore posté de critiques. Merci de vous enregistrer pour poster une critique.
+                    </div>
+                {% endfor %}
         <div class="moreReview">
             <a href="{{ path('display_reviews')}}">Plus de Critiques</a>
         </div>

@@ -73,6 +73,10 @@ class ApiBooks
                 $bookData ['writer'] = $writer;
             }
         }
+        else{
+            $bookData=[];
+            return $bookData;
+        }
         return $bookData;
     }
 

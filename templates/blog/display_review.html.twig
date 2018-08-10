@@ -31,7 +31,7 @@
                         </p>
                     </div>
                     <h3 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h3>
-                    <img src="{{ blogPost.cover }}" alt="couverture" style="width: 150px;">
+                    <img src="{{ blogPost.cover }}" alt="couverture" style="width: 150px; max-height:200px; min-height: 200px; ">
                     <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
                     <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
                 </br>
@@ -44,8 +44,8 @@
                     </form>
                     {% if comments %}
                         {% for comment in comments %}
-                            <article class="row col-12" style="padding: unset">
-                                <div class="comment col-6">
+                            <article class="row" style="padding: unset">
+                                <div class="comment col-lg-6 col-xs-12 ">
                                     {% if author.username == comment.author.username%}
                                         <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug, 'route':route}) }}"><i class="fas fa-trash-alt"  title="Supprimer commentaire"></i></a></span>
                                         <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})"><i class="fas fa-comments" title="Editer commentaire"></i></span>
@@ -55,7 +55,7 @@
                                         {% endif %}
                                     {% endif %}
                                     <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
-                                        <textarea rows="3" name="update_comment" id="update_comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
+                                        <textarea rows="3" name="update_comment" id="update_comment{{ comment.id }}" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
                                         <button class="btn btn-info postComment" type="submit" style="margin-bottom: 20px;">Poster <i class="fas fa-comments"></i></button>
                                     </form>
                                     <div class ="postBy"> Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
@@ -65,7 +65,7 @@
                             </article>
                         {% endfor %}
                     {% endif %}
-                    {% if comments %}
+                    {% if countComment > 5 %}
                     <div class="plus col-6" ><a href="{{ path('display_comments', {'blogPostId': blogPost.id}) }}">Tous les commentaires({{ countComment }})</a></div>
                     {% endif %}
                 </div>

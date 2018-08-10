@@ -28,7 +28,7 @@
                         <h3 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h3>
                         <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
                         {% if app.user %}
-                            <a href="{{ path('display_review', {'blogPostId': blogPost.id, 'slug': blogPost.slug}) }}">Plus de détails</a>
+                            <a href="{{ path('display_review', {'blogPostId': blogPost.id, 'slug': blogPost.slug}) }}"><button class="btn btn-primary">Plus de détails</button></a>
                         {% endif %}
                         <hr/>
                     </div>

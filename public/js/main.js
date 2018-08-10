@@ -3,8 +3,11 @@ var main = {
         console.log('salut');
     },
     editComment: function (elt) {
-        console.log('.form_update_comment'+elt);
             $('.form_update_comment'+elt).toggle();
+           var com = $('#comment'+elt).text();
+        $('#update_comment'+elt).val(com);
+        $('#comment'+elt).toggle();
+
     },
 
     ajaxTest:function (blogPostId,commentId){
