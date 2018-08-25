@@ -73,9 +73,6 @@ class BlogController extends Controller
     public function displayReviewAction($blogPostId,$slug)
     {
         $comments = $this->commentManager->findCommentsWithLimit($blogPostId,self::POST_LIMIT);
-        if($comments == null){
-            throw new NotFoundHttpException();
-        }
         $blogPost = $this->blogManager->findBlogPostBySlug($slug);
         if (!$blogPost) {
             $this->addFlash('error', 'Article introuvable...');
@@ -125,11 +122,14 @@ class BlogController extends Controller
      * @Route("/get-book}", name="get_book")
      */
     public function  getBookAction(){
+
         $author = $this->authorManager->findUser($this->getUser()->getUserName());
         // si il y a un ISBN posté
         if(isset($_POST['isbn']) && !empty($_POST['isbn'])){
+
             // si il y a un avis posté
             if(isset($_POST['avis']) && !empty($_POST['avis'])){
+
                 $character = array('&', '/','-','_'," ");
                 $isbn = strip_tags(str_replace($character,"",$_POST['isbn']));
                 if(is_numeric($isbn)){
@@ -141,6 +141,7 @@ class BlogController extends Controller
                             $book['review'] = $review;
                             $book['author']= $author;
                             $blogPost = $this->blogManager->hydrate($book);
+
                         }
                         else{
                             $this->addFlash('erreur', 'livre non reconnu...');
@@ -168,6 +169,7 @@ class BlogController extends Controller
             $this->addFlash('erreur', 'Pas d\'ISBN entré');
             return $this->redirectToRoute('display_form_review');
         }
+
 
         // si livre existe déjà
         $title = $blogPost->getTitle();

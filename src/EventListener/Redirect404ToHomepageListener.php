@@ -39,9 +39,7 @@ class Redirect404ToHomepageListener
         if (!$event->getException() instanceof NotFoundHttpException) {
             return;
         }
-
         $response = new RedirectResponse($this->router->generate('homepage'));
-
         $event->setResponse($response);
     }
 

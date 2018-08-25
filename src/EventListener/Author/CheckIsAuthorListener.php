@@ -84,15 +84,8 @@ class CheckIsAuthorListener
                 'attention',
                 'Your author access is being set up, this may take up to 30 seconds. Please try again shortly.'
             );
-
             $route = $this->router->generate('homepage');
-        } else {
-            $this->session->getFlashBag()->add(
-                'Attention',
-                "Vous ne pouvez pas accéder à cette section si vous n'êtes pas inscrit en tant qu'auteur. Merci de remplir le formulaire ci-dessous."
-            );
         }
-
         $event->setController(function () use ($route) {
             return new RedirectResponse($route);
         });
