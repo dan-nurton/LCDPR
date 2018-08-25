@@ -37,12 +37,11 @@ class BlogPostRepository extends ServiceEntityRepository
       ORDER BY id DESC
       LIMIT $limit */
     /**
- * @param int $page
  * @param int $limit
  *
  * @return array
  */
-    public function getAllPostsWithLimit($page = 1, $limit = 5)
+    public function getAllPostsWithLimit($limit)
     {
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
@@ -75,11 +74,9 @@ class BlogPostRepository extends ServiceEntityRepository
     /*SELECT * from blog_post
      INNER JOIN comment ON blog_post.id = comment.blog_post_id*/
     /**
-     * @param int $page
-     * @param int $limit
      * @return array
      */
-    public function getAllPostsWithComments($page = 1, $limit = 5){
+    public function getAllPostsWithComments(){
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryBuilder
@@ -167,7 +164,7 @@ class BlogPostRepository extends ServiceEntityRepository
      * @param int $limit
      * @return array
      */
-    public function getAllPostsWithNewComment($limit = 5){
+    public function getAllPostsWithNewComment($limit){
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryBuilder
@@ -190,7 +187,7 @@ class BlogPostRepository extends ServiceEntityRepository
      * @param int $limit
      * @return array
      */
-    public function getAllPostsMostCommented($limit = 5){
+    public function getAllPostsMostCommented($limit){
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryBuilder

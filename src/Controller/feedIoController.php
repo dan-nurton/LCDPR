@@ -7,16 +7,8 @@
  */
 
 namespace App\Controller;
-
-
-use App\Manager\AuthorManager;
-use App\Manager\BlogManager;
-use App\Manager\CommentManager;
-use DateTime;
 use FeedIo\Factory;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Doctrine\ORM\EntityManagerInterface;
 
 class feedIoController
 {
@@ -25,27 +17,17 @@ class feedIoController
      * @return array
      */
     public function getRss(){
-        // create a simple FeedIo instance
+        // instance de Feed io
         $feedIo = Factory::create()->getFeedIo();
 
-
-// read a feed
+        // RSS à lire
         $url = 'https://www.lemonde.fr/livres/rss_full.xml';
 
-        $result = $feedIo->read($url);
-
-
-
-// or read a feed since a certain date
+        // Date de lecture
         $result = $feedIo->readSince($url, new \DateTime('-30 days'));
 
-// get title
-        $feedTitle = $result->getFeed()->getLastModified();
-
-
-        $feed=array();
         $rss = array();
-// iterate through items
+        // itére sur les items
         foreach( $result->getFeed() as $item ) {
             $feed = array(
                 'title' => $item->getTitle(),
@@ -58,5 +40,4 @@ class feedIoController
         }
         return $rss;
     }
-
 }

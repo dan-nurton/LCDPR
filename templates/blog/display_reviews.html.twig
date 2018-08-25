@@ -53,7 +53,11 @@
                                 </p>
                             </div>
                             <h3 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h3>
+                            {% if app.user %}
                             <img src="{{ blogPost.cover }}" alt="couverture" style="width: 120px; max-height:150px; min-height: 150px;">
+                            {% else %}
+                                <img src="{{ blogPost.cover }}" alt="couverture" style="width: 80px; max-height:80px;">
+                                {% endif %}
                             <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description|truncate(100)}}</p>
                             <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review|truncate(100)}}</p></div>
                             {% if app.user %}
@@ -70,7 +74,7 @@
                     </div>
                 {% endfor %}
         <div class="moreReview">
-            <a href="{{ path('display_reviews')}}">Plus de Critiques</a>
+            <a href="{{ path('display_reviews')}}"><button class="btn btn-primary" style="margin-left: 15px;">Plus de critiques</button></a>
         </div>
     </div>
 {% endblock %}

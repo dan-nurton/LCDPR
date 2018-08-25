@@ -6,6 +6,7 @@ use App\Manager\AuthorManager;
 use App\Manager\BlogManager;
 use App\Manager\CommentManager;
 use DateTime;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +16,7 @@ class CommentController extends Controller
     private $commentManager;
     private $authorManager;
     private $blogManager;
+    private $feed;
 
     /**
      * @param EntityManagerInterface $entityManager
@@ -24,6 +26,7 @@ class CommentController extends Controller
         $this->authorManager = new AuthorManager($entityManager);
         $this->commentManager = new CommentManager($entityManager);
         $this->blogManager = new blogManager($entityManager);
+        $this->feed = $this->feed = new feedIoController();
     }
 
     /**
@@ -42,13 +45,12 @@ class CommentController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function displayAllCommentAction($blogPostId){
-        $rss = new feedIoController();
-        $rss = $rss->getRss();
+
         return $this->render('comment/display_comments.html.twig', array(
             'blogPost' => $this->blogManager->find($blogPostId),
             'comments' => $this->commentManager->findComments($blogPostId),
             'author' => $this->authorManager->findUser($this->getUser()->getUserName()),
-            'rss' => $rss
+            'rss' => $this->feed->getRss()
         ));
     }
 
@@ -63,13 +65,16 @@ class CommentController extends Controller
     {
         $author = $this->authorManager->findUser($this->getUser()->getUserName());
         $blogPost =  $this->blogManager->find($blogPostId);
-        $commentData = [
-            'content' => $_POST['comment'],
-            'author' => $author,
-            'blogPost' => $blogPost
-        ];
-       $comment = $this->commentManager->hydrate($commentData);
-       $this->commentManager->save($comment);
+        if(isset($_POST['comment']) &&  !empty($_POST['comment'])) {
+            $commentData = [
+                'content' => strip_tags($_POST['comment']),
+                'author' => $author,
+                'blogPost' => $blogPost
+            ];
+            $comment = $this->commentManager->hydrate($commentData);
+            $this->commentManager->save($comment);
+        }
+
         if ($route == 'display_comments') {
             return $this->redirectToRoute('display_comments', array(
                 'blogPostId' => $blogPostId,
@@ -118,11 +123,13 @@ class CommentController extends Controller
     public function UpdateCommentAction($blogPostId,$commentId,$slug,$route)
     {
         $comment = $this->commentManager->find($commentId);
-        $commentData = [
-            'content' => $_POST['update_comment'],
-            'UpdatedAt' => new DateTime(),
-        ];
-        $this->commentManager->update($comment, $commentData);
+        if(isset($_POST['update_comment']) && !empty($_POST['update_comment'])){
+            $commentData = [
+                'content' => strip_tags($_POST['update_comment']),
+                'UpdatedAt' => new DateTime(),
+            ];
+            $this->commentManager->update($comment, $commentData);
+        }
         if ($route == 'display_comments') {
             return $this->redirectToRoute('display_comments', array(
                 'blogPostId' => $blogPostId,

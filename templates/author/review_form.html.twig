@@ -1,18 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     {% include "rss.html.twig" %}
-    <p class="flashs">
-    {% for  messages in app.flashes %}
-        {% for message in messages %}
-
-            <div class="alert alert" role="alert">
-                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                <i class="fas fa-frown  fa-3x" style=" color: yellow"></i></br>
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-    </p>
     <section class="formulaire">
         <div class="containerService">
             <div class="row">

@@ -89,7 +89,7 @@ class CheckIsAuthorListener
         } else {
             $this->session->getFlashBag()->add(
                 'Attention',
-                "Vous ne pouvez pas accéder à cette section si vous n'êtes pas inscrit en tant qu'auteur. Merce de remplir le formulaire ci-dessous."
+                "Vous ne pouvez pas accéder à cette section si vous n'êtes pas inscrit en tant qu'auteur. Merci de remplir le formulaire ci-dessous."
             );
         }
 

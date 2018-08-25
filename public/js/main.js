@@ -1,7 +1,5 @@
 var main = {
-    init:function(){
-        console.log('salut');
-    },
+
     editComment: function (elt) {
             $('.form_update_comment'+elt).toggle();
            var com = $('#comment'+elt).text();

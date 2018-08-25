@@ -118,7 +118,7 @@ class Comment
     /**
      * @param string $content
      */
-    public function setContent(string $content): void
+    public function setContent(string $content)
     {
         $this->content = $content;
     }
@@ -134,7 +134,7 @@ class Comment
     /**
      * @param DateTime $createdAt
      */
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
     }
@@ -150,7 +150,7 @@ class Comment
     /**
      * @param DateTime $updatedAt
      */
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function setUpdatedAt(DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
     }

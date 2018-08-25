@@ -31,24 +31,26 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+/*SELECT * from comment WHERE blog_post_id = $blogPostId ORDER BY updated_at DESC LIMIT 5*/
     /**
      * @param $blogPostId
      * @param int $limit
      * @return mixed
      */
-    public function getAllCommentsWithLimit($blogPostId, $limit = 5){
+    public function getAllCommentsWithLimit($blogPostId, $limit){
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryBuilder
             ->select('c')
             ->from('App:Comment', 'c')
             ->where('c.blogPost = :blogPost_id')->setParameter('blogPost_id',$blogPostId)
-            ->orderBy('c.id', 'DESC')
+            ->orderBy('c.updatedAt', 'DESC')
             ->setMaxResults($limit);
 
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /*SELECT * from comment WHERE blog_post_id = $blogPostId ORDER BY updated_at*/
     /**
      * @param $blogPostId
      * @return mixed
@@ -60,13 +62,13 @@ class CommentRepository extends ServiceEntityRepository
             ->select('c')
             ->from('App:Comment', 'c')
             ->where('c.blogPost = :blogPost_id')->setParameter('blogPost_id',$blogPostId)
-            ->orderBy('c.id', 'DESC');
+            ->orderBy('c.updatedAt', 'DESC');
 
         return $queryBuilder->getQuery()->getResult();
     }
 
 /*
- *  SELECT COUNT(*) FROM comment
+ *  SELECT COUNT(*) from comment
     WHERE blog_post_id = $blogPostId
  */
     /**

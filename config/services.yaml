@@ -34,3 +34,10 @@ services:
     App\EventListener\Author\CheckIsAuthorListener:
         tags:
             - { name: kernel.event_listener, event: kernel.controller }
+
+    app.listener.redirect_404_to_homepage:
+            class: App\EventListener\Redirect404ToHomepageListener
+            arguments:
+                - "@router"
+            tags:
+                - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
