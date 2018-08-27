@@ -6,6 +6,7 @@ use App\Form\UpdateBlogFormType;
 use App\Manager\AuthorManager;
 use App\Manager\BlogManager;
 use App\Manager\CommentManager;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\ORM\EntityManagerInterface;
@@ -107,10 +108,17 @@ class AuthorController extends Controller
      */
     public function deleteAdminReviewsAction($blogPostId)
     {
-        $blogPost = $this->blogManager->find($blogPostId);
-        $this->blogManager->remove($blogPost);
-        $this->addFlash('success', 'Le post a été effacé!');
-        return $this->redirectToRoute('admin_panel');
+        $author = $this->authorManager->findUser($this->getUser()->getUserName());
+        if ($author->isAdmin()){
+            $blogPost = $this->blogManager->find($blogPostId);
+            $this->blogManager->remove($blogPost);
+            $this->addFlash('success', 'Le post a été effacé!');
+            return $this->redirectToRoute('admin_panel');
+        }
+        else{
+            throw new NotFoundHttpException();
+        }
+
     }
 
     //update critique utilisateur
@@ -122,6 +130,10 @@ class AuthorController extends Controller
      */
     public function updateAuthorReviewAction(Request $request, $blogPostId){
         $blogPost = $this->blogManager->find($blogPostId);
+        $author = $this->authorManager->findUser($this->getUser()->getUserName());
+        if($blogPost->getAuthor() != $author){
+            throw new NotFoundHttpException();
+        }
         $form = $this->createForm(UpdateBlogFormType::class, $blogPost);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -141,6 +153,8 @@ class AuthorController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function updateAdminReviewsAction(Request $request, $blogPostId){
+        $author = $this->authorManager->findUser($this->getUser()->getUserName());
+        if ($author->isAdmin()){
         $blogPost = $this->blogManager->find($blogPostId);
         $form = $this->createForm(UpdateAllBlogFormType::class, $blogPost);
         $form->handleRequest($request);
@@ -152,6 +166,10 @@ class AuthorController extends Controller
         return $this->render('author/update_blog_post_form.html.twig', [
             'form' => $form->createView()
         ]);
+        }
+        else{
+            throw new NotFoundHttpException();
+        }
     }
 
     //supprimer auteur
@@ -162,10 +180,16 @@ class AuthorController extends Controller
      */
     public function deleteAuthorAction($authorId)
     {
+        $author = $this->authorManager->findUser($this->getUser()->getUserName());
+        if ($author->isAdmin()){
         $author =$this->authorManager->findById($authorId);
         $this->authorManager->remove($author);
         $this->addFlash('success', 'Le post a été effacé!');
         return $this->redirectToRoute('admin_panel');
+        }
+        else{
+            throw new NotFoundHttpException();
+        }
     }
 
     //update auteur
@@ -176,15 +200,23 @@ class AuthorController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function updateAuthorAction(Request $request, $authorId){
-        $author = $this->authorManager->findById($authorId);
-        $form = $this->createForm(UpdateAuthorFormType::class, $author);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->authorManager->save($author);
-            return $this->redirectToRoute('admin_panel');
+        $author = $this->authorManager->findUser($this->getUser()->getUserName());
+        if ($author->isAdmin()){
+            $authorToUpdate = $this->authorManager->findById($authorId);
+            $form = $this->createForm(UpdateAuthorFormType::class, $authorToUpdate);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->authorManager->save($authorToUpdate);
+                return $this->redirectToRoute('admin_panel');
+            }
+            return $this->render('author/update_author_form.html.twig', [
+                'form' => $form->createView()
+            ]);
+
         }
-        return $this->render('author/update_author_form.html.twig', [
-            'form' => $form->createView()
-        ]);
+        else{
+            throw new NotFoundHttpException();
+        }
+
     }
 }

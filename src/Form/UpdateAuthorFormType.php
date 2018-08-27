@@ -75,8 +75,7 @@ class UpdateAuthorFormType extends AbstractType
                 'isAdmin',
                 CheckboxType::class,
                 [
-                    'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control'],
+                    'required' => false,
                     'label' => 'Droits administrateur'
                 ]
             )
@@ -84,7 +83,7 @@ class UpdateAuthorFormType extends AbstractType
                 'submit',
                 SubmitType::class,
                 [
-                    'attr' => ['class' => 'form-control btn btn-info btn-lg float-right'],
+                    'attr' => ['class' => ' btn btn-info btn-lg float-right'],
                     'label' => 'Enregistrer'
                 ]
             );

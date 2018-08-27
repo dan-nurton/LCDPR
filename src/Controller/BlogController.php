@@ -74,11 +74,15 @@ class BlogController extends Controller
     {
         $comments = $this->commentManager->findCommentsWithLimit($blogPostId,self::POST_LIMIT);
         $blogPost = $this->blogManager->findBlogPostBySlug($slug);
+        foreach ($comments as $comment){
+            if($comment->getBlogPost() != $blogPost){
+                throw new NotFoundHttpException();
+            }
+        }
         if (!$blogPost) {
             $this->addFlash('error', 'Article introuvable...');
             return $this->redirectToRoute('display_reviews');
         }
-
         return $this->render('blog/display_review.html.twig', array(
             'blogPost' => $blogPost,
             'comments' => $comments,

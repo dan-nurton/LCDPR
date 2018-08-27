@@ -98,6 +98,10 @@ class CommentController extends Controller
     public function deleteCommentAction($blogPostId,$commentId,$slug,$route)
     {
         $comment = $this->commentManager->find($commentId);
+        $author = $this->authorManager->findUser($this->getUser()->getUserName());
+        if($comment->getAuthor() != $author && !$author->isAdmin()){
+            throw new NotFoundHttpException();
+        }
         $this->commentManager->remove($comment);
         $this->addFlash('success', 'Le commentaire a été effacé!');
         if ($route == 'display_comments') {
@@ -123,6 +127,10 @@ class CommentController extends Controller
     public function UpdateCommentAction($blogPostId,$commentId,$slug,$route)
     {
         $comment = $this->commentManager->find($commentId);
+        $author = $this->authorManager->findUser($this->getUser()->getUserName());
+        if($comment->getAuthor() != $author){
+            throw new NotFoundHttpException();
+        }
         if(isset($_POST['update_comment']) && !empty($_POST['update_comment'])){
             $commentData = [
                 'content' => strip_tags($_POST['update_comment']),

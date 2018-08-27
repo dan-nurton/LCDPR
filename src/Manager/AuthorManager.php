@@ -64,7 +64,7 @@ class AuthorManager extends Controller
     }
 
     public function findById($id){
-        $author =  $this->authorRepository->findOneByUsername($id);
+        $author =  $this->authorRepository->find($id);
         return $author;
     }
 
