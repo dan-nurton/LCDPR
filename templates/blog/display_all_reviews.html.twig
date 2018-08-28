@@ -2,7 +2,7 @@
 {% block body %}
     <div class="container">
         <div class="blog-header">
-            <h2 class="row justify-content-center"><mark>Tous nos critiques</mark></h2>
+            <h2 class="row justify-content-center"><mark>Toutes nos critiques</mark></h2>
         </div>
         {% for blogPost in blogPosts %}
             <div class="row">
@@ -12,7 +12,7 @@
                             <p class=" col-12 datePost">{{ blogPost.getUpdatedAt|date('Y-m-d H:i') }} par
                                 {% if blogPost.author %}
                                     <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
-                                        {{ blogPost.author.name }}
+                                        {{ blogPost.author.pseudo }}
                                     </a>
                                 {% else %}
                                     Auteur inconnu

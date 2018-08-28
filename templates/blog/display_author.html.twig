@@ -5,11 +5,12 @@
             <h1 class="blog-title"><mark>Auteur</mark></h1>
         </div>
         <div class="row">
-            <article class="row justify-content-center  col-12">
-                <div class="auteur col-12">
+            <article class="row justify-content-center offset-6 col-12">
+                <div class="auteur col-12" style="background: rgba(211, 211, 211, 0.8)";>
                     <h2 class="blog-post-title">{{ author.name|raw }} {{ author.surname|raw }}</h2>
-                    <p>email: {{ author.email|raw }}</p>
-                    <p>Un mot sur moi {{ author.shortBio|raw }}</p>
+                    <p>Pseudo: <em>{{ author.pseudo|raw }}</em></p>
+                    <p>E-mail: <em>{{ author.email|raw }}</em></p>
+                    <p><span style="font-weight: bold"> Un mot sur moi :</span> {{ author.shortBio|raw }}</p>
                 </div>
             </article>
         </div>

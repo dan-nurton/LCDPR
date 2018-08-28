@@ -76,6 +76,7 @@ class UpdateAuthorFormType extends AbstractType
                 CheckboxType::class,
                 [
                     'required' => false,
+                    'attr' => ['class' => 'form-control'],
                     'label' => 'Droits administrateur'
                 ]
             )

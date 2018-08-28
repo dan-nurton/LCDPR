@@ -4,7 +4,7 @@
     {% include "rss.html.twig" %}
     <div class="container">
         <div class="blog-header">
-            <h2 class="blog-title"><mark><span style="color: #AA3333"> C</span>ritique</mark></h2>
+            <h2 class="bandeau">Critique de : <em style="color:#AA3333">{{ blogPost.title }}</em></h2>
         </div>
         <p class="flashs">
             {% for  messages in app.flashes %}
@@ -23,7 +23,7 @@
                         <p class=" col-8 datePost">{{ blogPost.getUpdatedAt|date('Y-m-d H:i') }} par
                             {% if blogPost.author %}
                                 <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
-                                    {{ blogPost.author.name }}
+                                    {{ blogPost.author.pseudo }}
                                 </a>
                             {% else %}
                                 Auteur inconnu
@@ -31,21 +31,22 @@
                         </p>
                     </div>
                     <h3 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h3>
-                    <img src="{{ blogPost.cover }}" alt="couverture" style="width: 150px; max-height:200px; min-height: 200px; ">
+                    <img src="{{ blogPost.cover }}" alt="couverture" style="width: 120px; max-height:150px; min-height: 150px; ">
                     <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description}}</p>
                     <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
                 </br>
                     {% if commentReview is defined %}
                     <h2 class="commentReview" style="display: none;">{{ commentReview }}</h2>
                     {% endif %}
-                    <form class="col-6 form_comment" style="padding: unset;" action="{{ path('create_comment', {'blogPostId':blogPost.id,'slug':blogPost.slug, 'route':route}) }}"  method="POST">
+                    <form class="col-6 form_comment" style="padding: unset; margin-top: 50px;" action="{{ path('create_comment', {'blogPostId':blogPost.id,'slug':blogPost.slug, 'route':route}) }}"  method="POST">
                         <textarea rows="3" name="comment" id="comment" class="form-control"  placeholder="Ecrire un commentaire"></textarea>
                         <button class="btn btn-info postComment" type="submit" style="margin-bottom: 20px;">Poster <i class="fas fa-comments"></i></button>
                     </form>
+                    <hr>
                     {% if comments %}
                         {% for comment in comments %}
                             <article class="row" style="padding: unset">
-                                <div class="comment col-lg-6 col-xs-12 ">
+                                <div class="comment col-lg-6 col-xs-12" style="border-radius: 5px">
                                     {% if author.username == comment.author.username%}
                                         <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug, 'route':route}) }}"><i class="fas fa-trash-alt"  title="Supprimer commentaire"></i></a></span>
                                         <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})"><i class="fas fa-comments" title="Editer commentaire"></i></span>
@@ -58,7 +59,7 @@
                                         <textarea rows="3" name="update_comment" id="update_comment{{ comment.id }}" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
                                         <button class="btn btn-info postComment" type="submit" style="margin-bottom: 20px;">Poster <i class="fas fa-comments"></i></button>
                                     </form>
-                                    <div class ="postBy"> Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
+                                    <div class ="postBy"> Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.pseudo }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
                                         <div class="displayComment" id="comment{{ comment.id }}">{{ comment.content|raw }}</div>
                                     </div>
                                 </div>

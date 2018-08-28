@@ -5,7 +5,7 @@
     <div class="container" id="comment">
     <div class="blog-header">
         {% if comments %}
-            <h2 class="bandeau"><span style="color: #AA3333"> C</span>ommentaires</h2>
+            <h2 class="bandeau">Tous les commentaires de : <em style="color:#AA3333">{{ blogPost.title }}</em></h2>
         {% else  %}
             <h1 class="blog-title">Pas de commentaires</h1>
         {% endif %}
@@ -22,13 +22,14 @@
         {% endfor %}
         </p>
         <form class="justify-content-center offset-lg-3 col-lg-6 col-xs-12 form_comment" action="{{ path('create_comment', {'blogPostId':blogPost.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
-            <textarea style="padding: unset;" rows="3" name="comment" id="comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
+            <textarea rows="3" name="comment" id="comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
             <button class="btn btn-info postComment" type="submit">Poster <i class="fas fa-comments"></i></button>
         </form>
+        <hr>
     {% if comments %}
         {% for comment in comments %}
             <article class="row justify-content-center offset-6 col-12">
-                <div class="comment col-lg-6 col-xs-12">
+                <div class="comment col-lg-6 col-xs-12" style="border-radius: 5px;">
                     {% if author.username == comment.author.username%}
                         <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"><i class="fas fa-trash-alt"></i></a></span>
                         <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})"><i class="fas fa-comments"></i></span>
@@ -41,7 +42,7 @@
                         <textarea rows="3" name="update_comment" id="update_comment{{ comment.id }}" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
                         <button class="btn btn-info postComment" type="submit">Poster <i class="fas fa-comments"></i></button>
                     </form>
-                    <div class ="postBy"> Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.name }} </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
+                    <div class ="postBy"> Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.pseudo }} </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
                         <div class="displayComment" id="comment{{ comment.id }}">{{ comment.content|raw }}</div>
                     </div>
                 </div>

@@ -72,6 +72,15 @@ class Author
     }
 
     /**
+     * @param bool $isAdmin
+     */
+    public function setIsAdmin(bool $isAdmin)
+    {
+        $this->isAdmin = $isAdmin;
+    }
+
+
+    /**
      * Get id
      * @return int
      */

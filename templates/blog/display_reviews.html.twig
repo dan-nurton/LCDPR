@@ -45,7 +45,7 @@
                                 <p class=" col-8 datePost">{{ blogPost.getUpdatedAt|date('Y-m-d H:i') }} par
                                     {% if blogPost.author %}
                                         <a href="{{ path('author', {'name': blogPost.author.username|url_encode }) }}">
-                                            {{ blogPost.author.name }}
+                                            {{ blogPost.author.pseudo }}
                                         </a>
                                     {% else %}
                                         Auteur inconnu

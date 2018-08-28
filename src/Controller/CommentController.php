@@ -45,10 +45,19 @@ class CommentController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function displayAllCommentAction($blogPostId){
-
+        $comments = $this->commentManager->findComments($blogPostId);
+        $blogPost = $this->blogManager->find($blogPostId);
+        if(count($comments) < 6){
+            throw new NotFoundHttpException();
+        }
+        foreach ($comments as $comment){
+            if($comment->getBlogPost() != $blogPost){
+                throw new NotFoundHttpException();
+            }
+        }
         return $this->render('comment/display_comments.html.twig', array(
-            'blogPost' => $this->blogManager->find($blogPostId),
-            'comments' => $this->commentManager->findComments($blogPostId),
+            'blogPost' => $blogPost,
+            'comments' => $comments,
             'author' => $this->authorManager->findUser($this->getUser()->getUserName()),
             'rss' => $this->feed->getRss()
         ));
