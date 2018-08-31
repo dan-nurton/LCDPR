@@ -19,18 +19,6 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    /*
-    public function findBySomething($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->where('c.something = :value')->setParameter('value', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 /*SELECT * from comment WHERE blog_post_id = $blogPostId ORDER BY updated_at DESC LIMIT 5*/
     /**
      * @param $blogPostId
@@ -86,9 +74,4 @@ class CommentRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getSingleScalarResult();
     }
-
-
-
-
-
 }

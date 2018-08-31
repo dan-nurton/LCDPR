@@ -17,7 +17,7 @@
                     <a class="nav-link active" href="{{ path("admin_index") }}"><i class="fas fa-toolbox"></i> Tableau de bord<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ path('display_form_review') }}"><i class="fas fa-newspaper"></i> Poster critiques</a>
+                    <a class="nav-link active" href="{{ path('display_form_review') }}"><i class="fas fa-newspaper"></i> Emettre une critiques</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ logout_url("secured_area") }}"><i class="fas fa-sign-out-alt"></i>Deconnexion</a>
@@ -36,7 +36,7 @@
 </nav>
     <div class="index d-none d-lg-block">
     <div class="btn-toolbar d-flex justify-content-between alphabet" role="toolbar" aria-label="...">
-        <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'a'}) }}">A</a></div>
+        <div class="btn-group index" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'a'}) }}">A</a></div>
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index' , {'letter':'b'}) }}">B</a></div>
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'c'}) }}">C</a></div>
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'d'}) }}">D</a></div>

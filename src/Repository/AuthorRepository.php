@@ -32,18 +32,4 @@ class AuthorRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
-
-
-    /*
-    public function findBySomething($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->where('a.something = :value')->setParameter('value', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 }

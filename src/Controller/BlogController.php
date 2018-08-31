@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 class BlogController extends Controller
 {
@@ -61,7 +60,6 @@ class BlogController extends Controller
             'rss'=>$this->feed->getRss()
         ]);
     }
-
 
     //page critique
     /**
@@ -126,14 +124,12 @@ class BlogController extends Controller
      * @Route("/get-book}", name="get_book")
      */
     public function  getBookAction(){
-
+        // récupération auteur
         $author = $this->authorManager->findUser($this->getUser()->getUserName());
         // si il y a un ISBN posté
         if(isset($_POST['isbn']) && !empty($_POST['isbn'])){
-
             // si il y a un avis posté
             if(isset($_POST['avis']) && !empty($_POST['avis'])){
-
                 $character = array('&', '/','-','_'," ");
                 $isbn = strip_tags(str_replace($character,"",$_POST['isbn']));
                 if(is_numeric($isbn)){
@@ -145,7 +141,6 @@ class BlogController extends Controller
                             $book['review'] = $review;
                             $book['author']= $author;
                             $blogPost = $this->blogManager->hydrate($book);
-
                         }
                         else{
                             $this->addFlash('erreur', 'livre non reconnu...');
@@ -173,7 +168,6 @@ class BlogController extends Controller
             $this->addFlash('erreur', 'Pas d\'ISBN entré');
             return $this->redirectToRoute('display_form_review');
         }
-
 
         // si livre existe déjà
         $title = $blogPost->getTitle();
@@ -221,20 +215,17 @@ class BlogController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function  searchIndexAction($letter){
-
         if(ctype_alpha($letter) == false){
             throw new NotFoundHttpException();
         }
         $reviews = $this->blogManager->findByIndex($letter);
-
         $blogPosts = [];
         foreach ($reviews as $review){
             $blogPosts[] = $review;
         }
-                return $this->render('blog/display_result_reviews.html.twig',array(
-                    'blogPosts'=> $blogPosts,
-                    'rss'=>$this->feed->getRss()
-                ));
+        return $this->render('blog/display_result_reviews.html.twig',array(
+            'blogPosts'=> $blogPosts,
+            'rss'=>$this->feed->getRss()
+        ));
     }
-
 }

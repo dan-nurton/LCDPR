@@ -19,13 +19,10 @@ class feedIoController
     public function getRss(){
         // instance de Feed io
         $feedIo = Factory::create()->getFeedIo();
-
         // RSS à lire
         $url = 'https://www.lemonde.fr/livres/rss_full.xml';
-
         // Date de lecture
         $result = $feedIo->readSince($url, new \DateTime('-30 days'));
-
         $rss = array();
         // itére sur les items
         foreach( $result->getFeed() as $item ) {
@@ -36,7 +33,6 @@ class feedIoController
                 'date'=>$item->getLastModified()
             );
             array_push($rss,$feed);
-
         }
         return $rss;
     }

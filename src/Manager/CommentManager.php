@@ -10,10 +10,6 @@ namespace App\Manager;
 
 use App\Entity\Comment;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use App\Entity\BlogPost;
 
 class CommentManager
 {

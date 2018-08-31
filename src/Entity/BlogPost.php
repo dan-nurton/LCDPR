@@ -29,37 +29,37 @@ class BlogPost
      * @var string
      * @ORM\Column(name="title", type="string", length=255,unique=true)
      */
-    private $title;
+    private $title = "non disponible";
 
     /**
      * @var string
      * @ORM\Column(name="writer", type="string", length=255)
      */
-    private $writer;
+    private $writer ='non disponible';
 
     /**
      * @var string
      * @ORM\Column(name="category", type="string", length=255)
      */
-    private $category;
+    private $category = "Catégorie non définie";
 
     /**
      * @var string
      * @ORM\Column(name="slug", type="string", length=255, unique=true, nullable=true)
      */
-    private $slug;
+    private $slug = "non disponible";
 
     /**
      * @var string
      * @ORM\Column(name="description", type="string", length=2000)
      */
-    private $description;
+    private $description = "non disponible";
 
     /**
      * @var string
      * @ORM\Column(name="cover", type="text")
      */
-    private $cover;
+    private $cover = "https://vignette.wikia.nocookie.net/main-cast/images/5/5b/Sorry-image-not-available.png/revision/latest/scale-to-width-down/480?cb=20160625173435";
 
     /**
      * @var Author

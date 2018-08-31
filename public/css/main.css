@@ -12,7 +12,6 @@ mark{
   color: black;
   font-family:fantasy ;
 }
-
 body {
   font-family: Georgia, "Times New Roman", Times, serif;
   background-image: url("../images/BackgroundTexture.jpg");
@@ -44,11 +43,14 @@ img {
 header, .index{
   background: rgba(211, 211, 211, 0.8);
 }
+.index{
+  background-color: #AA3333;
+}
 .index a{
-  color:black;
+  color:white;
 }
 .index a:hover{
-  text-decoration-color: #AA3333;
+  color: black;
   font-weight: bold;
 }
 .alphabet{
@@ -60,8 +62,9 @@ header, .index{
 }
 .blog-header{
   text-align: center;
+  color: white;
   font-family: "allure";
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   margin-top: 100px;
 }
 .livres{
@@ -74,14 +77,12 @@ header, .index{
   height: 200px;
   padding-top: 50px;
 }
-/*avis critique*/
 .avis{
   font-family:fantasy ;
   color:#AA3333;
   font-size: 1.2em;
   font-style: italic;
 }
-/*bloc critique*/
 .critiques{
   margin-top: 50px;
 }
@@ -121,7 +122,6 @@ thead{
   background-color: #343a40 ;
   color:white;
 }
-
 .blog-main{
   min-height: 300px;
   max-height: 500px;
@@ -165,7 +165,6 @@ thead{
 .letter{
   color: #AA3333;
 }
-
 .lcdpr{
   font-family: fantasy;
 }
@@ -178,21 +177,17 @@ blockquote{
 .blocLast{
   background: rgba(211, 211, 211, 0.5);
   border-radius: 5px ;
- height: max-content;
-
+  height: max-content;
 }
 .lastBook{
   margin-bottom: 10px !important;
   margin-top: 10px !important;
   background: rgba(211, 211, 211, 0.8);
-
-
 }
 .lastBook:hover{
   border-radius: 3px ;
   box-shadow: 5px 5px 5px 5px  #aaa;
 }
-
 .bandeau{
   background: rgba(211, 211, 211, 0.8);
   border-radius: 3px ;
@@ -209,7 +204,6 @@ blockquote{
   background-color: rgba(211, 211, 211, 0.8);
   opacity: 0.8;
 }
-
 .talk{
   text-align: center;
   font-family: fantasy;
@@ -227,14 +221,14 @@ blockquote{
 .back{
   margin-top: 20px;
   font-family: fantasy;
-   color: black;
+  color: black;
 }
 .back:hover{
   color:#AA3333;
 }
 aside{
   padding:  unset;
-  margin: unset;
+  margin-top: 200px;
 }
 
 

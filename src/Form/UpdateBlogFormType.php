@@ -41,7 +41,6 @@ class UpdateBlogFormType extends AbstractType
                     'label' => 'Enregistrer'
                 ]
             );
-
     }
     /**
      * {@inheritdoc}

@@ -20,19 +20,6 @@ class BlogPostRepository extends ServiceEntityRepository
         parent::__construct($registry, BlogPost::class);
     }
 
-    /*
-    public function findBySomething($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->where('b.something = :value')->setParameter('value', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
     /*SELECT * from blog_post
       ORDER BY id DESC
       LIMIT $limit */
@@ -198,12 +185,6 @@ class BlogPostRepository extends ServiceEntityRepository
             ->orderBy('count(c.blogPost)','DESC')
             ->setMaxResults($limit);
 
-
         return $queryBuilder->getQuery()->getResult();
     }
-
-
-
-
-
 }
