@@ -127,7 +127,7 @@ class BlogPostRepository extends ServiceEntityRepository
     }
 
     /*SELECT * FROM blog_post
-   WHERE title LIKE  '''.$letter/'%''*/
+      WHERE title LIKE  '''.$letter/'%''*/
     /**
      * @param $search
      * @return array
@@ -146,7 +146,8 @@ class BlogPostRepository extends ServiceEntityRepository
 
     /*SELECT * from blog_post
      INNER JOIN comment ON blog_post.id = comment.blog_post_id
-     ORDER BY comment.updated_at DESC*/
+     ORDER BY comment.updated_at DESC
+     LIMIT $limit*/
     /**
      * @param int $limit
      * @return array
@@ -161,24 +162,23 @@ class BlogPostRepository extends ServiceEntityRepository
             ->orderBy('c.updatedAt','DESC')
             ->setMaxResults($limit);
 
-
         return $queryBuilder->getQuery()->getResult();
     }
 
-    /*select blog_post.title,blog_post.id, count(comment.blog_post_id)
-    from blog_post, comment
-    where comment.blog_post_id = blog_post.id
-    GROUP by blog_post.title
-    ORDER BY COUNT(comment.blog_post_id)*/
+    /*SELECT * from blog_post
+    INNER JOIN comment ON blog_post.id = comment.blog_post_id
+    GROUP BY blog_post.title
+    ORDER BY COUNT(comment.blog_post_id) DESC
+    LIMIT $limit*/
     /**
-     * @param int $limit
-     * @return array
-     */
+ * @param int $limit
+ * @return array
+ */
     public function getAllPostsMostCommented($limit){
         $entityManager = $this->getEntityManager();
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryBuilder
-            ->select('bp','c')
+            ->select('bp')
             ->from('App:BlogPost', 'bp')
             ->join('bp.comments','c','WITH', 'bp.id=c.blogPost')
             ->groupBy('bp.title')
