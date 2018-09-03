@@ -15,7 +15,10 @@ class BlogController extends Controller
 {
     /** @var integer */
     const POST_LIMIT = 5;
+    const ISBN_10 = 10;
+    const ISBN_13 = 13;
     private $commentManager;
+    private $apiBook;
     private $authorManager;
     private $blogManager;
     private $feed;
@@ -28,6 +31,7 @@ class BlogController extends Controller
         $this->authorManager = new AuthorManager($entityManager);
         $this->commentManager = new CommentManager($entityManager);
         $this->blogManager = new blogManager($entityManager);
+        $this->apiBook = new ApiBooks();
         $this->feed = new feedIoController();
     }
 
@@ -124,7 +128,7 @@ class BlogController extends Controller
      * @Route("/get-book}", name="get_book")
      */
     public function  getBookAction(){
-        // récupération auteur
+
         $author = $this->authorManager->findUser($this->getUser()->getUserName());
         // si il y a un ISBN posté
         if(isset($_POST['isbn']) && !empty($_POST['isbn'])){
@@ -133,9 +137,8 @@ class BlogController extends Controller
                 $character = array('&', '/','-','_'," ");
                 $isbn = strip_tags(str_replace($character,"",$_POST['isbn']));
                 if(is_numeric($isbn)){
-                    if( strlen($isbn) == 10 || strlen($isbn) == 13 ){
-                        $book = new ApiBooks();
-                        $book = $book->getBook($isbn);
+                    if( strlen($isbn) == self::ISBN_10|| strlen($isbn) == self::ISBN_13 ){
+                        $book = $this->apiBook->getBook($isbn);
                         if(!empty($book)){
                             $review = strip_tags ($_POST['avis']);
                             $book['review'] = $review;
@@ -168,15 +171,24 @@ class BlogController extends Controller
             $this->addFlash('erreur', 'Pas d\'ISBN entré');
             return $this->redirectToRoute('display_form_review');
         }
+    return $this->checkIfBookAlreadyExist($blogPost,$author);
+    }
 
-        // si livre existe déjà
+// check si livre existe déjà
+    /**
+     * @param $blogPost
+     * @param $author
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function checkIfBookAlreadyExist($blogPost,$author){
+
         $title = $blogPost->getTitle();
         $review = $blogPost->getReview();
         $reviews = $this->blogManager->findAll();
         foreach ($reviews as $search) {
             if ($search->getTitle() == $title) {
                 $comments = $this->commentManager->findCommentsWithLimit($search->getId(), self::POST_LIMIT);
-                $countComment =$this->commentManager->countComment($search->getId());
+                $countComment = $this->commentManager->countComment($search->getId());
                 $this->addFlash('exist', 'Ce livre existe déjà. Vous pouvez poster un commentaire si vous le souhaitez');
                 return $this->render('blog/display_review.html.twig', array(
                     'blogPost' => $search,
@@ -186,12 +198,12 @@ class BlogController extends Controller
                     'entryLimit' => self::POST_LIMIT,
                     'author' => $author,
                     'commentReview' => $review,
-                    'rss'=>$this->feed->getRss()
+                    'rss' => $this->feed->getRss()
                 ));
             }
         }
-        $this->blogManager->save($blogPost);
-        return $this->redirectToRoute('homepage');
+                $this->blogManager->save($blogPost);
+                return $this->redirectToRoute('homepage');
     }
 
     // fonction recherche livre par titre/auteur/catégorie
