@@ -1,23 +1,18 @@
 {% block navBar %}
 <div class="sticky-top" >
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="opacity: 0.9;box-shadow: 3px 3px 10px 5px #000;">
-    <a class="navbar-brand" href="{{ path("homepage") }}"><img src="{{ asset('images/livre.jpg') }}" alt="Logo" style="width:80px;"></a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="opacity: 0.9;">
+    <a class="navbar-brand" href="{{ path("homepage") }}">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
-            {% if app.request.get('_route') not in ['homepage', 'display_reviews'] %}
-                <li class="">
-                    <a class="nav-link active"  href="{{ path("homepage") }}"><i class="fas fa-home"></i> Accueil<span class="sr-only">(current)</span></a>
-                </li>
-            {% endif %}
             {% if app.user %}
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ path("admin_index") }}"><i class="fas fa-toolbox"></i> Tableau de bord<span class="sr-only">(current)</span></a>
+                    <a class="nav-link active" href="{{ path("admin_index") }}"><i class="fas fa-toolbox"></i> Journal<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ path('display_form_review') }}"><i class="fas fa-newspaper"></i> Emettre une critiques</a>
+                    <a class="nav-link active" href="{{ path('display_form_review') }}"><i class="fas fa-newspaper"></i> Critiques</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ logout_url("secured_area") }}"><i class="fas fa-sign-out-alt"></i>Deconnexion</a>
@@ -34,8 +29,8 @@
         </form>
     </div>
 </nav>
-    <div class="index d-none d-lg-block">
-    <div class="btn-toolbar d-flex justify-content-between alphabet" role="toolbar" aria-label="...">
+    <div class="index d-none d-lg-block" style="opacity: 0.9;">
+    <div class="btn-toolbar d-flex justify-content-around alphabet" role="toolbar">
         <div class="btn-group index" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'a'}) }}">A</a></div>
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index' , {'letter':'b'}) }}">B</a></div>
         <div class="btn-group" role="group" aria-label="..."><a  href="{{ path('search_index'  ,{'letter':'c'}) }}">C</a></div>

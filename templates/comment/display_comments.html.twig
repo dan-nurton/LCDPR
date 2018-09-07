@@ -11,25 +11,11 @@
         {% endif %}
         <a href="{{ path('display_review', {'blogPostId':blogPost.id,'slug':blogPost.slug}) }}" ><div class ="back"><i class="fas fa-undo-alt"></i> Revenir page critique</div></a>
     </div>
-        <p class="flashs">
-            {% for  messages in app.flashes %}
-            {% for message in messages %}
-        <div class="alert alert" role="alert">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% endfor %}
-        </p>
-        <form class="justify-content-center offset-lg-3 col-lg-6 col-xs-12 form_comment" action="{{ path('create_comment', {'blogPostId':blogPost.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
-            <textarea rows="3" name="comment" id="comment" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
-            <button class="btn btn-info postComment" type="submit">Poster <i class="fas fa-comments"></i></button>
-        </form>
-        <hr>
+        <div class="livres">
     {% if comments %}
         {% for comment in comments %}
             <article class="row justify-content-center offset-6 col-12">
-                <div class="comment col-lg-6 col-xs-12" style="border-radius: 5px;">
+                <div class="comment col-lg-6 col-xs-12" style="border-radius: 5px;background-color:rgb(242, 242, 242); margin-top: 5px;">
                     {% if author.username == comment.author.username%}
                         <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"><i class="fas fa-trash-alt"></i></a></span>
                         <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})"><i class="fas fa-comments"></i></span>
@@ -49,5 +35,6 @@
             </article>
         {% endfor %}
     {% endif %}
+        </div>
     </div>
 {% endblock %}

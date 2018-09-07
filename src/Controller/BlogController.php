@@ -74,7 +74,7 @@ class BlogController extends Controller
      */
     public function displayReviewAction($blogPostId,$slug)
     {
-        $comments = $this->commentManager->findCommentsWithLimit($blogPostId,self::POST_LIMIT);
+        $comments = $this->commentManager->findComments($blogPostId);
         $blogPost = $this->blogManager->findBlogPostBySlug($slug);
         foreach ($comments as $comment){
             if($comment->getBlogPost() != $blogPost){

@@ -7,6 +7,7 @@
         {% for blogPost in blogPosts %}
             <div class="row">
                 <article class="row justify-content-center col-12">
+                    {% include "modal.html.twig" %}
                     <div class="livres col-md-12">
                         <div class="row">
                             <p class=" col-12 datePost">{{ blogPost.getUpdatedAt|date('Y-m-d H:i') }} par
@@ -22,9 +23,7 @@
                         <img src="{{ blogPost.cover }}" alt="couverture" style="width: 120px; max-height:150px; min-height: 150px;">
                         <h3 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h3>
                         <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review}}</p></div>
-                        {% if app.user %}
-                            <a href="{{ path('display_review', {'blogPostId': blogPost.id, 'slug': blogPost.slug}) }}"><button class="btn btn-primary">Plus de détails</button></a>
-                        {% endif %}
+                            <p><a href="#ex{{ blogPost.id }}" rel="modal:open">plus de détails....</a></p>
                         <hr/>
                     </div>
                 </article>
@@ -36,8 +35,5 @@
                 Vous n'avez pas encore posté de critiques. Merci de vous enregistrer pour poster une critique.
             </div>
         {% endfor %}
-        <div class="moreReview">
-            <a href="{{ path('display_reviews')}}">Plus de Critiques</a>
-        </div>
     </div>
 {% endblock %}

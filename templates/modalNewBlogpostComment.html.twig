@@ -1,0 +1,29 @@
+{% block modalNewComment %}
+    <div id="exN{{ newBlogpostComment.id }}" class="modal" style="margin-top: 100px;">
+        <div class="row">
+            <span class="col-4 category">{{ newBlogpostComment.category }}</span>
+            <p class=" col-8 datePost">{{ newBlogpostComment.getUpdatedAt|date('Y-m-d H:i') }} par
+                {% if newBlogpostComment.author %}
+                    <a href="{{ path('author', {'name': newBlogpostComment.author.username|url_encode }) }}">
+                        {{ newBlogpostComment.author.pseudo }}
+                    </a>
+                {% else %}
+                    Auteur inconnu
+                {% endif %}
+            </p>
+        </div>
+        <h3 class="bookTitle"> {{ newBlogpostComment.title }} <span class="writer">({{ newBlogpostComment.writer }})</span></h3>
+        {% if app.user %}
+            <img src="{{ newBlogpostComment.cover }}" alt="couverture" style="width: 120px; max-height:150px; min-height: 150px;">
+        {% else %}
+            <img src="{{ newBlogpostComment.cover }}" alt="couverture" style="width: 80px; max-height:80px;">
+        {% endif %}
+        <p class="description"><span class="avis">SYNOPSIS : </span>{{newBlogpostComment.description}}</p>
+        <div><p class="review"><span class="avis">MON AVIS: </span>{{newBlogpostComment.review}}</p></div>
+        {% if app.user %}
+            <a href="{{ path('display_review', {'blogPostId': newBlogpostComment.id, 'slug': newBlogpostComment.slug}) }}"><button class="btn btn-primary">Voir les commentaires</button></a>
+        {% endif %}
+        <hr/>
+        <a href="#" rel="modal:close">Fermer</a>
+    </div>
+{% endblock %}

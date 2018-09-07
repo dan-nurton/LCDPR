@@ -1,32 +1,31 @@
 {% extends "base.html.twig" %}
 {% block body %}
     {% include "rss.html.twig" %}
-    <div class="container">
+
         <div class="row">
-            <aside class="col-md-2 d-none d-lg-block blocLast">
-                <h2 class="justify-content-center talk">A la une</h2>
+            <aside class=" offset-1 col-md-2 d-none d-lg-block blocLast">
+                <h2 class="justify-content-center talk">En ce moment</h2>
                 {% for newBlogpostComment in newBlogpostsComment %}
                     <div class="row">
                         <article class="row justify-content-center col-12">
+                            {% include "modalNewBlogpostComment.html.twig" %}
                             <div class="lastBook col-md-12">
                                 <h5 class="bookTitle"> {{ newBlogpostComment.title }} <span class="writer">({{ newBlogpostComment.writer }})</span></h5>
-                                {% if app.user %}
-                                    <a href="{{ path('display_review', {'blogPostId': newBlogpostComment.id, 'slug': newBlogpostComment.slug}) }}"><i class="fas fa-arrow-circle-right" title="Plus de détails"></i></a>
-                                {% endif %}
+                                    <p><a href="#exN{{ newBlogpostComment.id }}" rel="modal:open"><i class="fas fa-arrow-circle-right" title="Plus de détails"  rel="modal:open"></i></a></p>
                             </div>
                         </article>
                     </div>
                 {% endfor %}
             </aside>
-            <div class="col-lg-8">
+            <div class="col-lg-6 ">
                 <div class="row>">
                 <div class="blog-header offset-md-2 col-md-8">
-                    <h2 class="row justify-content-center bandeau" style="text-decoration: underline;
-  text-decoration-color: #AA3333;">Nos derniéres Critiques</h2>
+                    <h2 class="row justify-content-center bandeau">Nos derniéres Critiques</h2>
                 </div>
                 </div>
                 {% for blogPost in blogPosts %}
                     <article class=" col-12">
+                        {% include "modal.html.twig" %}
                         <div class="livres col-12">
                             <div class="row">
                                 <span class="col-4 category">{{ blogPost.category }}</span>
@@ -40,17 +39,15 @@
                                     {% endif %}
                                 </p>
                             </div>
-                            <h3 class="bookTitle"> {{ blogPost.title }} <span class="writer">({{ blogPost.writer }})</span></h3>
+                            <h3 class="bookTitle"> {{ blogPost.title }}<span class="writer">({{ blogPost.writer }})</span></h3>
                             {% if app.user %}
-                                <img src="{{ blogPost.cover }}" alt="couverture" style="width: 120px; max-height:150px; min-height: 150px;">
+                               <img src="{{ blogPost.cover }}" alt="couverture" style="width: 70px; max-height:100px; min-height: 80px; box-shadow: 5px 5px 5px #aaa;">
                             {% else %}
-                                <img src="{{ blogPost.cover }}" alt="couverture" style="width: 80px; max-height:80px;">
+                                <img src="{{ blogPost.cover }}" alt="couverture" style="width: 70px; max-height:100px; box-shadow: 5px 5px 5px  #aaa;">
                             {% endif %}
                             <p class="description"><span class="avis">SYNOPSIS : </span>{{blogPost.description|truncate(100)}}</p>
                             <div><p class="review"><span class="avis">MON AVIS: </span>{{blogPost.review|truncate(100)}}</p></div>
-                            {% if app.user %}
-                                <a href="{{ path('display_review', {'blogPostId': blogPost.id, 'slug': blogPost.slug}) }}"><button class="btn btn-primary">Plus de détails</button></a>
-                            {% endif %}
+                            <p><a href="#ex{{ blogPost.id }}" rel="modal:open">plus de détails....</a></p>
                             <hr/>
                         </div>
                     </article>
@@ -65,16 +62,15 @@
                     <a href="{{ path('display_reviews')}}"><button class="btn btn-primary" style="margin-left: 15px;">Plus de critiques</button></a>
                 </div>
             </div>
-            <aside class="col-md-2 d-none d-lg-block blocLast">
-                <h2 class="justify-content-center talk">On fire!</h2>
+            <aside class="col-md-2  d-none d-lg-block  blocLast">
+                <h2 class="justify-content-center talk">Vous réagissez </h2>
                 {% for blogpostMostCommented in blogpostsMostCommented %}
                     <div class="row">
                         <article class="row justify-content-center col-12">
+                            {% include "modalMostBlogComment.html.twig" %}
                             <div class="lastBook col-md-12">
                                 <h5 class="bookTitle"> {{ blogpostMostCommented.title }} <span class="writer">({{ blogpostMostCommented.writer }})</span></h5>
-                                {% if app.user %}
-                                    <a href="{{ path('display_review', {'blogPostId': blogpostMostCommented.id, 'slug': blogpostMostCommented.slug}) }}"><i class="fas fa-arrow-circle-right" title="Plus de détails" ></i></a>
-                                {% endif %}
+                                    <p><a href="#exM{{ blogpostMostCommented.id }}" rel="modal:open"><i class="fas fa-arrow-circle-right" title="Plus de détails"  rel="modal:open"></i></a></p>
                             </div>
                         </article>
                     </div>
@@ -82,5 +78,4 @@
             </aside>
         </div>
     </div>
-
 {% endblock %}

@@ -28,14 +28,9 @@
                             {% if author.isAdmin %}
                             <td>{{ blogPost.author.surname}} {{ blogPost.author.name}}</td>
                             {% endif %}
-                            <td class="dropdown">
-                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Action
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item"{% if author.isAdmin %} href="{{ path('admin_delete_review', {'blogPostId': blogPost.id}) }}"{% else %}href="{{ path('delete_review', {'blogPostId': blogPost.id}) }}"{% endif %}>Supprimer</a>
-                                    <a class="dropdown-item" {% if author.isAdmin %}href="{{ path('admin_update_review', {'blogPostId': blogPost.id}) }}"{% else %}href="{{ path('update_review', {'blogPostId': blogPost.id}) }}"{% endif %}>Editer</a>
-                                </div>
+                            <td >
+                                <a class="btn btn-danger" type="submit" {% if author.isAdmin %} href="{{ path('admin_delete_review', {'blogPostId': blogPost.id}) }}"{% else %}href="{{ path('delete_review', {'blogPostId': blogPost.id}) }}"{% endif %}>Supprimer</a >
+                                <a class="btn btn-info" {% if author.isAdmin %}href="{{ path('admin_update_review', {'blogPostId': blogPost.id}) }}"{% else %}href="{{ path('update_review', {'blogPostId': blogPost.id}) }}"{% endif %}>Editer</a >
                             </td>
                         </tr>
                     {% else %}
@@ -66,14 +61,9 @@
                                 <td>{{ author.pseudo }}</td>
                                 <td>{{ author.email }}</td>
                                {% for key, blogPostsCount in blogPostsCounts%}{% if key == author.pseudo%} <td>{{ blogPostsCount }}</td>{% endif %}{% endfor %}
-                                <td class="dropdown">
-                                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{{ path('delete_author', {'authorId': author.id}) }}">Supprimer</a>
-                                        <a class="dropdown-item" href="{{ path('update_author', {'authorId': author.id}) }}">Editer</a>
-                                    </div>
+                                <td>
+                                    <a class="btn btn-danger" href="{{ path('delete_author', {'authorId': author.id}) }}">Supprimer</a>
+                                    <a class="btn btn-info" href="{{ path('update_author', {'authorId': author.id}) }}">Editer</a>
                                 </td>
                             </tr>
                             {% endfor %}

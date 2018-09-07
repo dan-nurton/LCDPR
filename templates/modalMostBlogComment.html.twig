@@ -1,0 +1,29 @@
+{% block modalMostBlogComment %}
+    <div id="exM{{ blogpostMostCommented.id }}" class="modal" style="margin-top: 100px;">
+        <div class="row">
+            <span class="col-4 category">{{ blogpostMostCommented.category }}</span>
+            <p class=" col-8 datePost">{{ blogpostMostCommented.getUpdatedAt|date('Y-m-d H:i') }} par
+                {% if blogpostMostCommented.author %}
+                    <a href="{{ path('author', {'name': blogpostMostCommented.author.username|url_encode }) }}">
+                        {{ blogpostMostCommented.author.pseudo }}
+                    </a>
+                {% else %}
+                    Auteur inconnu
+                {% endif %}
+            </p>
+        </div>
+        <h3 class="bookTitle"> {{ blogpostMostCommented.title }} <span class="writer">({{ blogpostMostCommented.writer }})</span></h3>
+        {% if app.user %}
+            <img src="{{ blogpostMostCommented.cover }}" alt="couverture" style="width: 120px; max-height:150px; min-height: 150px;">
+        {% else %}
+            <img src="{{ blogpostMostCommented.cover }}" alt="couverture" style="width: 80px; max-height:80px;">
+        {% endif %}
+        <p class="description"><span class="avis">SYNOPSIS : </span>{{blogpostMostCommented.description}}</p>
+        <div><p class="review"><span class="avis">MON AVIS: </span>{{blogpostMostCommented.review}}</p></div>
+        {% if app.user %}
+            <a href="{{ path('display_review', {'blogPostId': blogpostMostCommented.id, 'slug': blogpostMostCommented.slug}) }}"><button class="btn btn-primary">Voir les commentaires</button></a>
+        {% endif %}
+        <hr/>
+        <a href="#" rel="modal:close">Fermer</a>
+    </div>
+{% endblock %}

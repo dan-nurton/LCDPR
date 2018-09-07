@@ -57,7 +57,6 @@ class CommentManager
             $method = 'set' . ucfirst($key);
             $comment-> $method($value);
         }
-        $this->entityManager->persist($comment);
         $this->entityManager->flush($comment);
         return $comment;
     }

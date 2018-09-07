@@ -9,3 +9,14 @@ $( ".button_author" ).click(function() {
     $('.author_admin').slideToggle('slow');
 
 });
+
+    $(document).ready( function () {
+        var id = $('#ancre');
+    var offset = $(id).offset().top;
+    $('html, body').animate({scrollTop: offset}, 'slow');
+});
+
+
+
+
+

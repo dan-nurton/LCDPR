@@ -1,0 +1,28 @@
+{% block modalComment %}
+<div id="modalComment" class="modal" style="margin-top: 100px;">
+    {% if comments %}
+    {% for comment in comments %}
+    <article class="row" style="padding: unset">
+        <div class="comment col-lg-12 col-xs-12" style="border-radius: 5px;background-color:rgb(242, 242, 242);">
+            {% if author.username == comment.author.username%}
+                <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug, 'route':route}) }}"><i class="fas fa-trash-alt"  title="Supprimer commentaire"></i></a></span>
+                <span class="editComment justify-content-right" onclick="main.editComment({{ comment.id }})"><i class="fas fa-comments" title="Editer commentaire"></i></span>
+            {% else %}
+                {% if author.admin%}
+                    <span class="deleteComment justify-content-right"><a href="{{ path('delete_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"><i class="fas fa-trash-alt"  title="Supprimer commentaire"></i></a></span>
+                {% endif %}
+            {% endif %}
+            <form class="col-6 form_update_comment{{ comment.id }}" style="padding: unset; display: none" action="{{ path('update_comment', {'blogPostId':blogPost.id, 'commentId': comment.id,'slug':blogPost.slug,'route':route}) }}"  method="POST">
+                <textarea rows="3" name="update_comment" id="update_comment{{ comment.id }}" class="form-control" required="" placeholder="Ecrire un commentaire"></textarea>
+                <button class="btn btn-info postComment" type="submit" style="margin-bottom: 20px;">Poster <i class="fas fa-comments"></i></button>
+            </form>
+            <div class ="postBy"> Posté par <a href="{{ path('author', {'name': comment.author.username|url_encode }) }}">{{ comment.author.pseudo }}  </a> le {{ comment.updatedAt|date('Y-m-d-H:i:s') }}
+                <div class="displayComment" id="comment{{ comment.id }}">{{ comment.content|raw }}</div>
+            </div>
+        </div>
+    </article>
+    <hr>
+    {% endfor %}
+</div>
+    {% endif %}
+{% endblock %}
