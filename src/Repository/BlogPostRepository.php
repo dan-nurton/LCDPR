@@ -126,8 +126,7 @@ class BlogPostRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-    /*SELECT * FROM blog_post
-      WHERE title LIKE  '''.$letter/'%''*/
+    /*SELECT * FROM blog_post WHERE title LIKE '$search' OR category LIKE '$search' OR writer LIKE '$search'*/
     /**
      * @param $search
      * @return array
@@ -139,7 +138,7 @@ class BlogPostRepository extends ServiceEntityRepository
         $queryBuilder
             ->select('bp')
             ->from('App:BlogPost', 'bp')
-            ->where('bp.title = :search OR bp.category = :search  OR bp.writer = :search')->setParameter('search', $search);
+            ->where('bp.title LIKE :search OR bp.category LIKE :search  OR bp.writer LIKE :search')->setParameter('search', '%'.$search.'%');
 
         return $queryBuilder->getQuery()->getResult();
     }

@@ -1,10 +1,9 @@
 {% extends "base.html.twig" %}
 {% block body %}
     {% include "rss.html.twig" %}
-
         <div class="row">
             <aside class=" offset-1 col-md-2 d-none d-lg-block blocLast">
-                <h2 class="justify-content-center talk">En ce moment</h2>
+                <h2 class="justify-content-center talk">Derniers articles commentés</h2>
                 {% for newBlogpostComment in newBlogpostsComment %}
                     <div class="row">
                         <article class="row justify-content-center col-12">
@@ -63,7 +62,7 @@
                 </div>
             </div>
             <aside class="col-md-2  d-none d-lg-block  blocLast">
-                <h2 class="justify-content-center talk">Vous réagissez </h2>
+                <h2 class="justify-content-center talk">Articles les plus commentés</h2>
                 {% for blogpostMostCommented in blogpostsMostCommented %}
                     <div class="row">
                         <article class="row justify-content-center col-12">
